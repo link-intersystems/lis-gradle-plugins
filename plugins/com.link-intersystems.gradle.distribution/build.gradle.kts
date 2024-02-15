@@ -12,6 +12,7 @@ dependencies {
     api(gradleApi())
 }
 
+
 gradlePlugin {
     plugins {
         create("com.link-intersystems.gradle.distribution") {
@@ -19,7 +20,7 @@ gradlePlugin {
             displayName = "com.link-intersystems.gradle.distribution"
             description = "Create a custom gradle distribution for your organization or team, that can also be used by gradle wrapper."
             tags = listOf("custom", "wrapper", "init", "initialization", "script")
-            implementationClass = "com.link_intersystems.gradle.plugins.distribution.GradleDistributionPlugin"
+            implementationClass = "com.link_intersystems.gradle.distribution.plugin.GradleDistributionPlugin"
         }
     }
 
