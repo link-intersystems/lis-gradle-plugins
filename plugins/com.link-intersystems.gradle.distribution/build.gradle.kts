@@ -10,6 +10,10 @@ version = "1.0.0"
 
 dependencies {
     api(gradleApi())
+
+    implementation("com.link-intersystems.commons:lis-commons-io:1.9.6")
+    implementation("com.link-intersystems.commons:lis-commons-net:1.9.6")
+    implementation("com.link-intersystems.commons:lis-commons-math:1.9.6")
 }
 
 
