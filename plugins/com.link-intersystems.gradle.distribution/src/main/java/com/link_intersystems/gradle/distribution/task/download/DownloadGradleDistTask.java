@@ -1,6 +1,7 @@
 package com.link_intersystems.gradle.distribution.task.download;
 
 import com.link_intersystems.io.progress.ProgressInputStream;
+import com.link_intersystems.io.progress.ProgressListener;
 import com.link_intersystems.net.http.HttpClient;
 import com.link_intersystems.net.http.HttpHeader;
 import com.link_intersystems.net.http.HttpHeaders;
@@ -35,7 +36,7 @@ public abstract class DownloadGradleDistTask extends DefaultTask {
         File outputFile = getOutputFile().get().getAsFile();
         ensureOutputFileDirsExist(outputFile);
 
-        System.out.println("Downloading: " + getDownloadUrl().get());
+        getLogger().lifecycle("Downloading: " + getDownloadUrl().get());
 
         HttpClient httpClient = new HttpClient(new BugfixHttpRequestFactory());
         try {
@@ -60,8 +61,8 @@ public abstract class DownloadGradleDistTask extends DefaultTask {
     }
 
     private void copy(InputStream in, OutputStream out) throws IOException {
-        byte[] buffer = new byte[8192];
-        int read = 0;
+        byte[] buffer = new byte[4096];
+        int read;
 
         while ((read = in.read(buffer)) > 0) {
             out.write(buffer, 0, read);
@@ -69,7 +70,7 @@ public abstract class DownloadGradleDistTask extends DefaultTask {
     }
 
     private InputStream getContentInputStream(HttpResponse httpResponse) throws IOException {
-        InputStream content = httpResponse.getContent();
+        InputStream content = new BufferedInputStream(httpResponse.getContent(), 8192 * 8);
 
         return tryWrapProgressListener(httpResponse, content);
     }
@@ -82,10 +83,14 @@ public abstract class DownloadGradleDistTask extends DefaultTask {
             String contentLengthValue = values.get(0);
             int contentLength = Integer.parseInt(contentLengthValue);
             if (contentLength > 0) {
-                content = new ProgressInputStream(content, contentLength, new DownloadProgressListener());
+                content = new ProgressInputStream(content, contentLength, getProgressListener());
             }
         }
         return content;
+    }
+
+    private ProgressListener getProgressListener() {
+        return new DownloadProgressListener(getLogger());
     }
 
 }
