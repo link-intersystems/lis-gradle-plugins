@@ -50,7 +50,7 @@ public abstract class GradleDistributionPlugin implements Plugin<Project> {
                 task.getDownloadUrl().set(toURL("https://services.gradle.org/distributions/gradle-" + version + "-bin.zip"));
             }
 
-            task.getOutputFile().convention(project.getLayout().getBuildDirectory().file("gradle-dist/download.zip"));
+            task.getOutputFile().convention(project.getLayout().getBuildDirectory().file("gradle-dist/gradle-" + version + ".zip"));
         });
     }
 
