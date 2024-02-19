@@ -1,10 +1,6 @@
 package com.link_intersystems.gradle.distribution.plugin;
 
-import org.gradle.api.internal.project.ProjectInternal;
-
-import javax.inject.Inject;
-
-import static java.util.Objects.requireNonNull;
+import org.gradle.api.file.RegularFile;
 
 /**
  *
@@ -12,6 +8,7 @@ import static java.util.Objects.requireNonNull;
 public class DefaultGradleDistributionPluginExtension implements GradleDistributionPluginExtension {
 
     private String gradleVersion;
+    private RegularFile outputFile;
 
     @Override
     public String getVersion() {
@@ -22,4 +19,5 @@ public class DefaultGradleDistributionPluginExtension implements GradleDistribut
     public void setVersion(String version) {
         this.gradleVersion = version;
     }
+
 }

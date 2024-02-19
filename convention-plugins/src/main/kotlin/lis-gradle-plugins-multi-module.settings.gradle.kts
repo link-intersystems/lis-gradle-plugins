@@ -48,10 +48,10 @@ rootDir.walk(FileWalkDirection.TOP_DOWN)
         }
 
 rootDir.walk(FileWalkDirection.TOP_DOWN)
+        .filterNot { file -> rootDir.equals(file) }
         .filter(nonHiddenDirectoryFilter)
         .filterNot(buildSrcDir)
         .filterNot(isConventionPluginDir)
-        .filter(gradleProjectModuleDir)
         .filter(isIndependentProject)
         .map(rootDirRelativePath)
         .forEach {

@@ -14,7 +14,6 @@ import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
 
 import java.io.*;
-import java.net.URL;
 import java.util.List;
 
 /**
@@ -23,7 +22,7 @@ import java.util.List;
 public abstract class DownloadGradleDistTask extends DefaultTask {
 
     @Input
-    public abstract Property<URL> getDownloadUrl();
+    public abstract Property<String> getDownloadUrl();
 
     @OutputFile
     public abstract RegularFileProperty getOutputFile();
@@ -40,7 +39,7 @@ public abstract class DownloadGradleDistTask extends DefaultTask {
 
         HttpClient httpClient = new HttpClient(new BugfixHttpRequestFactory());
         try {
-            HttpResponse httpResponse = httpClient.get(getDownloadUrl().get().toString());
+            HttpResponse httpResponse = httpClient.get(getDownloadUrl().get());
             try (InputStream in = getContentInputStream(httpResponse)) {
                 try (OutputStream out = new BufferedOutputStream(new FileOutputStream(outputFile))) {
                     copy(in, out);
