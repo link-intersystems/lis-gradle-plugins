@@ -1,12 +1,15 @@
-import java.util.function.Predicate
-
 rootProject.name = "lis-gradle-plugins"
 
 pluginManagement {
-    includeBuild("convention-plugins")
+    includeBuild("build-logic")
 }
 
 plugins {
-    id("lis-gradle-plugins-dependency")
     id("lis-gradle-plugins-multi-module")
+}
+
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+    }
 }
