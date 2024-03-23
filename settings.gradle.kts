@@ -1,11 +1,14 @@
 rootProject.name = "lis-gradle-plugins"
 
 pluginManagement {
-    includeBuild("build-logic")
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
 }
 
 plugins {
-    id("lis-gradle-plugins-multi-module")
+    id("com.link-intersystems.gradle.multi-module") version "0.1"
 
 }
 
