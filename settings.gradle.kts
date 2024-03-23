@@ -6,6 +6,7 @@ pluginManagement {
 
 plugins {
     id("lis-gradle-plugins-multi-module")
+
 }
 
 dependencyResolutionManagement {
