@@ -6,7 +6,7 @@ plugins {
 
 
 group = "com.link-intersystems.gradle.plugins"
-version = "0.1"
+version = "0.2-SNAPSHOT"
 
 
 java {
