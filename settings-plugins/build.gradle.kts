@@ -46,14 +46,13 @@ tasks.test {
     useJUnitPlatform()
 }
 
-
 publishing {
     afterEvaluate {
         publications.withType<MavenPublication> {
             logger.info("MavenPublication: " + this.name)
             pom {
-                name.set(multiModuleId)
-                description.set("Gradle submodule and composite build support.")
+                name.set("Lis Gradle Settings Plugins")
+                description.set("Gradle plugins that can be applied to the settings.")
                 url.set("https://github.com/link-intersystems/lis-gradle-plugins")
                 licenses {
                     license {
@@ -79,8 +78,6 @@ publishing {
                 }
             }
         }
-
-
     }
 }
 

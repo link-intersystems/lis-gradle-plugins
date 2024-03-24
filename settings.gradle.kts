@@ -2,6 +2,7 @@ rootProject.name = "lis-gradle-plugins"
 
 pluginManagement {
     repositories {
+        mavenLocal()
         mavenCentral()
         gradlePluginPortal()
     }

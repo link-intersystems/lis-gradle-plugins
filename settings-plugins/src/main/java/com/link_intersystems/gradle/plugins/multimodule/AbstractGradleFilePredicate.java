@@ -7,15 +7,21 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.function.Predicate;
 
-public class GradleProjectPredicate implements Predicate<Path> {
+import static java.util.Objects.requireNonNull;
+
+public abstract class AbstractGradleFilePredicate implements Predicate<Path> {
 
     private final ScriptFileResolver scriptFileResolver = new DefaultScriptFileResolver();
 
-    @Override
-    public boolean test(Path path) {
-        File buildScriptFile = scriptFileResolver.resolveScriptFile(path.toFile(), "build");
-        return buildScriptFile != null;
+    private String fileBasename;
+
+    public AbstractGradleFilePredicate(String fileBasename) {
+        this.fileBasename = requireNonNull(fileBasename);
     }
 
-
+    @Override
+    public boolean test(Path path) {
+        File buildScriptFile = scriptFileResolver.resolveScriptFile(path.toFile(), fileBasename);
+        return buildScriptFile != null;
+    }
 }
