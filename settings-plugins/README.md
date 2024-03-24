@@ -36,7 +36,7 @@ Add the multi module plugin to your root project settings file.
 ```kotlin
 // settngs.gradle.kts
 plugins {
-    id("com.link-intersystems.gradle.multi-module") version "0.2"
+    id("com.link-intersystems.gradle.multi-module") version "0.2.0"
 }
 ```
 
