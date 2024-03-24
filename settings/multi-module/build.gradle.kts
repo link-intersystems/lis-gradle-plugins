@@ -6,10 +6,6 @@ plugins {
 
 val multiModuleId: String by project
 
-group = "com.link-intersystems.gradle.plugins"
-version = "0.2-SNAPSHOT"
-
-
 dependencies {
     implementation("org.slf4j:slf4j-api:2.0.12")
     implementation("commons-io:commons-io:2.15.1")
