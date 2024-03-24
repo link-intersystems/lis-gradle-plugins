@@ -4,16 +4,10 @@ plugins {
     signing
 }
 
+val multiModuleId: String by project
 
 group = "com.link-intersystems.gradle.plugins"
 version = "0.2-SNAPSHOT"
-
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(11)
-    }
-}
 
 
 dependencies {
@@ -25,11 +19,22 @@ dependencies {
     testImplementation("org.mockito:mockito-core:5.11.0")
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+}
+
+tasks.withType<ProcessResources> {
+    filesMatching("**/*") {
+        expand(project.properties)
+    }
+}
 
 gradlePlugin {
     plugins {
-        create("multi-module-plugin") {
-            id = "com.link-intersystems.gradle.multi-module"
+        create("multi-module") {
+            id = multiModuleId
             implementationClass = "com.link_intersystems.gradle.plugins.multimodule.MultiModulePlugin"
         }
     }
@@ -51,7 +56,7 @@ publishing {
         publications.withType<MavenPublication> {
             logger.info("MavenPublication: " + this.name)
             pom {
-                name.set("com.link-intersystems.gradle.multi-module")
+                name.set(multiModuleId)
                 description.set("Gradle submodule and composite build support.")
                 url.set("https://github.com/link-intersystems/lis-gradle-plugins")
                 licenses {
