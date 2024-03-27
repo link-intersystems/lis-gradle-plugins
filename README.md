@@ -3,6 +3,13 @@
 This repository contains gradle plugins that should help you to set up and 
 build projects easier.
 
+# Gradle Git Plugin
+
+The Gradle git plugin gives you access to the Git repository of your project.
+
+Take a look at the [Git Plugin Readme](git-plugin/README.md) for details.
+
+
 # Settings Plugins
 
 Plugins that can be applied to the maven settings. 
