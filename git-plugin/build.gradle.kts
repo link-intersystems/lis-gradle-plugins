@@ -4,10 +4,11 @@ plugins {
     signing
 }
 
-val multiModuleId: String by project
+val pluginId = "com.link-intersystems.gradle.git"
 
 dependencies {
     implementation("org.slf4j:slf4j-api:2.0.12")
+    implementation("org.eclipse.jgit:org.eclipse.jgit:6.9.0.202403050737-r")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.2")
@@ -28,9 +29,9 @@ tasks.withType<ProcessResources> {
 
 gradlePlugin {
     plugins {
-        create("multi-module") {
-            id = multiModuleId
-            implementationClass = "com.link_intersystems.gradle.plugins.multimodule.MultiModulePlugin"
+        create("git") {
+            id = pluginId
+            implementationClass = "com.link_intersystems.gradle.plugins.git.GitPlugin"
         }
     }
 }
