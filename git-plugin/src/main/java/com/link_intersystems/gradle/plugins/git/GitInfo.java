@@ -8,7 +8,7 @@ import java.time.ZonedDateTime;
  *
  * <pre>
  * plugins {
- *     id("com.link-intersystems.gradle.git") version "0.2.0"
+ *     id("com.link-intersystems.gradle.git") version "0.3.0"
  * }
  *
  * println("""
