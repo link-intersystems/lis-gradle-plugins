@@ -3,7 +3,7 @@
 This repository contains gradle plugins that should help you to set up and 
 build projects easier.
 
-# Plugin List
+# Plugins
 
 
 | Plugin                                                   | Description                                                                                                | Artifacts                                                                                                                                                                                                                                          |
