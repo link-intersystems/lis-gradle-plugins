@@ -6,6 +6,7 @@ import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.plugins.ExtensionContainer;
+import org.gradle.api.tasks.TaskProvider;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +24,14 @@ public class GitPlugin implements Plugin<Project> {
             Repository repository = fileRepositoryBuilder.build();
             ExtensionContainer extensions = project.getExtensions();
             Git git = extensions.create("git", Git.class, repository);
-            extensions.add("gitInfo", new JGitInfo(git));
+            JGitInfo gitInfo = new JGitInfo(git);
+            extensions.add("gitInfo", gitInfo);
+
+            TaskProvider<GitInfoTask> gitInfoTask = project.getTasks().register("git-info", GitInfoTask.class, gitInfo);
+            gitInfoTask.configure( task -> {
+                task.setGroup("git");
+                task.setDescription("Outputs information about the actual commit (HEAD).");
+            });
         } catch (IOException ex) {
             project.getLogger().warn("Project '" + project.getName() + "' located in '" + rootDir + "' doesn't seem to have a git repository. Git extensions will not be available.", ex);
         }
