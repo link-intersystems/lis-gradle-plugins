@@ -1,7 +1,6 @@
 ![Java CI with Maven](https://github.com/link-intersystems/lis-gradle-plugins/workflows/Java%20CI%20with%20Gradle/badge.svg)
 
-This repository contains gradle plugins that should help you to set up and 
-build projects easier.
+This repository contains general purposes Gradle plugins that can help you to set up and manage your Gradle projects more efficient.  
 
 # Plugins
 
