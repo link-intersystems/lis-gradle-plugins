@@ -1,20 +1,3 @@
-# Settings Plugins
-
-The settings plugins described here are available in the maven central repository. 
-You might need to add `mavenCentral()` to your `pluginManagement` before the `plugins` configuration.
-
-```kotlin
-// settngs.gradle.kts
-pluginManagement {
-  repositories {
-    mavenCentral()
-  }
-}
-
-plugins {
-}
-```
-
 # Multi Module Plugin [![Maven Central Version](https://img.shields.io/maven-central/v/com.link-intersystems.gradle.multi-module/com.link-intersystems.gradle.multi-module.gradle.plugin)](https://mvnrepository.com/artifact/com.link-intersystems.gradle.multi-module)
 
 The multi module plugin automatically detects subprojects and composite builds and configures

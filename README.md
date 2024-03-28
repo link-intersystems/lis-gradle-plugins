@@ -3,15 +3,28 @@
 This repository contains gradle plugins that should help you to set up and 
 build projects easier.
 
-# Gradle Git Plugin
+# Plugins
 
-The Gradle git plugin gives you access to the Git repository of your project.
+All plugins in this repository are available in the maven central repository.
+You might need to add `mavenCentral()` to your `pluginManagement`
+before the `plugins` configuration to use them.
 
-Take a look at the [Git Plugin Readme](git-plugin/README.md) for details.
+```kotlin
+// settngs.gradle.kts
+pluginManagement {
+  repositories {
+    mavenCentral()
+  }
+}
 
+plugins {
+}
+```
 
-# Settings Plugins
+- [Gradle Git Plugin](git-plugin/README.md) [![Maven Central Version](https://img.shields.io/maven-central/v/com.link-intersystems.gradle.git/com.link-intersystems.gradle.git.gradle.plugin)](https://mvnrepository.com/artifact/com.link-intersystems.gradle.git)
 
-Plugins that can be applied to the maven settings. 
+  Provides extension to Gradle projects so that you can access git information
+  and use JGit's procelain api.
+- [Gradle Multi Module Plugin](settings-plugins/README.md) [![Maven Central Version](https://img.shields.io/maven-central/v/com.link-intersystems.gradle.multi-module/com.link-intersystems.gradle.multi-module.gradle.plugin)](https://mvnrepository.com/artifact/com.link-intersystems.gradle.multi-module)
 
-Take a look at [Settings Plugins Readme](settings-plugins/README.md) for details.
+  Automatically detects subprojects and composite builds and configures the Gradle build.
