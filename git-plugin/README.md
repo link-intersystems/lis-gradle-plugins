@@ -49,3 +49,27 @@ tasks.create<DefaultTask>("commitAll") {
     }
 }
 ```
+
+## git-info Task
+
+The plugin also adds a `git-info` task to the project that just logs the actual
+commit. 
+
+```bash
+$ ./gradlew git-info
+
+> Task :settings-plugins:git-info
+commit 0c511487dad2d7610cbb43171d86aece24fef6ea (HEAD) -> main
+
+Author:     Ren� Link<rene.link@link-intersystems.com>
+AuthorDate: 2024-03-28T07:28:58+01:00[GMT+01:00]
+Commit:     Ren� Link<rene.link@link-intersystems.com>
+ComitDate:  2024-03-28T07:28:58+01:00[GMT+01:00]
+
+Added git-info task.
+```
+
+As you can see there is still a **character encoding issue**.
+It doesn't seem to be a problem of the plugin itself rather a general
+Gradle issue. Take a look at my 
+[stackoverflow question](https://stackoverflow.com/questions/78119546/how-to-properly-set-build-gradle-kts-encoding) about that.

@@ -51,8 +51,8 @@ publishing {
         publications.withType<MavenPublication> {
             logger.info("MavenPublication: " + this.name)
             pom {
-                name.set("Lis Gradle Settings Plugins")
-                description.set("Gradle plugins that can be applied to the settings.")
+                name.set("Lis Gradle Git Plugin")
+                description.set("Git related extensions and tasks.")
                 url.set("https://github.com/link-intersystems/lis-gradle-plugins")
                 licenses {
                     license {
