@@ -20,6 +20,7 @@ about the `gitInfo` properties take a look at [`GitInfo`](src/main/java/com/link
 
 ```kotlin
 println(gitInfo.shortCommitId)
+println(gitInfo.tags)
 
 println("""
 commit ${gitInfo.commitId} (HEAD -> ${gitInfo.branch})

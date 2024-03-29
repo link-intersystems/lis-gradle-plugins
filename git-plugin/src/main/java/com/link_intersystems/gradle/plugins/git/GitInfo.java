@@ -1,6 +1,7 @@
 package com.link_intersystems.gradle.plugins.git;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 /**
  * The GitInfo can be used to access the git info of the HEAD pointer.
@@ -73,4 +74,9 @@ public interface GitInfo {
      * @return the commit message.
      */
     String getCommitMessage();
+
+    /**
+     * @return a list of tag names of the current HEAD.
+     */
+    List<String> getTags();
 }

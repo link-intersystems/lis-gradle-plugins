@@ -2,7 +2,6 @@ package com.link_intersystems.gradle.plugins.git;
 
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.TaskAction;
-import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import java.io.PrintWriter;
@@ -10,7 +9,7 @@ import java.io.StringWriter;
 
 import static java.util.Objects.requireNonNull;
 
-public class GitInfoTask extends DefaultTask {
+class GitInfoTask extends DefaultTask {
 
     private GitInfo gitInfo;
 
@@ -24,7 +23,7 @@ public class GitInfoTask extends DefaultTask {
         StringWriter sw = new StringWriter();
 
 
-        try(PrintWriter info = new PrintWriter(sw)){
+        try (PrintWriter info = new PrintWriter(sw)) {
             info.print("commit ");
             info.print(gitInfo.getCommitId());
             info.print(" (HEAD) -> ");

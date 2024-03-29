@@ -11,7 +11,7 @@ import org.gradle.api.tasks.TaskProvider;
 import java.io.File;
 import java.io.IOException;
 
-public class GitPlugin implements Plugin<Project> {
+class GitPlugin implements Plugin<Project> {
     @Override
     public void apply(Project project) {
         File rootDir = project.getRootDir();
@@ -28,7 +28,7 @@ public class GitPlugin implements Plugin<Project> {
             extensions.add("gitInfo", gitInfo);
 
             TaskProvider<GitInfoTask> gitInfoTask = project.getTasks().register("git-info", GitInfoTask.class, gitInfo);
-            gitInfoTask.configure( task -> {
+            gitInfoTask.configure(task -> {
                 task.setGroup("git");
                 task.setDescription("Outputs information about the actual commit (HEAD).");
             });

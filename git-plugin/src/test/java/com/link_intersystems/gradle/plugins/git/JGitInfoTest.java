@@ -122,4 +122,30 @@ class JGitInfoTest {
 
         assertEquals("second commit message", jGitInfo.getCommitMessage());
     }
+
+    @Test
+    void tags() throws Exception {
+        oneCommit();
+        testRepository.createCommit("release v0.0.9", b -> {});
+        testRepository.tag("v0.0.9");
+
+        testRepository.createCommit("release v1.0.0", b -> {});
+        testRepository.tag("v1.0.0");
+
+        List<String> tags = jGitInfo.getTags();
+
+        assertEquals(List.of("v1.0.0"), tags);
+    }
+
+    @Test
+    void tagsAnnotated() throws Exception {
+        oneCommit();
+
+        testRepository.tag("v1.0.0");
+        testRepository.tag("first_release", "Released on 28.03.24");
+
+        List<String> tags = jGitInfo.getTags();
+
+        assertEquals(List.of("first_release", "v1.0.0"), tags);
+    }
 }
