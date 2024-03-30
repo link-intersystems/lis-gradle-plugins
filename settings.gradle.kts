@@ -17,4 +17,6 @@ dependencyResolutionManagement {
     repositories {
         mavenCentral()
     }
+
+    includeBuild(".")
 }
