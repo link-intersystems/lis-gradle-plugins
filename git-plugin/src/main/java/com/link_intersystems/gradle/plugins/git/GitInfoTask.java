@@ -43,7 +43,7 @@ class GitInfoTask extends DefaultTask {
             info.print("<");
             info.print(gitInfo.getCommitterEmail());
             info.println(">");
-            info.print("ComitDate:  ");
+            info.print("CommitDate:  ");
             info.println(gitInfo.getCommitDateTime());
 
             info.println();
