@@ -23,8 +23,8 @@ publishing {
     afterEvaluate {
         publications.withType<MavenPublication> {
             pom {
-                name.set("Lis Gradle Settings Plugins")
-                description.set("Gradle plugins that can be applied to the settings.")
+                name.set("Lis Gradle Multi Module Plugin")
+                description.set("Configures the Gradle build by automatically detecting subprojects and composite builds.")
             }
         }
     }
