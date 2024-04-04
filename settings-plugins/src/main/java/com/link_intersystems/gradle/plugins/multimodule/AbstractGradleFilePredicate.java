@@ -9,7 +9,7 @@ import java.util.function.Predicate;
 
 import static java.util.Objects.requireNonNull;
 
-public abstract class AbstractGradleFilePredicate implements Predicate<Path> {
+abstract class AbstractGradleFilePredicate implements Predicate<Path> {
 
     private final ScriptFileResolver scriptFileResolver = new DefaultScriptFileResolver();
 

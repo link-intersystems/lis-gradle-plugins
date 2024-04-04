@@ -19,7 +19,7 @@ Add the multi module plugin to your root project settings file.
 ```kotlin
 // settngs.gradle.kts
 plugins {
-    id("com.link-intersystems.gradle.multi-module") version "0.2.0"
+    id("com.link-intersystems.gradle.multi-module") version "+" // latest version
 }
 ```
 
@@ -45,20 +45,27 @@ my-app/
 ```
 
 Here are some examples
-```properties
-# gradle.properties beside the settings.gradle.kts
+```kotlin
+  // settings.gradle.kts
+import com.link_intersystems.gradle.plugins.multimodule.SettingsMultiModuleConfig
 
-# exclude only modules/moduleA
-com.link-intersystems.gradle.multi-module.exclude-paths = modules/moduleA
+// Exclude only modules/moduleA
+configure<MultiModuleConfig> {
+  excludedPaths = listOf("modules/moduleA")
+}
 
-# exclude all modules named moduleA
-com.link-intersystems.gradle.multi-module.exclude-paths = **/moduleA
+// Exclude all modules ending with A (modules/moduleA, otherModules/moduleA)
+configure<MultiModuleConfig> {
+  excludedPaths = listOf("**/*A")
+}
 
-# exclude modules/moduleA and modules/moduleB
-com.link-intersystems.gradle.multi-module.exclude-paths = regex:modules/module?
+// Exclude modules/moduleA and modules/moduleB
+configure<MultiModuleConfig> {
+  excludedPaths = listOf("regex:modules/module?")
+}
 ```
 Under the hood the multi module plugin uses Java's PathMatcher, so you can 
-configure whatever a [PathMatch](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/nio/file/FileSystem.html#getPathMatcher(java.lang.String)) can be configured with.
+configure whatever a [PathMatcher](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/nio/file/FileSystem.html#getPathMatcher(java.lang.String)) can be configured with.
 
 If you do not prefix the exclude path with `glob:` or `regex:`, the plugin assumes
 that the path is a glob pattern.
@@ -69,8 +76,11 @@ Per default the plugin excludes `buildSrc` and any includeBuild of a pluginManag
 since these locations are usually used to implement convention plugins.
 
 However, you can turn off the default excludes
-```properties
-# gradle.properties beside the settings.gradle.kts
+```kotlin
+  // settings.gradle.kts
+import com.link_intersystems.gradle.plugins.multimodule.SettingsMultiModuleConfig
 
-com.link-intersystems.gradle.multi-module.omit-default-excludes = true
+configure<MultiModuleConfig> {
+  isOmitDefaultExcludes = true
+}
 ```

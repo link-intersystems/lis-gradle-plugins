@@ -4,7 +4,7 @@ import java.nio.file.FileSystem;
 import java.nio.file.Path;
 import java.util.regex.Pattern;
 
-public class IncludeBuildPath {
+class IncludeBuildPath {
 
     private final String value;
 
@@ -16,5 +16,10 @@ public class IncludeBuildPath {
 
     public String getValue() {
         return value;
+    }
+
+    @Override
+    public String toString() {
+        return getValue();
     }
 }

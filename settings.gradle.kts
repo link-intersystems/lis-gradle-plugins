@@ -9,7 +9,7 @@ pluginManagement {
 }
 
 plugins {
-    id("com.link-intersystems.gradle.multi-module") version "0.2.0"
+    id("com.link-intersystems.gradle.multi-module") version "+"
 
 }
 

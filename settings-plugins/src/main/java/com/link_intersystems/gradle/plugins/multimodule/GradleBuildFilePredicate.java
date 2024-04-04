@@ -9,7 +9,7 @@ package com.link_intersystems.gradle.plugins.multimodule;
  *     <li>build.gradle.kts</li>
  * </ul>
  */
-public class GradleBuildFilePredicate extends AbstractGradleFilePredicate {
+class GradleBuildFilePredicate extends AbstractGradleFilePredicate {
 
     public GradleBuildFilePredicate() {
         super("build");

@@ -9,7 +9,7 @@ import java.util.List;
  *
  * <pre>
  * plugins {
- *     id("com.link-intersystems.gradle.git") version "0.3.0"
+ *     id("com.link-intersystems.gradle.git") version "RELEASE"
  * }
  *
  * println("""

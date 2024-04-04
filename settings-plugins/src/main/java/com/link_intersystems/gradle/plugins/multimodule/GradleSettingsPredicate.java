@@ -9,7 +9,7 @@ package com.link_intersystems.gradle.plugins.multimodule;
  *     <li>settings.gradle.kts</li>
  * </ul>
  */
-public class GradleSettingsPredicate extends AbstractGradleFilePredicate {
+class GradleSettingsPredicate extends AbstractGradleFilePredicate {
 
     public GradleSettingsPredicate() {
         super("settings");

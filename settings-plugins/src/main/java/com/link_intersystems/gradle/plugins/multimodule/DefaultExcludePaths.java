@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class DefaultExcludePaths implements Predicate<Path> {
+class DefaultExcludePaths implements Predicate<Path> {
 
     private final List<String> excludePaths;
 

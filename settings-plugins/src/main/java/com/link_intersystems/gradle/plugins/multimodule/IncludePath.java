@@ -2,15 +2,18 @@ package com.link_intersystems.gradle.plugins.multimodule;
 
 import org.gradle.api.Project;
 
+import java.io.File;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
 import java.util.regex.Pattern;
 
-public class IncludePath {
+class IncludePath {
 
     private final String value;
+    private final Path rootProjectRelativePath;
 
     public IncludePath(Path rootProjectRelativePath) {
+        this.rootProjectRelativePath = rootProjectRelativePath;
         FileSystem fileSystem = rootProjectRelativePath.getFileSystem();
         String separator = fileSystem.getSeparator();
         String includePath = rootProjectRelativePath.toString().replaceAll(Pattern.quote(separator), Project.PATH_SEPARATOR);
@@ -24,5 +27,14 @@ public class IncludePath {
 
     public String getValue() {
         return value;
+    }
+
+    @Override
+    public String toString() {
+        return getValue();
+    }
+
+    public File getPath() {
+        return rootProjectRelativePath.toFile();
     }
 }

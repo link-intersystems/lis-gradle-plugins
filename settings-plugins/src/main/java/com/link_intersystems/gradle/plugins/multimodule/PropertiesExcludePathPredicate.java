@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class PropertiesExcludePathPredicate implements Predicate<Path> {
+class PropertiesExcludePathPredicate implements Predicate<Path> {
 
     private final List<PathMatcher> excludedPaths = new ArrayList<>();
     private final List<String> appliedPaths = new ArrayList<>();

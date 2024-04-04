@@ -2,6 +2,7 @@ package com.link_intersystems.gradle.plugins.multimodule;
 
 import org.gradle.api.Plugin;
 import org.gradle.api.initialization.Settings;
+import org.gradle.api.plugins.ExtensionContainer;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,36 +19,50 @@ public class MultiModulePlugin implements Plugin<Settings> {
     private Logger logger = LoggerFactory.getLogger(MultiModulePlugin.class);
 
     @Override
-    public void apply(Settings settings) {
-        File rootDir = settings.getRootDir();
+    public void apply(Settings s) {
 
-        IncludesCollector includesCollector = new IncludesCollector(rootDir.toPath());
-        Predicate<Path> excludePaths = getExcludePaths(settings);
-        includesCollector.setExcludePaths(excludePaths);
+        ExtensionContainer extensions = s.getExtensions();
+        ConfigValues settingsConfigValues = extensions.create(MultiModuleConfig.class, "multiModule", MultiModuleConfig.class);
 
-        try {
-            Files.walkFileTree(rootDir.toPath(), includesCollector);
+        ConfigValuesChain multiModuleConfigValuesChain = new ConfigValuesChain(
+                settingsConfigValues,
+                new GradlePropertyConfigValues(s),
+                new SystemPropertyConfigValues(s),
+                new EnvironmentConfigValues(s),
+                new DefaultConfigValues()
+        );
 
-            IncludeBuildConfigurer includeBuildConfigurer = new IncludeBuildConfigurer(settings, logger);
-            includesCollector.getIncludeBuildPaths().forEach(includeBuildConfigurer::configure);
+        s.getGradle().settingsEvaluated(settings -> {
+            File rootDir = settings.getRootDir();
 
-            IncludeProjectConfigurer includeProjectConfigurer = new IncludeProjectConfigurer(settings, logger);
-            includesCollector.getIncludePaths().forEach(includeProjectConfigurer::configure);
-        } catch (IOException e) {
-            throw new RuntimeException("Unable to apply plugin 'com.link-intersystems.gradle.multi-module'", e);
-        }
+            IncludesCollector includesCollector = new IncludesCollector(rootDir.toPath());
+            Predicate<Path> excludePathsPredicate = new DefaultExcludePaths(settings);
+            Predicate<Path> excludePaths = getExcludePaths(excludePathsPredicate, multiModuleConfigValuesChain);
+            includesCollector.setExcludePaths(excludePaths);
+
+            try {
+                Files.walkFileTree(rootDir.toPath(), includesCollector);
+
+                IncludeBuildConfigurer includeBuildConfigurer = new IncludeBuildConfigurer(settings, logger, multiModuleConfigValuesChain);
+                includesCollector.getIncludeBuildPaths().forEach(includeBuildConfigurer::configure);
+
+                IncludeProjectConfigurer includeProjectConfigurer = new IncludeProjectConfigurer(settings, logger, multiModuleConfigValuesChain);
+                includesCollector.getIncludePaths().forEach(includeProjectConfigurer::configure);
+            } catch (IOException e) {
+                throw new RuntimeException("Unable to apply plugin 'com.link-intersystems.gradle.multi-module'", e);
+            }
+        });
+
     }
 
     @NotNull
-    private Predicate<Path> getExcludePaths(Settings settings) {
-        MultiModulePluginProperties multiModulePluginProperties = new MultiModulePluginProperties(settings);
+    private Predicate<Path> getExcludePaths(Predicate<Path> excludePathsPredicate, ConfigValues multiModuleConfig) {
 
-        Predicate<Path> excludePathsPredicate = new DefaultExcludePaths(settings);
-        if(multiModulePluginProperties.isOmitDefaultExcludes()){
+        if (multiModuleConfig.getOmitDefaultExcludes()) {
             excludePathsPredicate = p -> false;
         }
 
-        List<String> excludePaths = multiModulePluginProperties.getExcludePaths();
+        List<String> excludePaths = multiModuleConfig.getExcludedPaths();
         if (!excludePaths.isEmpty()) {
             PropertiesExcludePathPredicate propertiesExcludePathPredicate = new PropertiesExcludePathPredicate(excludePaths);
             propertiesExcludePathPredicate.getAppliedPaths().forEach(path -> {

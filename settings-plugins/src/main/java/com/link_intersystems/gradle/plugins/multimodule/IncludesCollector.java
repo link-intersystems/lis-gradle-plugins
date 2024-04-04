@@ -11,10 +11,10 @@ import java.util.function.Predicate;
 
 import static java.util.Objects.requireNonNull;
 
-public class IncludesCollector implements FileVisitor<Path> {
+class IncludesCollector implements FileVisitor<Path> {
 
-    private List<String> includeBuildPaths = new ArrayList<>();
-    private List<String> includePaths = new ArrayList<>();
+    private List<IncludeBuildPath> includeBuildPaths = new ArrayList<>();
+    private List<IncludePath> includePaths = new ArrayList<>();
 
     private Predicate<Path> settingsFilePredicate = new GradleSettingsPredicate();
     private Predicate<Path> buildFilePredicate = new GradleBuildFilePredicate();
@@ -76,9 +76,8 @@ public class IncludesCollector implements FileVisitor<Path> {
         return isHiddenDirectory || path.toFile().isHidden();
     }
 
-    private String toProjectPath(Path dir) {
-        IncludePath includePath = new IncludePath(rootPath.relativize(dir));
-        return includePath.getValue();
+    private IncludePath toProjectPath(Path dir) {
+        return new IncludePath(rootPath.relativize(dir));
     }
 
     @Override
@@ -96,16 +95,16 @@ public class IncludesCollector implements FileVisitor<Path> {
         return FileVisitResult.CONTINUE;
     }
 
-    private String toIncludeBuildPath(Path includeBuildAbsolutePath) {
-        return new IncludeBuildPath(rootPath.relativize(includeBuildAbsolutePath)).getValue();
+    private IncludeBuildPath toIncludeBuildPath(Path includeBuildAbsolutePath) {
+        return new IncludeBuildPath(rootPath.relativize(includeBuildAbsolutePath));
     }
 
 
-    public List<String> getIncludeBuildPaths() {
+    public List<IncludeBuildPath> getIncludeBuildPaths() {
         return includeBuildPaths;
     }
 
-    public List<String> getIncludePaths() {
+    public List<IncludePath> getIncludePaths() {
         return includePaths;
     }
 }

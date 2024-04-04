@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 /**
  *
  */
-public class PluginManagementIncludeBuildSource implements IncludeBuildsSource {
+class PluginManagementIncludeBuildSource implements IncludeBuildsSource {
 
     private Settings settings;
 
