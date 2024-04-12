@@ -1,28 +1,6 @@
 plugins {
     `java-gradle-plugin`
-    id("maven-publish") // if you never publish the plugin, you may remove this (but it also does not hurt)
-    signing
-}
-
-val multiModuleId: String by project
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(11)
-    }
-
-    withSourcesJar()
-    withJavadocJar()
-}
-
-tasks.withType<ProcessResources> {
-    filesMatching("**/*") {
-        expand(project.properties)
-    }
-}
-
-tasks.test {
-    useJUnitPlatform()
+    id("com.link-intersystems.gradle.maven-central-library")
 }
 
 afterEvaluate {
@@ -53,16 +31,6 @@ afterEvaluate {
                     developerConnection.set("scm:git:https://github.com/link-intersystems/lis-gradle-plugins.git")
                 }
             }
-        }
-    }
-
-    signing {
-        val signingKey = providers.environmentVariable("GPG_SIGNING_KEY")
-        val signingPassphrase = providers.environmentVariable("GPG_SIGNING_PASSPHRASE")
-        if (signingKey.isPresent && signingPassphrase.isPresent) {
-            useInMemoryPgpKeys(signingKey.get(), signingPassphrase.get())
-            sign(publishing.publications)
-            logger.lifecycle("Signing publications")
         }
     }
 }
