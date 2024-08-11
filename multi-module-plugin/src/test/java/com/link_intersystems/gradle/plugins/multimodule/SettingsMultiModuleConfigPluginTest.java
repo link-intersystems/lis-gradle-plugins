@@ -1,18 +1,18 @@
 package com.link_intersystems.gradle.plugins.multimodule;
 
+import com.link_intersystems.gradle.project.builder.GradleProjectBuilder;
 import org.gradle.api.initialization.Settings;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
 import static org.mockito.Mockito.*;
 
 class SettingsMultiModuleConfigPluginTest {
 
-    private File projectRoot;
     private MultiModulePlugin multiModulePlugin;
     private Settings settings;
     private ProviderFactoryMocking providersMocking;
@@ -20,12 +20,11 @@ class SettingsMultiModuleConfigPluginTest {
     private GradleProjectBuilder projectBuilder;
 
     @BeforeEach
-    void setUp(@TempDir File projectRoot) throws IOException {
-        this.projectRoot = projectRoot;
+    void setUp(@TempDir Path projectRoot) throws IOException {
 
         settingMocking = new SettingMocking();
         settings = settingMocking.getSettings();
-        when(settings.getRootDir()).thenReturn(projectRoot);
+        when(settings.getRootDir()).thenReturn(projectRoot.toFile());
 
         providersMocking = settingMocking.getProvidersMocking();
 
@@ -45,10 +44,11 @@ class SettingsMultiModuleConfigPluginTest {
 
     @Test
     void apply() throws IOException {
-        projectBuilder.withCompositeBuild("buildSrc");
-        projectBuilder.withCompositeBuild("modules/moduleA").withModule("subA");
-        projectBuilder.withModule("modules/moduleB").withModule("moduleC");
-        projectBuilder.withCompositeBuild("modules/.hiddenModuleA");
+        projectBuilder.createCompositeBuild("buildSrc");
+        projectBuilder.createCompositeBuild("modules/moduleA").createSubproject("subA");
+        projectBuilder.createSubproject("modules/moduleB");
+        projectBuilder.createSubproject("modules/moduleB/moduleC");
+        projectBuilder.createCompositeBuild("modules/.hiddenModuleA");
 
         applyMultiModulePlugin();
 
@@ -67,9 +67,9 @@ class SettingsMultiModuleConfigPluginTest {
 
     @Test
     void excludePathsViaProperties() throws IOException {
-        projectBuilder.withCompositeBuild("buildSrc");
-        projectBuilder.withModule("modules/moduleA");
-        projectBuilder.withModule("modules/moduleB");
+        projectBuilder.createCompositeBuild("buildSrc");
+        projectBuilder.createSubproject("modules/moduleA");
+        projectBuilder.createSubproject("modules/moduleB");
 
         providersMocking.setGradleProperty("com.link-intersystems.gradle.multi-module.exclude-paths", "glob:**/mod*B:buildSrc");
 
@@ -81,10 +81,11 @@ class SettingsMultiModuleConfigPluginTest {
 
     @Test
     void dryRun() throws IOException {
-        projectBuilder.withCompositeBuild("buildSrc");
-        projectBuilder.withCompositeBuild("modules/moduleA").withModule("subA");
-        projectBuilder.withModule("modules/moduleB").withModule("moduleC");
-        projectBuilder.withCompositeBuild("modules/.hiddenModuleA");
+        projectBuilder.createCompositeBuild("buildSrc");
+        projectBuilder.createCompositeBuild("modules/moduleA").createSubproject("subA");
+        projectBuilder.createSubproject("modules/moduleB");
+        projectBuilder.createSubproject("modules/moduleB/moduleC");
+        projectBuilder.createCompositeBuild("modules/.hiddenModuleA");
 
         providersMocking.setGradleProperty("com.link-intersystems.gradle.multi-module.dryRun", "true");
 
