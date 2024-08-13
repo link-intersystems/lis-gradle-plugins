@@ -1,5 +1,9 @@
 package com.link_intersystems.gradle.plugins.multimodule;
 
+import com.link_intersystems.gradle.api.initialization.SettingsMocking;
+import com.link_intersystems.gradle.api.invocation.GradleMocking;
+import com.link_intersystems.gradle.api.plugins.ExtensionContainerMocking;
+import com.link_intersystems.gradle.api.provider.ProviderFactoryMocking;
 import com.link_intersystems.gradle.project.builder.GradleProjectBuilder;
 import org.gradle.api.initialization.Settings;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,21 +20,22 @@ class SettingsMultiModuleConfigPluginTest {
     private MultiModulePlugin multiModulePlugin;
     private Settings settings;
     private ProviderFactoryMocking providersMocking;
-    private SettingMocking settingMocking;
+    private SettingsMocking settingsMocking;
     private GradleProjectBuilder projectBuilder;
 
     @BeforeEach
     void setUp(@TempDir Path projectRoot) throws IOException {
 
-        settingMocking = new SettingMocking();
-        settings = settingMocking.getSettings();
+        GradleMocking gradleMocking = new GradleMocking();
+        settingsMocking = gradleMocking.getSettingMocking();
+        settings = settingsMocking.getSettings();
         when(settings.getRootDir()).thenReturn(projectRoot.toFile());
 
-        providersMocking = settingMocking.getProvidersMocking();
+        providersMocking = settingsMocking.getProvidersMocking();
 
         multiModulePlugin = new MultiModulePlugin();
 
-        ExtensionContainerMocking extensionContainerMocking = settingMocking.getExtensionContainerMocking();
+        ExtensionContainerMocking extensionContainerMocking = settingsMocking.getExtensionContainerMocking();
         extensionContainerMocking.onCreate("multiModule", MultiModuleConfig.class).returnValue(new MultiModuleConfig());
 
         projectBuilder = GradleProjectBuilder.rootProject(projectRoot);
@@ -38,8 +43,8 @@ class SettingsMultiModuleConfigPluginTest {
 
     private void applyMultiModulePlugin() {
         multiModulePlugin.apply(settings);
-        GradleMocking gradleMocking = settingMocking.getGradleMocking();
-        gradleMocking.executeSettingsEvaluated(settings);
+        GradleMocking gradleMocking = settingsMocking.getGradleMocking();
+        gradleMocking.execSettingsEvaluated();
     }
 
     @Test
@@ -103,6 +108,4 @@ class SettingsMultiModuleConfigPluginTest {
         verify(settings, never()).include(":modules:moduleB");
         verify(settings, never()).include(":modules:moduleB:moduleC");
     }
-
-
 }

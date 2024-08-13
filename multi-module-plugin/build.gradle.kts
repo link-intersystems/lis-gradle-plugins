@@ -10,6 +10,7 @@ dependencies {
     testImplementation("org.mockito:mockito-core:5.11.0")
 
     testImplementation("com.link-intersystems.gradle.commons:lis-gradle-project-builder:0.0.2")
+    testImplementation("com.link-intersystems.gradle.commons:lis-gradle-mocking:0.0.3")
 }
 
 gradlePlugin {
@@ -30,4 +31,9 @@ publishing {
             }
         }
     }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
 }
