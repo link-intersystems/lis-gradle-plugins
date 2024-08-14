@@ -2,7 +2,16 @@ name: Release Libraries
 
 on:
   workflow_dispatch:
-
+    inputs:
+      releaseVersion:
+        description: 'Set the version to release or just use (patch|minor|major)'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
 jobs:
   build:
     if: contains('["renelink"]', github.actor)
