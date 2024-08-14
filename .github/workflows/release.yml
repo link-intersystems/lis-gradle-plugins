@@ -1,0 +1,17 @@
+name: Release Libraries
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    if: contains('["renelink"]', github.actor)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+    - name: Test
+      run: |
+        echo "test"
+
