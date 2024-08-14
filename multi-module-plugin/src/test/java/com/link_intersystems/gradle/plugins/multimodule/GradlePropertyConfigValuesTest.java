@@ -1,5 +1,7 @@
 package com.link_intersystems.gradle.plugins.multimodule;
 
+import com.link_intersystems.gradle.api.initialization.SettingsMocking;
+import com.link_intersystems.gradle.api.provider.ProviderFactoryMocking;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,15 +12,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GradlePropertyConfigValuesTest {
 
-    private SettingMocking settingMocking;
+    private SettingsMocking settingsMocking;
     private GradlePropertyConfigValues pluginProperties;
     private ProviderFactoryMocking providersMocking;
 
     @BeforeEach
     void setUp() {
-        settingMocking = new SettingMocking();
-        providersMocking = settingMocking.getProvidersMocking();
-        pluginProperties = new GradlePropertyConfigValues(settingMocking.getSettings());
+        settingsMocking = new SettingsMocking();
+        providersMocking = settingsMocking.getProvidersMocking();
+        pluginProperties = new GradlePropertyConfigValues(settingsMocking.getSettings());
     }
 
     @Test
