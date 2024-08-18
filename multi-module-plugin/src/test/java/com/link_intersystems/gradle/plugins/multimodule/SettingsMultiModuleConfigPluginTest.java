@@ -1,9 +1,9 @@
 package com.link_intersystems.gradle.plugins.multimodule;
 
-import com.link_intersystems.gradle.api.initialization.SettingsMocking;
-import com.link_intersystems.gradle.api.invocation.GradleMocking;
-import com.link_intersystems.gradle.api.plugins.ExtensionContainerMocking;
-import com.link_intersystems.gradle.api.provider.ProviderFactoryMocking;
+import com.link_intersystems.gradle.api.SettingsMocking;
+import com.link_intersystems.gradle.api.GradleMocking;
+import com.link_intersystems.gradle.api.ExtensionContainerMocking;
+import com.link_intersystems.gradle.api.ProviderFactoryMocking;
 import com.link_intersystems.gradle.project.builder.GradleProjectBuilder;
 import org.gradle.api.initialization.Settings;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +27,7 @@ class SettingsMultiModuleConfigPluginTest {
     void setUp(@TempDir Path projectRoot) throws IOException {
 
         GradleMocking gradleMocking = new GradleMocking();
-        settingsMocking = gradleMocking.getSettingMocking();
+        settingsMocking = gradleMocking.getSettingsMocking();
         settings = settingsMocking.getSettings();
         when(settings.getRootDir()).thenReturn(projectRoot.toFile());
 

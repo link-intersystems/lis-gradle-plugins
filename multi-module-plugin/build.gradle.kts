@@ -3,14 +3,16 @@ plugins {
 }
 
 dependencies {
-    implementation("org.slf4j:slf4j-api:2.0.12")
+    implementation(slf4j.api)
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.2")
-    testImplementation("org.mockito:mockito-core:5.11.0")
+    testImplementation(junit.jupiter.api)
+    testImplementation(junit.jupiter.engine)
+    testImplementation(mockito.core)
 
-    testImplementation("com.link-intersystems.gradle.commons:lis-gradle-project-builder:0.0.2")
-    testImplementation("com.link-intersystems.gradle.commons:lis-gradle-mocking:0.0.3")
+
+    testImplementation(platform(lis.platform))
+    testImplementation(lis.gradleProjectBuilder)
+    testImplementation(lis.gradleMocking)
 }
 
 gradlePlugin {

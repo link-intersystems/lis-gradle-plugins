@@ -1,7 +1,7 @@
 package com.link_intersystems.gradle.plugins.multimodule;
 
-import com.link_intersystems.gradle.api.initialization.SettingsMocking;
-import com.link_intersystems.gradle.api.provider.ProviderFactoryMocking;
+import com.link_intersystems.gradle.api.SettingsMocking;
+import com.link_intersystems.gradle.api.ProviderFactoryMocking;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
