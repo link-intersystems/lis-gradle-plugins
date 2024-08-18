@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+source "${SCRIPT_DIR}/git_utils"
+
+function main(){
+  local cmd="$1"
+  case "${cmd}" in
+    update)
+          onGitRootDir updateSubtrees
+      ;;
+    *)
+      echo "Usage: $0 update"
+      ;;
+  esac
+}
+
+function updateSubtrees() {
+  updateSubtree git-repo-commons gradle .bin
+  updateSubtree git-repo-commons gradle .github
+}
+
+main "$@"; exit
