@@ -1,6 +1,12 @@
 plugins {
     `java-gradle-plugin`
     id("com.link-intersystems.gradle.maven-central-library")
+    id("com.gradle.plugin-publish")
+}
+
+gradlePlugin {
+    website = "https://github.com/link-intersystems/lis-gradle-plugins"
+    vcsUrl = "https://github.com/link-intersystems/lis-gradle-plugins.git"
 }
 
 afterEvaluate {

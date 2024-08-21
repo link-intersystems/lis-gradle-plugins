@@ -20,6 +20,9 @@ gradlePlugin {
         create("multi-module") {
             id = "com.link-intersystems.gradle.multi-module"
             implementationClass = "com.link_intersystems.gradle.plugins.multimodule.MultiModulePlugin"
+            displayName = "Multi Module Plugin"
+            description = "Configures the Gradle build by automatically detecting subprojects and composite builds."
+            tags.set(listOf("multi-module", "composite-builds", "sub-projects"))
         }
     }
 }
