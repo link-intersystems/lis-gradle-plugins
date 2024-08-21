@@ -1,13 +1,5 @@
 plugins {
-    `java-gradle-plugin`
-    id("lis-gradle-plugins-maven-central-artifact")
-    id("com.link-intersystems.gradle.maven-central-library")
-    id("com.gradle.plugin-publish")
-}
-
-gradlePlugin {
-    website = "https://github.com/link-intersystems/lis-gradle-plugins"
-    vcsUrl = "https://github.com/link-intersystems/lis-gradle-plugins.git"
+    id("com.link-intersystems.gradle.maven-central-artifact")
 }
 
 afterEvaluate {
