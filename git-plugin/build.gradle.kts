@@ -16,6 +16,9 @@ gradlePlugin {
         create("git") {
             id = "com.link-intersystems.gradle.git"
             implementationClass = "com.link_intersystems.gradle.plugins.git.GitPlugin"
+            displayName = "Gradle Git Plugin"
+            description = "Access Git information and execute Git actions from within a Gradle build."
+            tags.set(listOf("git"))
         }
     }
 }
@@ -24,8 +27,8 @@ publishing {
     afterEvaluate {
         publications.withType<MavenPublication> {
             pom {
-                name.set("Lis Gradle Git Plugin")
-                description.set("Git related extensions and tasks.")
+                name.set("Gradle Git Plugin")
+                description.set("Access Git information and execute Git actions from within a Gradle build.")
             }
         }
     }
