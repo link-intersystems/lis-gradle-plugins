@@ -4,6 +4,7 @@ plugins {
 
 dependencies {
     implementation(slf4j.api)
+    implementation(slf4j.api)
 
     testImplementation(junit.jupiter.api)
     testImplementation(junit.jupiter.engine)
@@ -19,7 +20,7 @@ gradlePlugin {
     plugins {
         create("publishing-check") {
             id = "com.link-intersystems.gradle.publishing-check"
-            implementationClass = "com.link_intersystems.gradle.plugins.multimodule.MultiModulePlugin"
+            implementationClass = "com.link_intersystems.gradle.plugins.publishing.check.PublishingCheckPlugin"
             displayName = "Publishing Checker Plugin"
             description = "Checks if publications can be published to the publishing repositories."
             tags.set(listOf("publishing", "publish", "check"))
