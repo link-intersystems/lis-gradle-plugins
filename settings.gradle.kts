@@ -10,7 +10,7 @@ pluginManagement {
 }
 
 plugins {
-    id("com.link-intersystems.gradle.multi-module") version "+"
+    id("com.link-intersystems.gradle.multi-module") version "0.5.0"
 }
 
 dependencyResolutionManagement {
