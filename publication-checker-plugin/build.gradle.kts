@@ -4,7 +4,9 @@ plugins {
 
 dependencies {
     implementation(slf4j.api)
-    implementation(slf4j.api)
+//    implementation("org.apache.commons:commons-lang3:3.12.0")
+//    implementation("org.apache.maven:maven-repository-metadata:3.3.9")
+
 
     testImplementation(junit.jupiter.api)
     testImplementation(junit.jupiter.engine)
@@ -18,12 +20,12 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        create("publishing-check") {
-            id = "com.link-intersystems.gradle.publishing-check"
-            implementationClass = "com.link_intersystems.gradle.plugins.publishing.check.PublishingCheckPlugin"
-            displayName = "Publishing Checker Plugin"
+        create("publication-checker") {
+            id = "com.link-intersystems.gradle.publication-checker"
+            implementationClass = "com.link_intersystems.gradle.plugins.publication.PublicationCheckerPlugin"
+            displayName = "Publication Checker Plugin"
             description = "Checks if publications can be published to the publishing repositories."
-            tags.set(listOf("publishing", "publish", "check"))
+            tags.set(listOf("publication", "publish", "check"))
         }
     }
 }
@@ -32,7 +34,7 @@ publishing {
     afterEvaluate {
         publications.withType<MavenPublication> {
             pom {
-                name.set("Publishing Check Plugin")
+                name.set("Publication Checker Plugin")
                 description.set("Checks if publications can be published to the publishing repositories.")
             }
         }
