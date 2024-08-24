@@ -16,16 +16,31 @@ class PublicationCheckerTaskRegistrar {
 
     @SuppressWarnings("rawtypes")
     void registerPublicationCheckerTask(ArtifactPublication artifactPublication) {
+        PublicationCheckerConfig publicationCheckerConfig = getConfig();
         final TaskContainer tasks = project.getTasks();
 
         final String publicationName = artifactPublication.getArtifactName();
         final String repositoryName = artifactPublication.getArtifactRepositoryName();
         final String taskName = "check" + capitalize(publicationName) + "PublicationTo" + capitalize(repositoryName) + "Repository";
 
-        TaskProvider<PublicationCheckerTask> publishingCheckTaskTaskProvider = tasks.register(taskName, PublicationCheckerTask.class, artifactPublication);
+        TaskProvider<PublicationCheckerTask> publishingCheckTaskTaskProvider = tasks.register(taskName, PublicationCheckerTask.class, artifactPublication, publicationCheckerConfig);
         publishingCheckTaskTaskProvider.configure(task -> {
-            task.setGroup(PublishingPlugin.PUBLISH_TASK_GROUP);
+            task.setGroup("checks");
         });
+    }
+
+    private PublicationCheckerConfig getConfig() {
+        PublicationCheckerExtension checkerExtension = project.getExtensions().findByType(PublicationCheckerExtension.class);
+        return new PublicationCheckerConfig() {
+            @Override
+            public CheckResultStrategy getCheckResultStrategy() {
+                CheckResultStrategy checkResultStrategy = checkerExtension.getCheckResultStrategy();
+                if (checkResultStrategy == null) {
+                    checkResultStrategy = CheckResultStrategies.FAIL_IF_EXISTENT;
+                }
+                return checkResultStrategy;
+            }
+        };
     }
 
     public static String capitalize(final String str) {

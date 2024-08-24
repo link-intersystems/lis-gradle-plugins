@@ -107,8 +107,4 @@ public class MavenArtifactRepository implements ArtifactRepository {
 //        return metadataExternalResourceReadResult.getResult();
 //    }
 
-    @Override
-    public String toString() {
-        return mavenArtifactRepository.getName() + " (" + mavenArtifactRepository.getUrl() + ")";
-    }
 }

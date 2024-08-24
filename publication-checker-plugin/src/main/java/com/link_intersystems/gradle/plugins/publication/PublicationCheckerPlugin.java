@@ -30,15 +30,19 @@ public class PublicationCheckerPlugin implements Plugin<Project> {
 
         PublicationCheckerTaskRegistrar taskRegistrar = new PublicationCheckerTaskRegistrar(project);
 
+        PublicationCheckFilter publicationFilter = checkerExtension.getPublicationFilter() == null ? new AcceptAllPublicationCheckFilter() : checkerExtension.getPublicationFilter();
+
         PublicationContainer publications = publishingExtension.getPublications();
         if (publications != null) {
             publications.all(publication -> {
-                publishingExtension.getRepositories().all(repository -> {
-                    Optional<ArtifactPublication> provider = providers.createArtifactPublication(publication, repository);
-                    provider.ifPresentOrElse(taskRegistrar::registerPublicationCheckerTask, () -> {
-                        logger.debug("Can not create an ArtifactPublication for publication {} in repository {}. No ArtifactPublicationProvider available: {}", publication, repository, providers);
+                if (publicationFilter.accept(publication)) {
+                    publishingExtension.getRepositories().all(repository -> {
+                        Optional<ArtifactPublication> provider = providers.createArtifactPublication(publication, repository);
+                        provider.ifPresentOrElse(taskRegistrar::registerPublicationCheckerTask, () -> {
+                            logger.debug("Can not create an ArtifactPublication for publication {} in repository {}. No ArtifactPublicationProvider available: {}", publication, repository, providers);
+                        });
                     });
-                });
+                }
             });
         }
     }
