@@ -1,23 +1,94 @@
 #!/usr/bin/env bash
 
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-source "${SCRIPT_DIR}/git_utils"
+
+REPO_NAME="git-repository-commons"
+
 
 function main(){
   local cmd="$1"
+  local projectFacet="$2"
+
+  if [ -z "${cmd}" ] || [ -z "${projectFacet}" ]; then
+    usage
+    exit 1
+  fi
+
+  importGitUtils "${projectFacet}"
+
   case "${cmd}" in
     update)
-          onGitRootDir updateSubtrees
+          onGitRootDir update "${projectFacet}"
+      ;;
+    install)
+          onGitRootDir install "${projectFacet}"
+          onGitRootDir update "${projectFacet}"
       ;;
     *)
-      echo "Usage: $0 update"
+      usage
+      exit 1
       ;;
   esac
 }
 
-function updateSubtrees() {
-  updateSubtree git-repo-commons gradle .bin
-  updateSubtree git-repo-commons gradle .github
+
+function usage(){
+    echo "Usage: $0 {install|update} <project_facet>"
+    echo
+    echo -e "   project_facet = The facet to apply to the current repository. E.g. gradle."
 }
+
+
+function update() {
+  local repo="${REPO_NAME}"
+  local projectFacet="$1"
+
+  echo "Update project facet ${projectFacet}"
+
+  ensureGitRemote
+
+  updateSubtree ${repo} ${projectFacet} .bin
+  updateSubtree ${repo} ${projectFacet} .github
+}
+
+
+function install() {
+  local repo="${REPO_NAME}"
+  local projectFacet="$1"
+
+  echo "Install project facet ${projectFacet}"
+
+  ensureGitRemote
+
+  echo "Fetching refs/remotes/${repo}/${projectFacet}/*"
+  git fetch ${repo} +refs/heads/${projectFacet}/*:refs/remotes/${repo}/${projectFacet}/*
+}
+
+
+function ensureGitRemote() {
+    local repo="${REPO_NAME}"
+
+    if [ -z "$(git remote | grep "${repo}")" ]; then
+      echo "Adding Repository ${repo}"
+      git remote add ${repo} https://github.com/link-intersystems/${repo}.git
+    fi
+}
+
+
+function importGitUtils(){
+  local script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+  if [ -f "${script_dir}/git_utils" ]; then
+    source "${script_dir}/git_utils"
+  else
+    # Use git_utils from repository
+    local projectFacet="$1"
+
+    local binHead=$(git fetch --porcelain https://github.com/link-intersystems/git-repo-commons.git ${projectFacet}/bin | awk '{ print $3 }')
+    local gitUtilsObjectId=$(git ls-tree ${binHead} git_utils | awk '{ print $3 }')
+
+    source <(git cat-file -p ${gitUtilsObjectId})
+  fi
+}
+
 
 main "$@"; exit
