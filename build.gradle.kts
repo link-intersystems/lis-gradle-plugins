@@ -1,9 +1,8 @@
 import org.gradle.tooling.GradleConnector
 
 plugins {
-    id("com.link-intersystems.gradle.maven-central-project") version "0.0.5"
+    id("com.link-intersystems.gradle.maven-central-project") version "0.0.9"
     id("net.researchgate.release") version "3.0.2"
-
 }
 
 
