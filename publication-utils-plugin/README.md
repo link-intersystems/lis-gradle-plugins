@@ -1,15 +1,148 @@
-# Publishing Check Plugin [![Maven Central Version](https://img.shields.io/maven-central/v/com.link-intersystems.gradle.publishing-check/com.link-intersystems.gradle.publishing-check.gradle.plugin)](https://mvnrepository.com/artifactCoordinates/com.link-intersystems.gradle.publishing-check)
+# Publication Utils Plugin [![Maven Central Version](https://img.shields.io/maven-central/v/com.link-intersystems.gradle.publication-utils/com.link-intersystems.gradle.publication-utils.gradle.plugin)](https://mvnrepository.com/artifactCoordinates/com.link-intersystems.gradle.publication-utils)
 
-Checks if publications can be published to the publishing repositories. 
+## Verify Publications
+
+The verify publication utils provide support for verifying the state of publication artifacts in remote repositories.
+
+The following configuration will create a `VerifyPublicationTask` for the publication named "maven".
+It will verify if the publication's artifacts exist in all remote repositories that are configure for the publishing.
+The task will fail if the artifacts exists. But there are several options to configure the `VerifyPublicationTask`
+that you can read about below this simple example.
+
+```kotlin
+// build.gradle.kts
+publications {
+    verify {
+        create<VerifyMavenPublication>("maven") {
+        }
+    }
+}
+```
+
+### Specify other repositories
+
+Usually the `VerifyPublicationTask` will use all remote repositories that you configured for the publishing. E.g.
+
+```kotlin
+publishing {
+    repositories {
+        maven {
+            val releasesRepoUrl = layout.buildDirectory.dir("repos/releases")
+            val snapshotsRepoUrl = layout.buildDirectory.dir("repos/snapshots")
+            url = uri(if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
+        }
+    }
+}
+```
+
+But you can specify custom repositories if needed. E.g. check if the artifacts exists in the local repository.
+
+```kotlin
+publications {
+    verify {
+        create<VerifyMavenPublication>("maven") {
+            verifyRepositories {
+                mavenCentral()
+            }
+        }
+    }
+}
+```
+
+`verifyRepositories` is a [
+`RepositoryHandler`](https://docs.gradle.org/current/javadoc/org/gradle/api/artifacts/dsl/RepositoryHandler.html),
+the same api that the publishing plugin provides. Thus, you can configure any repositories that you can configure with
+`publishing.repositories`.
+
+### Version provider
+
+Sometimes you don't want to check the current project artifacts version. Instead, you want to verify another version.
+For this purpose you can specify a `VersionProvider`. E.g. if you want to check if the release version of the current
+snapshot version already exists.
+
+```kotlin
+publications {
+    verify {
+        create<VerifyMavenPublication>("maven") {
+            versionProvider = VersionProviders.RELEASE_VERSION
+        }
+    }
+}
+```
+
+But feel free to implement your own `VersionProvider`
+
+```kotlin
+publications {
+    verify {
+        create<VerifyMavenPublication>("maven") {
+            // A fixed version provider
+            versionProvider = VersionProvider { group, name, version ->
+                "1.0.0"
+            }
+        }
+    }
+}
+```
+
+### Verify result handling
+
+The default result handler throws an exception and breaks the build if the checked artifacts already exist. But you can
+configure this behaviour. Either you use one of the pre-defined result handlers in `VerifyPublicationResultHandlers` or
+you implement your own.
+
+```kotlin
+publications {
+    verify {
+        create<VerifyMavenPublication>("maven") {
+            resultHandler = VerifyPublicationResultHandlers.REPORT_ONLY
+            // resultHandler = VerifyPublicationResultHandlers.NONE_EXISTS // the default
+            // resultHandler = VerifyPublicationResultHandlers.ALL_EXIST
+        }
+    }
+}
+```
+
+### Artifact filters
+
+An `ArtifactFilter` can be used if you don't want to check all artifacts that belong to a publication. The
+default `ArtifactFilter` will accept all artifacts.
+
+```kotlin
+publications {
+    verify {
+        create<VerifyMavenPublication>("maven") {
+            artifactFilter = ArtifactFilter { coords ->
+                coords.extension == "pom"
+            }
+        }
+
+    }
+}
+```
+
+### Git-flow support
 
 When you are using the git-flow branching model you have release branches to prepare the next release and a main
 (production) branch that only contains merge commits of the release branch.
 
 If you want to achieve a full continuous delivery pipeline you also want to automatically deploy on repository events,
 like a merge into the main branch or a version tag creation. Thus, you will define pipelines that will run on those
-events and publish your publications. It's annoying when these pipelines fail, e.g. because an artifactCoordinates is already
-published or you forgot to increment the version. 
+events and publish your publications. It's annoying when these pipelines fail, e.g. because an artifact is
+already published, because you forgot to increment the version.
 
-The publishing check plugin can help you with these issues, because it checks if your publications might be deployable.
-So if you run this publishing check on your release branch and the build passed, you can be sure that your publications
-can be published.
+The `VerifyPublicationTask` can help you with these issues, because it checks if your publications might be deployable.
+So you configure the `VerifyPublicationTask` to run on the release branch and fail if any release artifact exists.
+Because this means that if it passes, you can be sure that your publications can be published.
+
+Here is an example configuration that can achieve this.
+
+```kotlin
+publications {
+    verify {
+        create<VerifyMavenPublication>("maven") {
+            versionProvider = VersionProviders.RELEASE_VERSION
+        }
+    }
+}
+```
