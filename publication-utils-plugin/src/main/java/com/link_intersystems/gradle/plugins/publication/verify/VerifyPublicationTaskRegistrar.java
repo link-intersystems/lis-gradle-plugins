@@ -1,5 +1,7 @@
 package com.link_intersystems.gradle.plugins.publication.verify;
 
+import com.link_intersystems.gradle.plugins.publication.ArtifactFilter;
+import com.link_intersystems.gradle.publication.ArtifactCoordinates;
 import com.link_intersystems.gradle.publication.ArtifactPublication;
 import org.gradle.api.tasks.TaskContainer;
 import org.gradle.api.tasks.TaskProvider;
@@ -7,16 +9,14 @@ import org.gradle.api.tasks.TaskProvider;
 public class VerifyPublicationTaskRegistrar {
 
     private final TaskContainer tasks;
-    private final VerifyPublicationExtension verifyPublicationExtension;
 
-    public VerifyPublicationTaskRegistrar(TaskContainer tasks, VerifyPublicationExtension verifyPublicationExtension) {
+    public VerifyPublicationTaskRegistrar(TaskContainer tasks) {
         this.tasks = tasks;
-        this.verifyPublicationExtension = verifyPublicationExtension;
     }
 
     @SuppressWarnings("rawtypes")
-    public void registerTask(ArtifactPublication artifactPublication) {
-        VerifyPublicationConfig verifyPublicationConfig = getConfig();
+    public void registerTask(ArtifactPublication artifactPublication, VerifyPublication verifyPublication) {
+        VerifyPublicationConfig verifyPublicationConfig = getConfig(verifyPublication);
 
         String publicationName = artifactPublication.getArtifactName();
         String repositoryName = artifactPublication.getArtifactRepositoryName();
@@ -28,15 +28,21 @@ public class VerifyPublicationTaskRegistrar {
         });
     }
 
-    private VerifyPublicationConfig getConfig() {
+    private VerifyPublicationConfig getConfig(VerifyPublication verifyPublication) {
         return new VerifyPublicationConfig() {
             @Override
             public VerifyMode getMode() {
-                VerifyMode verifyMode = verifyPublicationExtension.getMode();
+                VerifyMode verifyMode = verifyPublication.getMode();
                 if (verifyMode == null) {
                     verifyMode = VerifyModes.NONE_EXISTS;
                 }
                 return verifyMode;
+            }
+
+            @Override
+            public ArtifactFilter<ArtifactCoordinates> getFilter() {
+                ArtifactFilter<ArtifactCoordinates> artifactFilter = (ArtifactFilter<ArtifactCoordinates>) verifyPublication.getArtifactFilter();
+                return artifactFilter == null ? ArtifactFilter.ALL : artifactFilter;
             }
         };
     }

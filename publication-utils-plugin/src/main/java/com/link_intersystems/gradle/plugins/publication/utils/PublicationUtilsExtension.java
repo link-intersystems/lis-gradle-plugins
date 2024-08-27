@@ -1,20 +1,12 @@
 package com.link_intersystems.gradle.plugins.publication.utils;
 
-import com.link_intersystems.gradle.plugins.publication.verify.VerifyPublicationExtension;
+import com.link_intersystems.gradle.plugins.publication.verify.VerifyPublicationContainer;
 import org.gradle.api.Action;
 
-public class PublicationUtilsExtension {
+public interface PublicationUtilsExtension {
+    String NAME = "publications";
 
-    public static final String NAME = "publications";
+    VerifyPublicationContainer getVerify();
 
-    private VerifyPublicationExtension verifyPublicationExtension = new VerifyPublicationExtension();
-
-    public VerifyPublicationExtension getVerify() {
-        return verifyPublicationExtension;
-    }
-
-    public void verify(Action<VerifyPublicationExtension> verifyPublicationExtensionAction) {
-        verifyPublicationExtensionAction.execute(verifyPublicationExtension);
-    }
+    void verify(Action<VerifyPublicationContainer> verifyPublicationExtensionAction);
 }
-

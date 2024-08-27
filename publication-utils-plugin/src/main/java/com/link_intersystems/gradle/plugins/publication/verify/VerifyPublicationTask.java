@@ -1,5 +1,6 @@
 package com.link_intersystems.gradle.plugins.publication.verify;
 
+import com.link_intersystems.gradle.plugins.publication.ArtifactFilter;
 import com.link_intersystems.gradle.plugins.publication.ArtifactRepositoryDesc;
 import com.link_intersystems.gradle.plugins.publication.VerifyPublicationArtifactResult;
 import com.link_intersystems.gradle.plugins.publication.VerifyPublicationResult;
@@ -10,6 +11,7 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.TaskAction;
 
 import javax.inject.Inject;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,9 +34,14 @@ public class VerifyPublicationTask extends DefaultTask {
 
         List<VerifyPublicationArtifactResult> verifyResults = new ArrayList<>();
 
+        ArtifactFilter<ArtifactCoordinates> artifactFilter = verifyPublicationConfig.getFilter();
         for (ArtifactCoordinates artifactCoordinates : artifacts) {
-            boolean exists = artifactRepository.exists(artifactCoordinates);
-            verifyResults.add(new VerifyPublicationArtifactResult(artifactCoordinates, exists));
+            if (artifactFilter.accept(artifactCoordinates)) {
+                boolean exists = artifactRepository.exists(artifactCoordinates);
+                verifyResults.add(new VerifyPublicationArtifactResult(artifactCoordinates, exists));
+            } else {
+                getLogger().debug("Skip artifact '{}', because the artifact filter '{}' does not accept it", artifactCoordinates, artifactFilter);
+            }
         }
 
         VerifyMode verifyMode = verifyPublicationConfig.getMode();
