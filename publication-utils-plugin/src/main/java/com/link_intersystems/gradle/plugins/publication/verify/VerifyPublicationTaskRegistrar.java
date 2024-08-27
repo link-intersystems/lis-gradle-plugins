@@ -1,7 +1,5 @@
 package com.link_intersystems.gradle.plugins.publication.verify;
 
-import com.link_intersystems.gradle.plugins.publication.ArtifactFilter;
-import com.link_intersystems.gradle.publication.ArtifactCoordinates;
 import com.link_intersystems.gradle.publication.ArtifactPublication;
 import org.gradle.api.tasks.TaskContainer;
 import org.gradle.api.tasks.TaskProvider;
@@ -9,42 +7,24 @@ import org.gradle.api.tasks.TaskProvider;
 public class VerifyPublicationTaskRegistrar {
 
     private final TaskContainer tasks;
+    private final VerifyPublicationConfig config;
 
-    public VerifyPublicationTaskRegistrar(TaskContainer tasks) {
+    public VerifyPublicationTaskRegistrar(TaskContainer tasks, VerifyPublicationConfig config) {
         this.tasks = tasks;
+        this.config = config;
     }
 
     @SuppressWarnings("rawtypes")
-    public void registerTask(ArtifactPublication artifactPublication, VerifyPublication verifyPublication) {
-        VerifyPublicationConfig verifyPublicationConfig = getConfig(verifyPublication);
+    public void registerTask(ArtifactPublication artifactPublication) {
 
         String publicationName = artifactPublication.getArtifactName();
         String repositoryName = artifactPublication.getArtifactRepositoryName();
         String taskName = "verify" + capitalize(publicationName) + "PublicationTo" + capitalize(repositoryName) + "Repository";
 
-        TaskProvider<VerifyPublicationTask> publishingCheckTaskTaskProvider = tasks.register(taskName, VerifyPublicationTask.class, artifactPublication, verifyPublicationConfig);
+        TaskProvider<VerifyPublicationTask> publishingCheckTaskTaskProvider = tasks.register(taskName, VerifyPublicationTask.class, artifactPublication, config);
         publishingCheckTaskTaskProvider.configure(task -> {
             task.setGroup("publications");
         });
-    }
-
-    private VerifyPublicationConfig getConfig(VerifyPublication verifyPublication) {
-        return new VerifyPublicationConfig() {
-            @Override
-            public VerifyPublicationResultHandler getMode() {
-                VerifyPublicationResultHandler verifyPublicationResultHandler = verifyPublication.getResultHandler();
-                if (verifyPublicationResultHandler == null) {
-                    verifyPublicationResultHandler = VerifyPublicationResultHandlers.NONE_EXISTS;
-                }
-                return verifyPublicationResultHandler;
-            }
-
-            @Override
-            public ArtifactFilter<ArtifactCoordinates> getFilter() {
-                ArtifactFilter<ArtifactCoordinates> artifactFilter = (ArtifactFilter<ArtifactCoordinates>) verifyPublication.getArtifactFilter();
-                return artifactFilter == null ? ArtifactFilter.ALL : artifactFilter;
-            }
-        };
     }
 
     public static String capitalize(final String str) {
@@ -67,4 +47,5 @@ public class VerifyPublicationTaskRegistrar {
         }
         return new String(newCodePoints, 0, outOffset);
     }
+
 }

@@ -1,5 +1,6 @@
 package com.link_intersystems.gradle.publication;
 
+import com.link_intersystems.gradle.plugins.publication.VersionProvider;
 import org.gradle.api.artifacts.repositories.ArtifactRepository;
 import org.gradle.api.publish.Publication;
 
@@ -25,7 +26,7 @@ public class ArtifactPublicationProviders extends AbstractList<ArtifactPublicati
         return providers.size();
     }
 
-    public Optional<ArtifactPublication> createArtifactPublication(Publication publication, ArtifactRepository repository) {
-        return providers.stream().map(p -> p.tryCreateArtifactPublication(publication, repository)).findFirst();
+    public Optional<ArtifactPublication> createArtifactPublication(Publication publication, ArtifactRepository repository, VersionProvider versionProvider) {
+        return providers.stream().map(p -> p.tryCreateArtifactPublication(publication, repository, versionProvider)).findFirst();
     }
 }

@@ -1,6 +1,7 @@
 package com.link_intersystems.gradle.publication.maven;
 
 import com.link_intersystems.gradle.plugins.publication.ArtifactRepositoryDesc;
+import com.link_intersystems.gradle.plugins.publication.VersionProvider;
 import com.link_intersystems.gradle.publication.ArtifactCoordinates;
 import com.link_intersystems.gradle.publication.ArtifactPublication;
 import com.link_intersystems.gradle.publication.ArtifactRepository;
@@ -15,16 +16,18 @@ public class MavenArtifactPublication implements ArtifactPublication {
 
     private final MavenPublicationInternal mavenPublication;
     private final org.gradle.api.artifacts.repositories.MavenArtifactRepository mavenArtifactRepository;
+    private final VersionProvider versionProvider;
 
-    public MavenArtifactPublication(MavenPublicationInternal mavenPublication, org.gradle.api.artifacts.repositories.MavenArtifactRepository mavenArtifactRepository) {
+    public MavenArtifactPublication(MavenPublicationInternal mavenPublication, org.gradle.api.artifacts.repositories.MavenArtifactRepository mavenArtifactRepository, VersionProvider versionProvider) {
         this.mavenPublication = mavenPublication;
         this.mavenArtifactRepository = mavenArtifactRepository;
+        this.versionProvider = versionProvider;
     }
 
     @Override
     public List<? extends ArtifactCoordinates> getArtifacts() {
         MavenNormalizedPublication normalisedPublication = mavenPublication.asNormalisedPublication();
-        MavenArtifactCoordinatesFactory mavenArtifactCoordinatesFactory = new MavenArtifactCoordinatesFactory();
+        MavenArtifactCoordinatesFactory mavenArtifactCoordinatesFactory = new MavenArtifactCoordinatesFactory(versionProvider);
 
         List<MavenArtifactCoordinates> mavenArtifacts = new ArrayList<>();
 

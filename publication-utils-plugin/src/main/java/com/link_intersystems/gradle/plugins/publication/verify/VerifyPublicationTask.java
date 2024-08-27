@@ -34,6 +34,7 @@ public class VerifyPublicationTask extends DefaultTask {
         List<VerifyPublicationArtifactResult> verifyResults = new ArrayList<>();
 
         ArtifactFilter<ArtifactCoordinates> artifactFilter = verifyPublicationConfig.getFilter();
+
         for (ArtifactCoordinates artifactCoordinates : artifacts) {
             if (artifactFilter.accept(artifactCoordinates)) {
                 boolean exists = artifactRepository.exists(artifactCoordinates);

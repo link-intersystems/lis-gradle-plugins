@@ -1,9 +1,6 @@
 package com.link_intersystems.gradle.plugins.publication.utils;
 
-import com.link_intersystems.gradle.plugins.publication.verify.DefaultVerifyPublicationContainer;
-import com.link_intersystems.gradle.plugins.publication.verify.VerifyPublication;
-import com.link_intersystems.gradle.plugins.publication.verify.VerifyPublicationContainer;
-import com.link_intersystems.gradle.plugins.publication.verify.VerifyPublicationTaskRegistrar;
+import com.link_intersystems.gradle.plugins.publication.verify.*;
 import com.link_intersystems.gradle.plugins.publication.verify.maven.VerifyMavenPublication;
 import com.link_intersystems.gradle.plugins.publication.verify.maven.VerifyMavenPublicationFactory;
 import com.link_intersystems.gradle.publication.ArtifactPublication;
@@ -18,7 +15,6 @@ import org.gradle.api.internal.artifacts.dsl.DefaultRepositoryHandler;
 import org.gradle.api.publish.Publication;
 import org.gradle.api.publish.PublishingExtension;
 import org.gradle.internal.reflect.Instantiator;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,26 +59,37 @@ public class PublicationUtilsPlugin implements Plugin<Project> {
 
         ArtifactPublicationProviders providers = ArtifactPublicationProvider.getProviders();
 
-        VerifyPublicationTaskRegistrar taskRegistrar = new VerifyPublicationTaskRegistrar(project.getTasks());
 
         VerifyPublicationContainer verify = publicationUtilsExtension.getVerify();
         SortedMap<String, VerifyPublication> verifyPublications = verify.getAsMap();
         for (Map.Entry<String, VerifyPublication> verifyPublicationEntry : verifyPublications.entrySet()) {
             VerifyPublication verifyPublication = verifyPublicationEntry.getValue();
-            Publication publication = getPublication(project, verifyPublication);
+            VerifyPublicationConfig verifyPublicationConfig = new DefaultVerifyPublicationConfig(verifyPublication);
+            VerifyPublicationTaskRegistrar taskRegistrar = new VerifyPublicationTaskRegistrar(project.getTasks(), verifyPublicationConfig);
 
-            RepositoryHandler repositories = verifyPublication.getVerifyRepositories();
+            Publication publication = getPublication(project, verifyPublication);
+            RepositoryHandler repositories = getRepositories(project, verifyPublication);
 
             repositories.all(repository -> {
-                Optional<ArtifactPublication> provider = providers.createArtifactPublication(publication, repository);
-                provider.ifPresentOrElse(ap -> taskRegistrar.registerTask(ap, verifyPublication), () -> {
+                Optional<ArtifactPublication> provider = providers.createArtifactPublication(publication, repository, verifyPublicationConfig.getVersionProvider());
+                provider.ifPresentOrElse(taskRegistrar::registerTask, () -> {
                     logger.error("Can not create an ArtifactPublication for publication {} in repository {}. No ArtifactPublicationProvider available: {}", publication, repository, providers);
                 });
             });
         }
     }
 
-    private static @NotNull Publication getPublication(Project project, VerifyPublication verifyPublication) {
+    private static RepositoryHandler getRepositories(Project project, VerifyPublication verifyPublication) {
+        RepositoryHandler repositories = verifyPublication.getVerifyRepositories();
+
+        if (repositories.isEmpty()) {
+            repositories = project.getExtensions().getByType(PublishingExtension.class).getRepositories();
+        }
+
+        return repositories;
+    }
+
+    private static Publication getPublication(Project project, VerifyPublication verifyPublication) {
         Publication publication = verifyPublication.getPublication();
         if (publication == null) {
             publication = project.getExtensions().getByType(PublishingExtension.class).getPublications().getByName(verifyPublication.getName());

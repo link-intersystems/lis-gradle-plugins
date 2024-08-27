@@ -1,6 +1,7 @@
 package com.link_intersystems.gradle.plugins.publication.verify;
 
 import com.link_intersystems.gradle.plugins.publication.ArtifactFilter;
+import com.link_intersystems.gradle.plugins.publication.VersionProvider;
 import com.link_intersystems.gradle.publication.ArtifactCoordinates;
 import org.gradle.api.Action;
 import org.gradle.api.artifacts.dsl.RepositoryHandler;
@@ -13,6 +14,7 @@ public abstract class AbstractVerifyPublication<P extends Publication, T extends
     private VerifyPublicationResultHandler mode;
     private ArtifactFilter<T> artifactFilter;
     private P publication;
+    private VersionProvider versionProvider;
 
     public AbstractVerifyPublication(String name, RepositoryHandler repositories) {
         this.name = name;
@@ -58,4 +60,13 @@ public abstract class AbstractVerifyPublication<P extends Publication, T extends
         return artifactFilter;
     }
 
+    @Override
+    public VersionProvider getVersionProvider() {
+        return versionProvider;
+    }
+
+    @Override
+    public void setVersionProvider(VersionProvider versionProvider) {
+        this.versionProvider = versionProvider;
+    }
 }

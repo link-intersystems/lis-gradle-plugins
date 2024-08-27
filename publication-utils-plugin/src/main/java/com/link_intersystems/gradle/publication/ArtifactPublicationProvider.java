@@ -1,9 +1,13 @@
 package com.link_intersystems.gradle.publication;
 
+import com.link_intersystems.gradle.plugins.publication.VersionProvider;
 import org.gradle.api.artifacts.repositories.ArtifactRepository;
 import org.gradle.api.publish.Publication;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ServiceLoader;
 
 public abstract class ArtifactPublicationProvider {
 
@@ -15,5 +19,5 @@ public abstract class ArtifactPublicationProvider {
         return new ArtifactPublicationProviders(artifactPublicationProviders);
     }
 
-    public abstract ArtifactPublication tryCreateArtifactPublication(Publication publication, ArtifactRepository repository);
+    public abstract ArtifactPublication tryCreateArtifactPublication(Publication publication, ArtifactRepository repository, VersionProvider versionProvider);
 }

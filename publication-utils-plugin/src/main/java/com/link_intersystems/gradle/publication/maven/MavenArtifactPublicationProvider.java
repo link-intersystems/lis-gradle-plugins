@@ -1,5 +1,6 @@
 package com.link_intersystems.gradle.publication.maven;
 
+import com.link_intersystems.gradle.plugins.publication.VersionProvider;
 import com.link_intersystems.gradle.publication.ArtifactPublication;
 import com.link_intersystems.gradle.publication.ArtifactPublicationProvider;
 import org.gradle.api.artifacts.repositories.ArtifactRepository;
@@ -11,9 +12,9 @@ import org.gradle.api.publish.maven.internal.publication.MavenPublicationInterna
 public class MavenArtifactPublicationProvider extends ArtifactPublicationProvider {
 
     @Override
-    public ArtifactPublication tryCreateArtifactPublication(Publication publication, ArtifactRepository repository) {
+    public ArtifactPublication tryCreateArtifactPublication(Publication publication, ArtifactRepository repository, VersionProvider versionProvider) {
         if (supports(publication, repository)) {
-            return new MavenArtifactPublication((MavenPublicationInternal) publication, (MavenArtifactRepository) repository);
+            return new MavenArtifactPublication((MavenPublicationInternal) publication, (MavenArtifactRepository) repository, versionProvider);
         }
         return null;
     }
