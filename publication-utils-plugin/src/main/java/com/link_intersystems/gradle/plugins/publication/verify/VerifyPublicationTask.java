@@ -11,7 +11,6 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.TaskAction;
 
 import javax.inject.Inject;
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +43,7 @@ public class VerifyPublicationTask extends DefaultTask {
             }
         }
 
-        VerifyMode verifyMode = verifyPublicationConfig.getMode();
-        verifyMode.handle(new VerifyPublicationResult(repositoryDesc, verifyResults));
+        VerifyPublicationResultHandler verifyPublicationResultHandler = verifyPublicationConfig.getMode();
+        verifyPublicationResultHandler.handle(new VerifyPublicationResult(repositoryDesc, verifyResults));
     }
 }

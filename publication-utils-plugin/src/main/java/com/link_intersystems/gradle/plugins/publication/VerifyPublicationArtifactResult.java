@@ -5,11 +5,11 @@ import com.link_intersystems.gradle.publication.ArtifactCoordinates;
 public class VerifyPublicationArtifactResult {
 
     private ArtifactCoordinates artifactCoordinates;
-    private boolean verifyResult;
+    private boolean exists;
 
-    public VerifyPublicationArtifactResult(ArtifactCoordinates artifactCoordinates, boolean verifyResult) {
+    public VerifyPublicationArtifactResult(ArtifactCoordinates artifactCoordinates, boolean exists) {
         this.artifactCoordinates = artifactCoordinates;
-        this.verifyResult = verifyResult;
+        this.exists = exists;
     }
 
     public ArtifactCoordinates getArtifact() {
@@ -17,7 +17,12 @@ public class VerifyPublicationArtifactResult {
     }
 
     public boolean isSuccess() {
-        return verifyResult;
+        return exists;
+    }
+
+    @Override
+    public String toString() {
+        return artifactCoordinates + " " + (exists ? "exists" : "not exists");
     }
 }
 

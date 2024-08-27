@@ -5,7 +5,7 @@ import com.link_intersystems.gradle.publication.ArtifactCoordinates;
 
 public interface VerifyPublicationConfig {
 
-    public VerifyMode getMode();
+    public VerifyPublicationResultHandler getMode();
 
     public ArtifactFilter<ArtifactCoordinates> getFilter();
 }

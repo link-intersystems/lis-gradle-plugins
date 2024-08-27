@@ -6,13 +6,13 @@ import org.gradle.api.Action;
 import org.gradle.api.artifacts.dsl.RepositoryHandler;
 import org.gradle.api.publish.Publication;
 
-public abstract class AbstractVerifyPublication<T extends ArtifactCoordinates> implements VerifyPublication {
+public abstract class AbstractVerifyPublication<P extends Publication, T extends ArtifactCoordinates> implements VerifyPublication {
 
     protected final String name;
     protected RepositoryHandler repositories;
-    private Publication publication;
-    private VerifyMode mode;
+    private VerifyPublicationResultHandler mode;
     private ArtifactFilter<T> artifactFilter;
+    private P publication;
 
     public AbstractVerifyPublication(String name, RepositoryHandler repositories) {
         this.name = name;
@@ -23,11 +23,13 @@ public abstract class AbstractVerifyPublication<T extends ArtifactCoordinates> i
         return name;
     }
 
-    public void setMode(VerifyMode mode) {
+    @Override
+    public void setResultHandler(VerifyPublicationResultHandler mode) {
         this.mode = mode;
     }
 
-    public VerifyMode getMode() {
+    @Override
+    public VerifyPublicationResultHandler getResultHandler() {
         return mode;
     }
 
@@ -35,7 +37,7 @@ public abstract class AbstractVerifyPublication<T extends ArtifactCoordinates> i
         return publication;
     }
 
-    public void setPublication(Publication publication) {
+    public void setPublication(P publication) {
         this.publication = publication;
     }
 

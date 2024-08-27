@@ -7,7 +7,6 @@ import org.gradle.api.artifacts.dsl.RepositoryHandler;
 import org.gradle.api.publish.Publication;
 
 public interface VerifyPublication extends Named {
-    void setPublication(Publication publication);
 
     Publication getPublication();
 
@@ -15,9 +14,9 @@ public interface VerifyPublication extends Named {
 
     void verifyRepositories(Action<? super RepositoryHandler> configure);
 
-    void setMode(VerifyMode verifyMode);
+    void setResultHandler(VerifyPublicationResultHandler verifyPublicationResultHandler);
 
-    VerifyMode getMode();
+    VerifyPublicationResultHandler getResultHandler();
 
     ArtifactFilter<?> getArtifactFilter();
 

@@ -31,12 +31,12 @@ public class VerifyPublicationTaskRegistrar {
     private VerifyPublicationConfig getConfig(VerifyPublication verifyPublication) {
         return new VerifyPublicationConfig() {
             @Override
-            public VerifyMode getMode() {
-                VerifyMode verifyMode = verifyPublication.getMode();
-                if (verifyMode == null) {
-                    verifyMode = VerifyModes.NONE_EXISTS;
+            public VerifyPublicationResultHandler getMode() {
+                VerifyPublicationResultHandler verifyPublicationResultHandler = verifyPublication.getResultHandler();
+                if (verifyPublicationResultHandler == null) {
+                    verifyPublicationResultHandler = VerifyPublicationResultHandlers.NONE_EXISTS;
                 }
-                return verifyMode;
+                return verifyPublicationResultHandler;
             }
 
             @Override

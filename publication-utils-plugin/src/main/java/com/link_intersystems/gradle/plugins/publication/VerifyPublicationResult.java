@@ -2,21 +2,23 @@ package com.link_intersystems.gradle.plugins.publication;
 
 import java.util.List;
 
+import static java.util.Objects.requireNonNull;
+
 public class VerifyPublicationResult {
 
-    private List<VerifyPublicationArtifactResult> verifyPublicationArtifactResults;
+    private List<VerifyPublicationArtifactResult> artifactResults;
     private ArtifactRepositoryDesc artifactRepositoryDesc;
 
-    public VerifyPublicationResult(ArtifactRepositoryDesc repositoryDesc, List<VerifyPublicationArtifactResult> checkResults) {
-        this.verifyPublicationArtifactResults = checkResults;
-        this.artifactRepositoryDesc = repositoryDesc;
+    public VerifyPublicationResult(ArtifactRepositoryDesc repositoryDesc, List<VerifyPublicationArtifactResult> artifactResults) {
+        this.artifactResults = requireNonNull(artifactResults);
+        this.artifactRepositoryDesc = requireNonNull(repositoryDesc);
     }
 
     public ArtifactRepositoryDesc getArtifactRepositoryDesc() {
         return artifactRepositoryDesc;
     }
 
-    public List<VerifyPublicationArtifactResult> getArtifactCheckResults() {
-        return verifyPublicationArtifactResults;
+    public List<VerifyPublicationArtifactResult> getArtifactResults() {
+        return artifactResults;
     }
 }
