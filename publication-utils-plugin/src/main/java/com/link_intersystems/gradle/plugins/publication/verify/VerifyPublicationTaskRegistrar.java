@@ -1,27 +1,70 @@
 package com.link_intersystems.gradle.plugins.publication.verify;
 
 import com.link_intersystems.gradle.publication.ArtifactPublication;
+import com.link_intersystems.gradle.publication.ArtifactPublicationProviders;
+import org.gradle.api.Project;
+import org.gradle.api.artifacts.dsl.RepositoryHandler;
+import org.gradle.api.publish.Publication;
+import org.gradle.api.publish.PublishingExtension;
 import org.gradle.api.tasks.TaskContainer;
 import org.gradle.api.tasks.TaskProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Optional;
 
 public class VerifyPublicationTaskRegistrar {
 
-    private final TaskContainer tasks;
-    private final VerifyPublicationConfig config;
+    private Logger logger = LoggerFactory.getLogger(VerifyPublicationTaskRegistrar.class);
 
-    public VerifyPublicationTaskRegistrar(TaskContainer tasks, VerifyPublicationConfig config) {
-        this.tasks = tasks;
-        this.config = config;
+    private final Project project;
+
+    public VerifyPublicationTaskRegistrar(Project project) {
+        this.project = project;
+    }
+
+    public void registerTask(VerifyPublication verifyPublication) {
+        VerifyPublicationConfig verifyPublicationConfig = new VerifyPublicationConfig(verifyPublication);
+
+        Publication publication = getPublication(project, verifyPublication);
+        RepositoryHandler repositories = getRepositories(project, verifyPublication);
+        ArtifactPublicationProviders providers = ArtifactPublicationProviders.get();
+
+        repositories.all(repository -> {
+            Optional<ArtifactPublication> artifactPublicationOptional = providers.createArtifactPublication(publication, repository, verifyPublicationConfig.getVersionProvider());
+            artifactPublicationOptional.ifPresentOrElse(provider -> registerTask(provider, verifyPublicationConfig), () -> {
+                logger.error("Can not create an ArtifactPublication for publication {} in repository {}. No ArtifactPublicationProvider available: {}", publication, repository, providers);
+            });
+        });
+    }
+
+    private RepositoryHandler getRepositories(Project project, VerifyPublication verifyPublication) {
+        RepositoryHandler repositories = verifyPublication.getVerifyRepositories();
+
+        if (repositories.isEmpty()) {
+            repositories = project.getExtensions().getByType(PublishingExtension.class).getRepositories();
+        }
+
+        return repositories;
+    }
+
+    private Publication getPublication(Project project, VerifyPublication verifyPublication) {
+        Publication publication = verifyPublication.getPublication();
+        if (publication == null) {
+            publication = project.getExtensions().getByType(PublishingExtension.class).getPublications().getByName(verifyPublication.getName());
+        }
+        return publication;
     }
 
     @SuppressWarnings("rawtypes")
-    public void registerTask(ArtifactPublication artifactPublication) {
+    public void registerTask(ArtifactPublication artifactPublication, VerifyPublicationConfig verifyPublicationConfig) {
 
         String publicationName = artifactPublication.getArtifactName();
         String repositoryName = artifactPublication.getArtifactRepositoryName();
         String taskName = "verify" + capitalize(publicationName) + "PublicationTo" + capitalize(repositoryName) + "Repository";
 
-        TaskProvider<VerifyPublicationTask> publishingCheckTaskTaskProvider = tasks.register(taskName, VerifyPublicationTask.class, artifactPublication, config);
+        TaskContainer tasks = project.getTasks();
+        TaskProvider<VerifyPublicationTask> publishingCheckTaskTaskProvider = tasks.register(taskName, VerifyPublicationTask.class, artifactPublication, verifyPublicationConfig);
         publishingCheckTaskTaskProvider.configure(task -> {
             task.setGroup("publications");
         });
@@ -47,5 +90,4 @@ public class VerifyPublicationTaskRegistrar {
         }
         return new String(newCodePoints, 0, outOffset);
     }
-
 }
