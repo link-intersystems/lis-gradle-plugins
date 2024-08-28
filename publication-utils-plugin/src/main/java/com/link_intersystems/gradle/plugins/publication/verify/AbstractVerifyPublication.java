@@ -9,8 +9,8 @@ import org.gradle.api.publish.Publication;
 
 public abstract class AbstractVerifyPublication<P extends Publication, T extends ArtifactCoordinates> implements VerifyPublication {
 
-    protected final String name;
-    protected RepositoryHandler repositories;
+    private final String name;
+    private RepositoryHandler repositories;
     private VerifyPublicationResultHandler mode;
     private ArtifactFilter<T> artifactFilter;
     private P publication;
