@@ -64,7 +64,7 @@ public class PublicationUtilsPlugin implements Plugin<Project> {
         SortedMap<String, VerifyPublication> verifyPublications = verify.getAsMap();
         for (Map.Entry<String, VerifyPublication> verifyPublicationEntry : verifyPublications.entrySet()) {
             VerifyPublication verifyPublication = verifyPublicationEntry.getValue();
-            VerifyPublicationConfig verifyPublicationConfig = new DefaultVerifyPublicationConfig(verifyPublication);
+            VerifyPublicationConfig verifyPublicationConfig = new VerifyPublicationConfig(verifyPublication);
             VerifyPublicationTaskRegistrar taskRegistrar = new VerifyPublicationTaskRegistrar(project.getTasks(), verifyPublicationConfig);
 
             Publication publication = getPublication(project, verifyPublication);
