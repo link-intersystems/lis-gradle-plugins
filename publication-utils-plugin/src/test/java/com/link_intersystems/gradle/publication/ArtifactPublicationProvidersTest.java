@@ -4,11 +4,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ArtifactCoordinatesPublicationProviderTest {
+class ArtifactPublicationProvidersTest {
 
     @Test
     void getProviders() {
-        ArtifactPublicationProviders providers = ArtifactPublicationProvider.getProviders();
+        ArtifactPublicationProviders providers = ArtifactPublicationProviders.get();
         assertEquals(1, providers.size());
 
     }

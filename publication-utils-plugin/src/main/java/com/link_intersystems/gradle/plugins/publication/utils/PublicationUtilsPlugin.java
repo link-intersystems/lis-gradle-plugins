@@ -4,7 +4,6 @@ import com.link_intersystems.gradle.plugins.publication.verify.*;
 import com.link_intersystems.gradle.plugins.publication.verify.maven.VerifyMavenPublication;
 import com.link_intersystems.gradle.plugins.publication.verify.maven.VerifyMavenPublicationFactory;
 import com.link_intersystems.gradle.publication.ArtifactPublication;
-import com.link_intersystems.gradle.publication.ArtifactPublicationProvider;
 import com.link_intersystems.gradle.publication.ArtifactPublicationProviders;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
@@ -57,7 +56,7 @@ public class PublicationUtilsPlugin implements Plugin<Project> {
     private void registerPublicationCheckerTasks(Project project) {
         PublicationUtilsExtension publicationUtilsExtension = project.getExtensions().findByType(PublicationUtilsExtension.class);
 
-        ArtifactPublicationProviders providers = ArtifactPublicationProvider.getProviders();
+        ArtifactPublicationProviders providers = ArtifactPublicationProviders.get();
 
 
         VerifyPublicationContainer verify = publicationUtilsExtension.getVerify();
