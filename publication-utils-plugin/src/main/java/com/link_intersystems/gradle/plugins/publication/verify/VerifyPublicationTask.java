@@ -24,8 +24,8 @@ public class VerifyPublicationTask extends DefaultTask {
     }
 
     @TaskAction
-    public void checkPublishing() {
-        List<? extends ArtifactCoordinates> artifacts = artifactPublication.getArtifacts();
+    public void verifyPublication() {
+        List<? extends ArtifactCoordinates> artifacts = artifactPublication.getArtifactCoordinates();
         ArtifactRepository artifactRepository = artifactPublication.getArtifactRepository();
         ArtifactRepositoryDesc repositoryDesc = artifactPublication.getArtifactRepositoryDesc();
 

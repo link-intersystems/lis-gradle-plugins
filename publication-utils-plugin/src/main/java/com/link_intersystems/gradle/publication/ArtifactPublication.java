@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ArtifactPublication {
 
-    public List<? extends ArtifactCoordinates> getArtifacts();
+    public List<? extends ArtifactCoordinates> getArtifactCoordinates();
 
     public ArtifactRepository getArtifactRepository();
 

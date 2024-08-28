@@ -25,7 +25,7 @@ public class MavenArtifactPublication implements ArtifactPublication {
     }
 
     @Override
-    public List<? extends ArtifactCoordinates> getArtifacts() {
+    public List<? extends ArtifactCoordinates> getArtifactCoordinates() {
         MavenNormalizedPublication normalisedPublication = mavenPublication.asNormalisedPublication();
         MavenArtifactCoordinatesFactory mavenArtifactCoordinatesFactory = new MavenArtifactCoordinatesFactory(versionProvider);
 
