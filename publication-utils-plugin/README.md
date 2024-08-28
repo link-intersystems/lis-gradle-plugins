@@ -8,7 +8,15 @@
 The verify publication utils provide support for verifying the state of publication artifacts in remote repositories.
 
 The following configuration will create a `VerifyPublicationTask` for the publication named "maven" that verifies
-`VerifyMavenPublication`s.
+`VerifyMavenPublication`s. The tasks will be added to the publications group.
+
+```shell
+$ ./gradlew tasks
+
+Publications tasks
+------------------
+verifyMavenPublicationToMavenRepoRepository
+```
 
 The task will verify if the publication's artifacts exist in all remote repositories that are configure for the
 publishing.
