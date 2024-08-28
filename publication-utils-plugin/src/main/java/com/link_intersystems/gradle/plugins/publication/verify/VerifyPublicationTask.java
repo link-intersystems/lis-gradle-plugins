@@ -2,8 +2,6 @@ package com.link_intersystems.gradle.plugins.publication.verify;
 
 import com.link_intersystems.gradle.plugins.publication.ArtifactFilter;
 import com.link_intersystems.gradle.plugins.publication.ArtifactRepositoryDesc;
-import com.link_intersystems.gradle.plugins.publication.VerifyPublicationArtifactResult;
-import com.link_intersystems.gradle.plugins.publication.VerifyPublicationResult;
 import com.link_intersystems.gradle.publication.ArtifactCoordinates;
 import com.link_intersystems.gradle.publication.ArtifactPublication;
 import com.link_intersystems.gradle.publication.ArtifactRepository;

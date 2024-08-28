@@ -1,7 +1,5 @@
 package com.link_intersystems.gradle.plugins.publication.verify;
 
-import com.link_intersystems.gradle.plugins.publication.VerifyPublicationArtifactResult;
-import com.link_intersystems.gradle.plugins.publication.VerifyPublicationResult;
 import org.gradle.api.GradleException;
 import org.gradle.api.logging.Logger;
 import org.slf4j.LoggerFactory;
