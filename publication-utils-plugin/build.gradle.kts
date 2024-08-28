@@ -19,7 +19,7 @@ gradlePlugin {
     plugins {
         create("publication-utils") {
             id = "com.link-intersystems.gradle.publication-utils"
-            implementationClass = "com.link_intersystems.gradle.plugins.publication.utils.PublicationUtilsPlugin"
+            implementationClass = "com.link_intersystems.gradle.publication.plugins.PublicationUtilsPlugin"
             displayName = "Publication Utils Plugin"
             description =
                 "A collection of utility tasks to deal with publications related stuff like checking if publications are already published to a remote repository."

@@ -64,7 +64,7 @@ publications {
 ```
 
 `verifyRepositories` is a [
-`MavenVerifyRepositoryHandler`](src/main/java/com/link_intersystems/gradle/plugins/publication/verify/maven/MavenVerifyRepositoryHandler.java),
+`MavenVerifyRepositoryHandler`](src/main/java/com/link_intersystems/gradle/publication/plugins/verify/maven/MavenVerifyRepositoryHandler.java),
 the api can be used the same way as the [
 `RepositoryHandler`](https://docs.gradle.org/current/javadoc/org/gradle/api/artifacts/dsl/RepositoryHandler.html),
 except that the types of repositories you can create depend on the verification type you use. In the example above only

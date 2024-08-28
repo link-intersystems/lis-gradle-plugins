@@ -1,6 +1,6 @@
 package com.link_intersystems.gradle.publication;
 
-import com.link_intersystems.gradle.plugins.publication.ArtifactRepositoryDesc;
+import com.link_intersystems.gradle.publication.plugins.ArtifactRepositoryDesc;
 
 import java.util.List;
 

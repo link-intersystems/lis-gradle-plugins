@@ -1,4 +1,4 @@
-package com.link_intersystems.gradle.plugins.publication;
+package com.link_intersystems.gradle.publication.plugins;
 
 import com.link_intersystems.gradle.publication.ArtifactCoordinates;
 

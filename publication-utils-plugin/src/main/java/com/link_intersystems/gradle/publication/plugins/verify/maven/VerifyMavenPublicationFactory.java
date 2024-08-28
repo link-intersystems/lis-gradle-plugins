@@ -1,4 +1,4 @@
-package com.link_intersystems.gradle.plugins.publication.verify.maven;
+package com.link_intersystems.gradle.publication.plugins.verify.maven;
 
 import org.gradle.api.NamedDomainObjectFactory;
 import org.gradle.api.artifacts.dsl.RepositoryHandler;

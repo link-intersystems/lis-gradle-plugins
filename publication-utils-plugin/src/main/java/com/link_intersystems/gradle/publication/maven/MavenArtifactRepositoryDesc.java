@@ -1,6 +1,6 @@
 package com.link_intersystems.gradle.publication.maven;
 
-import com.link_intersystems.gradle.plugins.publication.ArtifactRepositoryDesc;
+import com.link_intersystems.gradle.publication.plugins.ArtifactRepositoryDesc;
 
 import java.net.URI;
 

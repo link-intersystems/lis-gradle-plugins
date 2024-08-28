@@ -1,4 +1,4 @@
-package com.link_intersystems.gradle.plugins.publication.verify;
+package com.link_intersystems.gradle.publication.plugins.verify;
 
 import org.gradle.api.GradleException;
 import org.gradle.api.logging.Logger;

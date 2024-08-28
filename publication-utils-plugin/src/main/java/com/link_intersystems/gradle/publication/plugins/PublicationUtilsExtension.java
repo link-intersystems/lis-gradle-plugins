@@ -1,4 +1,4 @@
-package com.link_intersystems.gradle.plugins.publication.utils;
+package com.link_intersystems.gradle.publication.plugins;
 
 import org.gradle.api.plugins.ExtensionAware;
 

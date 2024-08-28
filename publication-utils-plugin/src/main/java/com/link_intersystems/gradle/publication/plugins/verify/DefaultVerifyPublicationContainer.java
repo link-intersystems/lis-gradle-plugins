@@ -1,4 +1,4 @@
-package com.link_intersystems.gradle.plugins.publication.verify;
+package com.link_intersystems.gradle.publication.plugins.verify;
 
 import org.gradle.api.internal.CollectionCallbackActionDecorator;
 import org.gradle.api.internal.DefaultPolymorphicDomainObjectContainer;

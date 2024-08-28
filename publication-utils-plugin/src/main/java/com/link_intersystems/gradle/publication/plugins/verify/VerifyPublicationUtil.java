@@ -1,10 +1,10 @@
-package com.link_intersystems.gradle.plugins.publication.verify;
+package com.link_intersystems.gradle.publication.plugins.verify;
 
-import com.link_intersystems.gradle.plugins.publication.utils.PublicationServices;
-import com.link_intersystems.gradle.plugins.publication.utils.PublicationUtil;
-import com.link_intersystems.gradle.plugins.publication.utils.PublicationUtilsExtension;
-import com.link_intersystems.gradle.plugins.publication.verify.maven.VerifyMavenPublication;
-import com.link_intersystems.gradle.plugins.publication.verify.maven.VerifyMavenPublicationFactory;
+import com.link_intersystems.gradle.publication.plugins.PublicationServices;
+import com.link_intersystems.gradle.publication.plugins.PublicationUtil;
+import com.link_intersystems.gradle.publication.plugins.PublicationUtilsExtension;
+import com.link_intersystems.gradle.publication.plugins.verify.maven.VerifyMavenPublication;
+import com.link_intersystems.gradle.publication.plugins.verify.maven.VerifyMavenPublicationFactory;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.dsl.RepositoryHandler;
 import org.gradle.api.plugins.ExtensionContainer;

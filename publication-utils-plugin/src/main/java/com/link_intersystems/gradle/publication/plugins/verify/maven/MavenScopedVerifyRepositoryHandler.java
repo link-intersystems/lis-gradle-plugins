@@ -1,4 +1,4 @@
-package com.link_intersystems.gradle.plugins.publication.verify.maven;
+package com.link_intersystems.gradle.publication.plugins.verify.maven;
 
 import groovy.lang.Closure;
 import org.gradle.api.Action;

@@ -1,4 +1,4 @@
-package com.link_intersystems.gradle.plugins.publication.verify;
+package com.link_intersystems.gradle.publication.plugins.verify;
 
 import com.link_intersystems.gradle.publication.ArtifactPublication;
 import com.link_intersystems.gradle.publication.ArtifactPublicationProviders;

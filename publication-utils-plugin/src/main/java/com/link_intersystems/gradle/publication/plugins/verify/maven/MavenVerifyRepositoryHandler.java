@@ -1,6 +1,6 @@
-package com.link_intersystems.gradle.plugins.publication.verify.maven;
+package com.link_intersystems.gradle.publication.plugins.verify.maven;
 
-import com.link_intersystems.gradle.plugins.publication.verify.VerifyRepositoryHandler;
+import com.link_intersystems.gradle.publication.plugins.verify.VerifyRepositoryHandler;
 import groovy.lang.Closure;
 import org.gradle.api.Action;
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository;
