@@ -1,6 +1,5 @@
 package com.link_intersystems.gradle.publication;
 
-import com.link_intersystems.gradle.plugins.publication.VersionProvider;
 import org.gradle.api.artifacts.repositories.ArtifactRepository;
 import org.gradle.api.publish.Publication;
 

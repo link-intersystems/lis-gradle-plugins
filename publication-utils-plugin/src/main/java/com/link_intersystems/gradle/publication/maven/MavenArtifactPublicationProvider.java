@@ -1,8 +1,8 @@
 package com.link_intersystems.gradle.publication.maven;
 
-import com.link_intersystems.gradle.plugins.publication.VersionProvider;
 import com.link_intersystems.gradle.publication.ArtifactPublication;
 import com.link_intersystems.gradle.publication.ArtifactPublicationProvider;
+import com.link_intersystems.gradle.publication.VersionProvider;
 import org.gradle.api.artifacts.repositories.ArtifactRepository;
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository;
 import org.gradle.api.publish.Publication;

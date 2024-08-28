@@ -2,7 +2,10 @@ package com.link_intersystems.gradle.publication.maven;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.text.*;
+import java.text.FieldPosition;
+import java.text.Format;
+import java.text.ParseException;
+import java.text.ParsePosition;
 
 public class MavenArtifactCoordinatesFormat extends Format {
 

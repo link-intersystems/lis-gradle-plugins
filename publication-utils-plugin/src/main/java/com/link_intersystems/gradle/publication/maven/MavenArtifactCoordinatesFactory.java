@@ -1,6 +1,7 @@
 package com.link_intersystems.gradle.publication.maven;
 
-import com.link_intersystems.gradle.plugins.publication.VersionProvider;
+import com.link_intersystems.gradle.publication.ArtifactDesc;
+import com.link_intersystems.gradle.publication.VersionProvider;
 import org.gradle.api.publish.maven.MavenPublication;
 
 public class MavenArtifactCoordinatesFactory {
@@ -15,7 +16,7 @@ public class MavenArtifactCoordinatesFactory {
         String groupId = publication.getGroupId();
         String artifactId = publication.getArtifactId();
         String version = publication.getVersion();
-        version = versionProvider.getVersion(groupId, artifactId, version);
+        version = versionProvider.getVersion(new ArtifactDesc(groupId, artifactId, version));
         String classifier = mavenArtifact.getClassifier();
         String extension = mavenArtifact.getExtension();
 

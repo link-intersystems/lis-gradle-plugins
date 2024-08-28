@@ -1,4 +1,4 @@
-package com.link_intersystems.gradle.plugins.publication;
+package com.link_intersystems.gradle.publication;
 
 /**
  * Common {@link VersionProvider}s.
@@ -8,7 +8,7 @@ public class VersionProviders {
     /**
      * Returns the same version as it gets passed.
      */
-    public static final VersionProvider CURRENT_VERSION = (group, name, version) -> version;
+    public static final VersionProvider CURRENT_VERSION = ArtifactDesc::getVersion;
 
     /**
      * Provides the release version by cutting of the -SNAPSHOT from the version if any is present.
@@ -18,12 +18,12 @@ public class VersionProviders {
         public static final String SNAPSHOT_SUFFIX = "-SNAPSHOT";
 
         @Override
-        public String getVersion(String group, String name, String version) {
-            if (version.endsWith(SNAPSHOT_SUFFIX)) {
-                version = version.substring(0, version.length() - SNAPSHOT_SUFFIX.length());
+        public String getVersion(ArtifactDesc artifact) {
+            if (artifact.getVersion().endsWith(SNAPSHOT_SUFFIX)) {
+                artifact.setVersion(artifact.getVersion().substring(0, artifact.getVersion().length() - SNAPSHOT_SUFFIX.length()));
             }
 
-            return version;
+            return artifact.getVersion();
         }
     };
 }

@@ -57,7 +57,7 @@ the same api that the publishing plugin provides. Thus, you can configure any re
 ### Version provider
 
 Sometimes you don't want to check the current project artifacts version. Instead, you want to verify another version.
-For this purpose you can specify a `VersionProvider`. E.g. if you want to check if the release version of the current
+For this purpose you can specify a [`VersionProvider`](src/main/java/com/link_intersystems/gradle/publication/VersionProvider.java). E.g. if you want to check if the release version of the current
 snapshot version already exists.
 
 ```kotlin
@@ -70,14 +70,14 @@ publications {
 }
 ```
 
-But feel free to implement your own `VersionProvider`
+But feel free to implement your own [`VersionProvider`](src/main/java/com/link_intersystems/gradle/publication/VersionProvider.java):   
 
 ```kotlin
 publications {
     verify {
         create<VerifyMavenPublication>("maven") {
             // A fixed version provider
-            versionProvider = VersionProvider { group, name, version ->
+            versionProvider = VersionProvider { _ -> // parameter unused rename to use it
                 "1.0.0"
             }
         }

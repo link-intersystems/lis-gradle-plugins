@@ -1,7 +1,7 @@
 package com.link_intersystems.gradle.plugins.publication.verify;
 
 import com.link_intersystems.gradle.plugins.publication.ArtifactFilter;
-import com.link_intersystems.gradle.plugins.publication.VersionProvider;
+import com.link_intersystems.gradle.publication.VersionProvider;
 import org.gradle.api.Action;
 import org.gradle.api.Named;
 import org.gradle.api.artifacts.dsl.RepositoryHandler;
