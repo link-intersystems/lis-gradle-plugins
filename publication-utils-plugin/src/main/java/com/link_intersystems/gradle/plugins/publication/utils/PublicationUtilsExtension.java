@@ -1,12 +1,8 @@
 package com.link_intersystems.gradle.plugins.publication.utils;
 
-import com.link_intersystems.gradle.plugins.publication.verify.VerifyPublicationContainer;
-import org.gradle.api.Action;
+import org.gradle.api.plugins.ExtensionAware;
 
-public interface PublicationUtilsExtension {
+public interface PublicationUtilsExtension extends ExtensionAware {
     String NAME = "publications";
 
-    VerifyPublicationContainer getVerify();
-
-    void verify(Action<VerifyPublicationContainer> verifyPublicationExtensionAction);
 }
