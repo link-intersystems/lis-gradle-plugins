@@ -12,6 +12,9 @@ import org.gradle.api.plugins.ExtensionContainer;
 import java.util.Map;
 import java.util.SortedMap;
 
+/**
+ * A publication util that can verify if artifacts exist in remote repositories.
+ */
 public class VerifyPublicationUtil implements PublicationUtil {
 
     @Override
