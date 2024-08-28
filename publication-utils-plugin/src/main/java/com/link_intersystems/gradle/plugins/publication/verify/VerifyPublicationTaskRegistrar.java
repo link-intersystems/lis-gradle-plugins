@@ -3,7 +3,7 @@ package com.link_intersystems.gradle.plugins.publication.verify;
 import com.link_intersystems.gradle.publication.ArtifactPublication;
 import com.link_intersystems.gradle.publication.ArtifactPublicationProviders;
 import org.gradle.api.Project;
-import org.gradle.api.artifacts.dsl.RepositoryHandler;
+import org.gradle.api.artifacts.repositories.ArtifactRepository;
 import org.gradle.api.publish.Publication;
 import org.gradle.api.publish.PublishingExtension;
 import org.gradle.api.tasks.TaskContainer;
@@ -11,7 +11,9 @@ import org.gradle.api.tasks.TaskProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class VerifyPublicationTaskRegistrar {
 
@@ -27,22 +29,24 @@ public class VerifyPublicationTaskRegistrar {
         VerifyPublicationConfig verifyPublicationConfig = new VerifyPublicationConfig(verifyPublication);
 
         Publication publication = getPublication(project, verifyPublication);
-        RepositoryHandler repositories = getRepositories(project, verifyPublication);
+        List<ArtifactRepository> repositories = getRepositories(project, verifyPublication);
         ArtifactPublicationProviders providers = ArtifactPublicationProviders.get();
 
-        repositories.all(repository -> {
+        for (ArtifactRepository repository : repositories) {
             Optional<ArtifactPublication> artifactPublicationOptional = providers.createArtifactPublication(publication, repository, verifyPublicationConfig.getVersionProvider());
             artifactPublicationOptional.ifPresentOrElse(provider -> registerTask(provider, verifyPublicationConfig), () -> {
                 logger.error("Can not create an ArtifactPublication for publication {} in repository {}. No ArtifactPublicationProvider available: {}", publication, repository, providers);
             });
-        });
+        }
     }
 
-    private RepositoryHandler getRepositories(Project project, VerifyPublication verifyPublication) {
-        RepositoryHandler repositories = verifyPublication.getVerifyRepositories();
+    private List<ArtifactRepository> getRepositories(Project project, VerifyPublication verifyPublication) {
+        VerifyRepositoryHandler verifyRepositoryHandler = verifyPublication.getVerifyRepositories();
+
+        List<ArtifactRepository> repositories = verifyRepositoryHandler.getArtifactRepositories();
 
         if (repositories.isEmpty()) {
-            repositories = project.getExtensions().getByType(PublishingExtension.class).getRepositories();
+            repositories = project.getExtensions().getByType(PublishingExtension.class).getRepositories().stream().collect(Collectors.toList());
         }
 
         return repositories;

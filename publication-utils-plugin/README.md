@@ -1,13 +1,19 @@
 # Publication Utils Plugin [![Maven Central Version](https://img.shields.io/maven-central/v/com.link-intersystems.gradle.publication-utils/com.link-intersystems.gradle.publication-utils.gradle.plugin)](https://mvnrepository.com/artifactCoordinates/com.link-intersystems.gradle.publication-utils)
 
+> [!NOTE]
+> Currently only Maven publications are supported.
+
 ## Verify Publications
 
 The verify publication utils provide support for verifying the state of publication artifacts in remote repositories.
 
-The following configuration will create a `VerifyPublicationTask` for the publication named "maven".
-It will verify if the publication's artifacts exist in all remote repositories that are configure for the publishing.
-The task will fail if the artifacts exists. But there are several options to configure the `VerifyPublicationTask`
-that you can read about below this simple example.
+The following configuration will create a `VerifyPublicationTask` for the publication named "maven" that verifies
+`VerifyMavenPublication`s.
+
+The task will verify if the publication's artifacts exist in all remote repositories that are configure for the
+publishing.
+The task will fail if the artifacts exists. But there are several options to configure this behaviour.
+Read more about the configuration options in the section below.
 
 ```kotlin
 // build.gradle.kts
@@ -50,14 +56,19 @@ publications {
 ```
 
 `verifyRepositories` is a [
+`MavenVerifyRepositoryHandler`](src/main/java/com/link_intersystems/gradle/plugins/publication/verify/maven/MavenVerifyRepositoryHandler.java),
+the api can be used the same way as the [
 `RepositoryHandler`](https://docs.gradle.org/current/javadoc/org/gradle/api/artifacts/dsl/RepositoryHandler.html),
-the same api that the publishing plugin provides. Thus, you can configure any repositories that you can configure with
-`publishing.repositories`.
+except that the types of repositories you can create depend on the verification type you use. In the example above only
+maven
+repositories can be created.
 
 ### Version provider
 
 Sometimes you don't want to check the current project artifacts version. Instead, you want to verify another version.
-For this purpose you can specify a [`VersionProvider`](src/main/java/com/link_intersystems/gradle/publication/VersionProvider.java). E.g. if you want to check if the release version of the current
+For this purpose you can specify a [
+`VersionProvider`](src/main/java/com/link_intersystems/gradle/publication/VersionProvider.java). E.g. if you want to
+check if the release version of the current
 snapshot version already exists.
 
 ```kotlin
@@ -70,7 +81,8 @@ publications {
 }
 ```
 
-But feel free to implement your own [`VersionProvider`](src/main/java/com/link_intersystems/gradle/publication/VersionProvider.java):   
+But feel free to implement your own [
+`VersionProvider`](src/main/java/com/link_intersystems/gradle/publication/VersionProvider.java):
 
 ```kotlin
 publications {

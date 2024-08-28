@@ -3,22 +3,19 @@ package com.link_intersystems.gradle.plugins.publication.verify;
 import com.link_intersystems.gradle.plugins.publication.ArtifactFilter;
 import com.link_intersystems.gradle.publication.ArtifactCoordinates;
 import com.link_intersystems.gradle.publication.VersionProvider;
-import org.gradle.api.Action;
-import org.gradle.api.artifacts.dsl.RepositoryHandler;
 import org.gradle.api.publish.Publication;
 
 public abstract class AbstractVerifyPublication<P extends Publication, T extends ArtifactCoordinates> implements VerifyPublication {
 
     private final String name;
-    private RepositoryHandler repositories;
+    private VerifyRepositoryHandler repositories;
     private VerifyPublicationResultHandler mode;
     private ArtifactFilter<T> artifactFilter;
     private P publication;
     private VersionProvider versionProvider;
 
-    public AbstractVerifyPublication(String name, RepositoryHandler repositories) {
+    public AbstractVerifyPublication(String name) {
         this.name = name;
-        this.repositories = repositories;
     }
 
     public String getName() {
@@ -41,14 +38,6 @@ public abstract class AbstractVerifyPublication<P extends Publication, T extends
 
     public void setPublication(P publication) {
         this.publication = publication;
-    }
-
-    public RepositoryHandler getVerifyRepositories() {
-        return repositories;
-    }
-
-    public void verifyRepositories(Action<? super RepositoryHandler> configure) {
-        configure.execute(getVerifyRepositories());
     }
 
     public void setArtifactFilter(ArtifactFilter<T> artifactFilter) {
