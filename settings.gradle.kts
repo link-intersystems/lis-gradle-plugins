@@ -22,7 +22,7 @@ dependencyResolutionManagement {
 dependencyResolutionManagement {
     versionCatalogs {
         create("lis") {
-            version("lisGradleCommonsVersion", "0.0.4")
+            version("lisGradleCommonsVersion", "0.0.6")
 
             library(
                 "platform",
