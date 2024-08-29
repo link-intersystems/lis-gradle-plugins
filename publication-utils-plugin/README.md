@@ -1,4 +1,4 @@
-# Publication Utils Plugin [![Maven Central Version](https://img.shields.io/maven-central/v/com.link-intersystems.gradle.publication-utils/com.link-intersystems.gradle.publication-utils.gradle.plugin)](https://mvnrepository.com/artifactCoordinates/com.link-intersystems.gradle.publication-utils)
+# Publication Utils Plugin [![Gradle Plugin Portal Version](https://img.shields.io/gradle-plugin-portal/v/com.link-intersystems.gradle.publication-utils)](https://plugins.gradle.org/plugin/com.link-intersystems.gradle.publication-utils) [![Maven Central Version](https://img.shields.io/maven-central/v/com.link-intersystems.gradle.publication-utils/com.link-intersystems.gradle.publication-utils.gradle.plugin)](https://mvnrepository.com/artifactCoordinates/com.link-intersystems.gradle.publication-utils)
 
 > [!NOTE]
 > Currently only Maven publications are supported.

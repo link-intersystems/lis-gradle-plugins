@@ -1,4 +1,4 @@
-# Git Plugin [![Maven Central Version](https://img.shields.io/maven-central/v/com.link-intersystems.gradle.git/com.link-intersystems.gradle.git.gradle.plugin)](https://mvnrepository.com/artifactCoordinates/com.link-intersystems.gradle.git)
+# Git Plugin [![Gradle Plugin Portal Version](https://img.shields.io/gradle-plugin-portal/v/com.link-intersystems.gradle.git)](https://plugins.gradle.org/plugin/com.link-intersystems.gradle.git) [![Maven Central Version](https://img.shields.io/maven-central/v/com.link-intersystems.gradle.git/com.link-intersystems.gradle.git.gradle.plugin)](https://mvnrepository.com/artifactCoordinates/com.link-intersystems.gradle.git)
 
 The Git plugin provides extension to Gradle projects so that you can access git information
 and use [JGit's procelain api](https://archive.eclipse.org/jgit/docs/jgit-3.2.0.201312181205-r/apidocs/org/eclipse/jgit/api/Git.html). Take a look at examples [here](https://github.com/centic9/jgit-cookbook/tree/master/src/main/java/org/dstadler/jgit/porcelain)
