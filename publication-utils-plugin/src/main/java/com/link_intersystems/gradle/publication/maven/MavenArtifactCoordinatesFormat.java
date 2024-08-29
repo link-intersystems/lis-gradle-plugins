@@ -80,11 +80,24 @@ public class MavenArtifactCoordinatesFormat extends Format {
         }
 
         if (pos.getErrorIndex() != -1) {
-            String message = "Missing " + cords.nextPartName();
+            String message = createExceptionMessage(cords);
             throw new ParseException(message, pos.getErrorIndex());
         }
 
         return cords.build();
+    }
+
+    private static @NotNull String createExceptionMessage(ArtifactCoordinates cords) {
+        String partName = cords.nextPartName();
+
+        String message;
+        if (partName == null) {
+            message = "unknown part";
+        } else {
+            message = "Missing " + partName;
+        }
+
+        return message;
     }
 
     private static class ArtifactCoordinates {
@@ -105,7 +118,7 @@ public class MavenArtifactCoordinatesFormat extends Format {
         }
 
         public String nextPartName() {
-            return partsIndex < parts.length ? partNames[partsIndex] : "unknown part";
+            return partsIndex < parts.length ? partNames[partsIndex] : null;
         }
 
         public MavenArtifactCoordinates build() {

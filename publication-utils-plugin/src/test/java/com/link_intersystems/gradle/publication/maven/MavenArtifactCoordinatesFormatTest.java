@@ -70,49 +70,49 @@ class MavenArtifactCoordinatesFormatTest {
     void parseEmpty() {
         ParseException parseException = assertThrows(ParseException.class, () -> format.parse(""));
         assertEquals(0, parseException.getErrorOffset());
-        assertEquals("groupId", parseException.getLocalizedMessage());
+        assertEquals("Missing groupId", parseException.getLocalizedMessage());
     }
 
     @Test
     void parseMissingArtifactId() {
         ParseException parseException = assertThrows(ParseException.class, () -> format.parse("groupId"));
         assertEquals("groupId".length(), parseException.getErrorOffset());
-        assertEquals("artifactId", parseException.getLocalizedMessage());
+        assertEquals("Missing artifactId", parseException.getLocalizedMessage());
     }
 
     @Test
     void parseMissingArtifactIdWithSeparator() {
         ParseException parseException = assertThrows(ParseException.class, () -> format.parse("groupId:"));
         assertEquals("groupId:".length(), parseException.getErrorOffset());
-        assertEquals("artifactId", parseException.getLocalizedMessage());
+        assertEquals("Missing artifactId", parseException.getLocalizedMessage());
     }
 
     @Test
     void parseMissingVersion() {
         ParseException parseException = assertThrows(ParseException.class, () -> format.parse("groupId:artifactId"));
         assertEquals("groupId:artifactId".length(), parseException.getErrorOffset());
-        assertEquals("version", parseException.getLocalizedMessage());
+        assertEquals("Missing version", parseException.getLocalizedMessage());
     }
 
     @Test
     void parseMissingVersionWithSeparator() {
         ParseException parseException = assertThrows(ParseException.class, () -> format.parse("groupId:artifactId:"));
         assertEquals("groupId:artifactId:".length(), parseException.getErrorOffset());
-        assertEquals("version", parseException.getLocalizedMessage());
+        assertEquals("Missing version", parseException.getLocalizedMessage());
     }
 
     @Test
     void parseMissingExtension() {
         ParseException parseException = assertThrows(ParseException.class, () -> format.parse("groupId:artifactId:version"));
         assertEquals("groupId:artifactId:version".length(), parseException.getErrorOffset());
-        assertEquals("extension", parseException.getLocalizedMessage());
+        assertEquals("Missing extension", parseException.getLocalizedMessage());
     }
 
     @Test
     void parseMissingExtensionWithSeparator() {
         ParseException parseException = assertThrows(ParseException.class, () -> format.parse("groupId:artifactId:version:"));
         assertEquals("groupId:artifactId:version:".length(), parseException.getErrorOffset());
-        assertEquals("extension", parseException.getLocalizedMessage());
+        assertEquals("Missing extension", parseException.getLocalizedMessage());
     }
 
 }
