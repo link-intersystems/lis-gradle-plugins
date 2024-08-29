@@ -6,20 +6,26 @@ import java.net.URI;
 
 public class MavenArtifactRepositoryDesc implements ArtifactRepositoryDesc {
 
-    private org.gradle.api.artifacts.repositories.MavenArtifactRepository mavenArtifactRepository;
+    public static MavenArtifactRepositoryDesc of(org.gradle.api.artifacts.repositories.MavenArtifactRepository mavenArtifactRepository) {
+        return mavenArtifactRepository == null ? null : new MavenArtifactRepositoryDesc(mavenArtifactRepository.getName(), mavenArtifactRepository.getUrl());
+    }
 
-    public MavenArtifactRepositoryDesc(org.gradle.api.artifacts.repositories.MavenArtifactRepository mavenArtifactRepository) {
-        this.mavenArtifactRepository = mavenArtifactRepository;
+    private String name;
+    private URI url;
+
+    public MavenArtifactRepositoryDesc(String name, URI url) {
+        this.name = name;
+        this.url = url;
     }
 
     @Override
     public String getName() {
-        return mavenArtifactRepository.getName();
+        return name;
     }
 
     @Override
     public URI getUrl() {
-        return mavenArtifactRepository.getUrl();
+        return url;
     }
 
     @Override

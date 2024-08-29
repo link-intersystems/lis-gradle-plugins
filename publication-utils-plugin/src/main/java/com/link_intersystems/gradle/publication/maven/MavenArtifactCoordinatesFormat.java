@@ -80,8 +80,7 @@ public class MavenArtifactCoordinatesFormat extends Format {
         }
 
         if (pos.getErrorIndex() != -1) {
-            String message = cords.nextPartName();
-            ;
+            String message = "Missing " + cords.nextPartName();
             throw new ParseException(message, pos.getErrorIndex());
         }
 

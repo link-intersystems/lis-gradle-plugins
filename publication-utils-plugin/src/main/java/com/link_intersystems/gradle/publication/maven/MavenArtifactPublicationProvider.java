@@ -14,7 +14,7 @@ public class MavenArtifactPublicationProvider extends ArtifactPublicationProvide
     @Override
     public ArtifactPublication tryCreateArtifactPublication(Publication publication, ArtifactRepository repository, VersionProvider versionProvider) {
         if (supports(publication, repository)) {
-            return new MavenArtifactPublication((MavenPublicationInternal) publication, (MavenArtifactRepository) repository, versionProvider);
+            return MavenArtifactPublication.of((MavenPublicationInternal) publication, (MavenArtifactRepository) repository, versionProvider);
         }
         return null;
     }

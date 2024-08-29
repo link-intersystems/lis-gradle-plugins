@@ -5,6 +5,8 @@ import groovy.lang.Closure;
 import org.gradle.api.Action;
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository;
 
+import java.util.List;
+
 public interface MavenVerifyRepositoryHandler extends VerifyRepositoryHandler {
     MavenArtifactRepository mavenCentral();
 
@@ -17,4 +19,6 @@ public interface MavenVerifyRepositoryHandler extends VerifyRepositoryHandler {
     MavenArtifactRepository maven(Closure closure);
 
     MavenArtifactRepository maven(Action<? super MavenArtifactRepository> action);
+
+    List<MavenArtifactRepository> getArtifactRepositories();
 }

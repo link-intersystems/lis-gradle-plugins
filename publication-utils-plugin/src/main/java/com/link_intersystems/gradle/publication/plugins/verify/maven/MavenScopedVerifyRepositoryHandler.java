@@ -53,7 +53,7 @@ public class MavenScopedVerifyRepositoryHandler implements MavenVerifyRepository
     }
 
     @Override
-    public List<ArtifactRepository> getArtifactRepositories() {
-        return new ArrayList<>(repositoryHandler);
+    public List<MavenArtifactRepository> getArtifactRepositories() {
+        return new ArrayList<>(repositoryHandler.withType(MavenArtifactRepository.class));
     }
 }

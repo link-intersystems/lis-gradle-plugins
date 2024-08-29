@@ -1,19 +1,13 @@
 package com.link_intersystems.gradle.publication.plugins.verify;
 
 import com.link_intersystems.gradle.publication.ArtifactPublication;
-import com.link_intersystems.gradle.publication.ArtifactPublicationProviders;
 import org.gradle.api.Project;
-import org.gradle.api.artifacts.repositories.ArtifactRepository;
-import org.gradle.api.publish.Publication;
-import org.gradle.api.publish.PublishingExtension;
 import org.gradle.api.tasks.TaskContainer;
 import org.gradle.api.tasks.TaskProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class VerifyPublicationTaskRegistrar {
 
@@ -28,43 +22,19 @@ public class VerifyPublicationTaskRegistrar {
     public void registerTask(VerifyPublication verifyPublication) {
         VerifyPublicationConfig verifyPublicationConfig = new VerifyPublicationConfig(verifyPublication);
 
-        Publication publication = getPublication(project, verifyPublication);
-        List<ArtifactRepository> repositories = getRepositories(project, verifyPublication);
-        ArtifactPublicationProviders providers = ArtifactPublicationProviders.get();
+        List<ArtifactPublication> artifactPublications = verifyPublication.getArtifactPublications(project);
 
-        for (ArtifactRepository repository : repositories) {
-            Optional<ArtifactPublication> artifactPublicationOptional = providers.createArtifactPublication(publication, repository, verifyPublicationConfig.getVersionProvider());
-            artifactPublicationOptional.ifPresentOrElse(provider -> registerTask(provider, verifyPublicationConfig), () -> {
-                logger.error("Can not create an ArtifactPublication for publication {} in repository {}. No ArtifactPublicationProvider available: {}", publication, repository, providers);
-            });
+        for (ArtifactPublication artifactPublication : artifactPublications) {
+            registerTask(artifactPublication, verifyPublicationConfig);
         }
     }
 
-    private List<ArtifactRepository> getRepositories(Project project, VerifyPublication verifyPublication) {
-        VerifyRepositoryHandler verifyRepositoryHandler = verifyPublication.getVerifyRepositories();
-
-        List<ArtifactRepository> repositories = verifyRepositoryHandler.getArtifactRepositories();
-
-        if (repositories.isEmpty()) {
-            repositories = project.getExtensions().getByType(PublishingExtension.class).getRepositories().stream().collect(Collectors.toList());
-        }
-
-        return repositories;
-    }
-
-    private Publication getPublication(Project project, VerifyPublication verifyPublication) {
-        Publication publication = verifyPublication.getPublication();
-        if (publication == null) {
-            publication = project.getExtensions().getByType(PublishingExtension.class).getPublications().getByName(verifyPublication.getName());
-        }
-        return publication;
-    }
 
     @SuppressWarnings("rawtypes")
     public void registerTask(ArtifactPublication artifactPublication, VerifyPublicationConfig verifyPublicationConfig) {
 
-        String publicationName = artifactPublication.getArtifactName();
-        String repositoryName = artifactPublication.getArtifactRepositoryName();
+        String publicationName = artifactPublication.getPublicationName();
+        String repositoryName = artifactPublication.getArtifactRepositoryDesc().getName();
         String taskName = "verify" + capitalize(publicationName) + "PublicationTo" + capitalize(repositoryName) + "Repository";
 
         TaskContainer tasks = project.getTasks();

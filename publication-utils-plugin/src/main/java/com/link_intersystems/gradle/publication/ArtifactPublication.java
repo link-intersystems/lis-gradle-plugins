@@ -6,13 +6,11 @@ import java.util.List;
 
 public interface ArtifactPublication {
 
+    public abstract String getPublicationName();
+
     public List<? extends ArtifactCoordinates> getArtifactCoordinates();
 
     public ArtifactRepository getArtifactRepository();
-
-    public abstract String getArtifactName();
-
-    String getArtifactRepositoryName();
 
     ArtifactRepositoryDesc getArtifactRepositoryDesc();
 }

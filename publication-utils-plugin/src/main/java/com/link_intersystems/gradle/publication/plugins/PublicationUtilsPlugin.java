@@ -6,8 +6,10 @@ import org.gradle.api.artifacts.dsl.RepositoryHandler;
 import org.gradle.api.internal.CollectionCallbackActionDecorator;
 import org.gradle.api.internal.artifacts.BaseRepositoryFactory;
 import org.gradle.api.internal.artifacts.dsl.DefaultRepositoryHandler;
+import org.gradle.api.logging.Logger;
 import org.gradle.api.plugins.ExtensionContainer;
 import org.gradle.internal.reflect.Instantiator;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 
@@ -31,6 +33,8 @@ public class PublicationUtilsPlugin implements Plugin<Project> {
             return new DefaultRepositoryHandler(repositoryFactory, instantiator, collectionCallbackActionDecorator);
         }
     }
+
+    private Logger logger = (Logger) LoggerFactory.getLogger(PublicationUtilsPlugin.class);
 
     private final Instantiator instantiator;
     private BaseRepositoryFactory repositoryFactory;

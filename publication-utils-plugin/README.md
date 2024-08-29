@@ -7,21 +7,9 @@
 
 The verify publication utils provide support for verifying the state of publication artifacts in remote repositories.
 
-The following configuration will create a `VerifyPublicationTask` for the publication named "maven" that verifies
-`VerifyMavenPublication`s. The tasks will be added to the publications group.
-
-```shell
-$ ./gradlew tasks
-
-Publications tasks
-------------------
-verifyMavenPublicationToMavenRepoRepository
-```
-
-The task will verify if the publication's artifacts exist in all remote repositories that are configure for the
-publishing.
-The task will fail if the artifacts exists. But there are several options to configure this behaviour.
-Read more about the configuration options in the section below.
+The following configuration will create a `VerifyPublicationTask` for the publication named "maven".
+The task will verify if the publication artifacts exist in all remote repositories that were configured for the
+publication.
 
 ```kotlin
 // build.gradle.kts
@@ -32,6 +20,45 @@ publications {
     }
 }
 ```
+
+The task will fail if one artifact exist of the publication `maven` exists any remote repository. But there are several
+options to change this behaviour.
+Read more about the configuration options in the sections below.
+
+The tasks will be added to the publications group.
+
+```shell
+$ ./gradlew tasks
+
+Publications tasks
+------------------
+verifyMavenPublicationToMavenRepoRepository
+```
+
+### Specify other artifacts
+
+You can also create verify publication tasks that check arbitrary artifacts.
+
+```kotlin
+// build.gradle.kts
+publications {
+    verify {
+        create<VerifyMavenPublication>("maven") {
+            artifacts = listOf("org.junit.jupiter:junit-jupiter-api:5.10.2:pom")
+        }
+    }
+}
+```
+
+The artifact coordinates depend on the verify publication task type.
+
+| Verify Publication Type | Format                                                        |
+|-------------------------|---------------------------------------------------------------|
+| VerifyMavenPublication  | `<groupId>:<artifactId>:<version>:<extension>[:<classifier>]` |
+
+> [!NOTE]  
+> When artifacts are explicitly specified the task will not resolve the project publication artifacts anymore.
+> If you also want to resolve them, you need to create another task.
 
 ### Specify other repositories
 
@@ -49,7 +76,7 @@ publishing {
 }
 ```
 
-But you can specify custom repositories if needed. E.g. check if the artifacts exists in the local repository.
+But you can specify custom repositories if needed. E.g. check if the artifacts exists in the maven central repository.
 
 ```kotlin
 publications {
@@ -66,10 +93,11 @@ publications {
 `verifyRepositories` is a [
 `MavenVerifyRepositoryHandler`](src/main/java/com/link_intersystems/gradle/publication/plugins/verify/maven/MavenVerifyRepositoryHandler.java),
 the api can be used the same way as the [
-`RepositoryHandler`](https://docs.gradle.org/current/javadoc/org/gradle/api/artifacts/dsl/RepositoryHandler.html),
-except that the types of repositories you can create depend on the verification type you use. In the example above only
-maven
-repositories can be created.
+`RepositoryHandler`](https://docs.gradle.org/current/javadoc/org/gradle/api/artifacts/dsl/RepositoryHandler.html) that
+you
+might already know from the [publishing plugin](https://docs.gradle.org/current/userguide/publishing_maven.html),
+except that the types of repositories you can create depend on the verify task type you use. In the example above only
+maven repositories can be created, because the `VerifyMavenPublication` task type is used.
 
 ### Version provider
 
@@ -80,6 +108,8 @@ check if the release version of the current
 snapshot version already exists.
 
 ```kotlin
+import com.link_intersystems.gradle.publication.VersionProviders
+
 publications {
     verify {
         create<VerifyMavenPublication>("maven") {
@@ -97,7 +127,7 @@ publications {
     verify {
         create<VerifyMavenPublication>("maven") {
             // A fixed version provider
-            versionProvider = VersionProvider { _ -> // parameter unused rename to use it
+            versionProvider = VersionProvider { _ -> // parameter unused. Rename to use it
                 "1.0.0"
             }
         }
@@ -105,13 +135,17 @@ publications {
 }
 ```
 
+The parameter is of type [`ArtifactDesc`](src/main/java/com/link_intersystems/gradle/publication/ArtifactDesc.java)
+
 ### Verify result handling
 
-The default result handler throws an exception and breaks the build if the checked artifacts already exist. But you can
-configure this behaviour. Either you use one of the pre-defined result handlers in `VerifyPublicationResultHandlers` or
+The default result handler throws an exception and breaks the build if the artifacts already exist. But you can
+change this behaviour. Either you use one of the pre-defined result handlers in `VerifyPublicationResultHandlers` or
 you implement your own.
 
 ```kotlin
+import com.link_intersystems.gradle.publication.plugins.verify.VerifyPublicationResultHandlers
+
 publications {
     verify {
         create<VerifyMavenPublication>("maven") {
@@ -136,10 +170,17 @@ publications {
                 coords.extension == "pom"
             }
         }
-
     }
 }
 ```
+
+The parameter depends on the verify publication task type
+
+
+| Verify Publication Type | Parameter                             |
+|-------------------------|---------------------------------------|
+| VerifyMavenPublication  | [MavenArtifactCoordinates](src/main/java/com/link_intersystems/gradle/publication/maven/MavenArtifactCoordinates.java) |
+
 
 ### Git-flow support
 

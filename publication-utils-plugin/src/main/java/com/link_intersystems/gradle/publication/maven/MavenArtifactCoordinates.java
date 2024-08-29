@@ -64,6 +64,10 @@ public class MavenArtifactCoordinates implements ArtifactCoordinates {
         return extension;
     }
 
+    public MavenArtifactCoordinates withVersion(String version) {
+        return new MavenArtifactCoordinates(groupId, artifactId, version, extension, classifier);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -85,5 +89,6 @@ public class MavenArtifactCoordinates implements ArtifactCoordinates {
     public String toString() {
         return MavenArtifactCoordinatesFormat.formatMavenArtifact(this);
     }
+
 
 }
