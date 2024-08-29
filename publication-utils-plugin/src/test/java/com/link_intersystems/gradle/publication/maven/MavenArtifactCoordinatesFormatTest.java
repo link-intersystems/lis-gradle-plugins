@@ -56,7 +56,7 @@ class MavenArtifactCoordinatesFormatTest {
     void parseTooManyParts() {
         ParseException parseException = assertThrows(ParseException.class, () -> format.parse("groupId:artifactId:version:extension:classifier:wtf"));
         assertEquals("groupId:artifactId:version:extension:classifier:".length(), parseException.getErrorOffset());
-        assertEquals("unknown part", parseException.getLocalizedMessage());
+        assertEquals("unknown artifact coordinate element at 48", parseException.getLocalizedMessage());
     }
 
     @Test

@@ -80,19 +80,19 @@ public class MavenArtifactCoordinatesFormat extends Format {
         }
 
         if (pos.getErrorIndex() != -1) {
-            String message = createExceptionMessage(cords);
+            String message = createExceptionMessage(cords, pos);
             throw new ParseException(message, pos.getErrorIndex());
         }
 
         return cords.build();
     }
 
-    private static @NotNull String createExceptionMessage(ArtifactCoordinates cords) {
+    private static @NotNull String createExceptionMessage(ArtifactCoordinates cords, ParsePosition pos) {
         String partName = cords.nextPartName();
 
         String message;
         if (partName == null) {
-            message = "unknown part";
+            message = "unknown artifact coordinate element at " + pos.getErrorIndex();
         } else {
             message = "Missing " + partName;
         }
