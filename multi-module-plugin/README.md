@@ -1,4 +1,4 @@
-# Multi Module Plugin [![Maven Central Version](https://img.shields.io/maven-central/v/com.link-intersystems.gradle.multi-module/com.link-intersystems.gradle.multi-module.gradle.plugin)](https://mvnrepository.com/artifactCoordinates/com.link-intersystems.gradle.multi-module)
+# Multi Module Plugin [![Gradle Plugin Portal Version](https://img.shields.io/gradle-plugin-portal/v/com.link-intersystems.gradle.multi-module)](https://plugins.gradle.org/plugin/com.link-intersystems.gradle.multi-module) [![Maven Central Version](https://img.shields.io/maven-central/v/com.link-intersystems.gradle.multi-module/com.link-intersystems.gradle.multi-module.gradle.plugin)](https://mvnrepository.com/artifactCoordinates/com.link-intersystems.gradle.multi-module)
 
 The multi module plugin automatically detects subprojects and composite builds and configures
 the gradle build.
