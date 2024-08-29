@@ -12,18 +12,18 @@ the gradle build.
   Each directory that contains a `build.gradle` or a `build.gradle.kts` is recognized as a subproject. If the
   directory also contains a settings file it is recognized as a composite build.
 
-## plugin configuration
+## Plugin Configuration
 
 Add the multi module plugin to your root project settings file.
 
 ```kotlin
 // settngs.gradle.kts
 plugins {
-    id("com.link-intersystems.gradle.multi-module") version "+" // latest version
+    id("com.link-intersystems.gradle.multi-module") version "+"  // latest version. Set a specific one
 }
 ```
 
-### exclude paths
+### Exclude Paths
 
 Let's assume you have a project structure like this.
 ```
@@ -67,7 +67,7 @@ configure whatever a [PathMatcher](https://docs.oracle.com/en/java/javase/17/doc
 If you do not prefix the exclude path with `glob:` or `regex:`, the plugin assumes
 that the path is a glob pattern.
 
-### default excludes
+### Default Excludes
 
 Per default the plugin excludes `buildSrc` and any includeBuild that is configured within
 a pluginManagement section, since these locations are usually used for convention plugins.

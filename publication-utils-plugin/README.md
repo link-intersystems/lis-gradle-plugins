@@ -3,6 +3,16 @@
 > [!NOTE]
 > Currently only Maven publications are supported.
 
+## Plugin Configuration
+
+```kotlin
+// settngs.gradle.kts
+plugins {
+    id("com.link-intersystems.gradle.publication-utils") version "+" // latest version. Set a specific one
+}
+```
+
+
 ## Verify Publications
 
 The verify publication utils provide support for verifying the state of publication artifacts in remote repositories.

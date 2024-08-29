@@ -8,7 +8,7 @@ and use [JGit's procelain api](https://archive.eclipse.org/jgit/docs/jgit-3.2.0.
 ```kotlin
 //build.gradle.kts
 plugins {
-    id("com.link-intersystems.gradle.git") version "+" // latest version
+    id("com.link-intersystems.gradle.git") version "+"  // latest version. Set a specific one
 }
 ```
 
