@@ -4,10 +4,12 @@ import org.gradle.api.initialization.Settings;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.function.Predicate;
 
-class DefaultExcludePaths implements Predicate<Path> {
+import static java.util.Arrays.asList;
+
+class DefaultExcludePaths extends PatternPathExclude {
 
     private final List<String> excludePaths;
 
@@ -16,10 +18,15 @@ class DefaultExcludePaths implements Predicate<Path> {
         excludePaths.add("buildSrc");
         IncludeBuildsSource includeBuildsSource = new PluginManagementIncludeBuildSource(settings);
         excludePaths.addAll(includeBuildsSource.getIncludedBuilds());
+
+        setExcludePaths(asList("**/src/test/**", "**/src/main/**"));
     }
 
     @Override
     public boolean test(Path path) {
+        if (super.test(path)) {
+            return true;
+        }
         return excludePaths.contains(path.toString());
     }
 }

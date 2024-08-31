@@ -64,15 +64,15 @@ public class MultiModulePlugin implements Plugin<Settings> {
 
         List<String> excludePaths = multiModuleConfig.getExcludedPaths();
         if (!excludePaths.isEmpty()) {
-            PropertiesExcludePathPredicate propertiesExcludePathPredicate = new PropertiesExcludePathPredicate(excludePaths);
-            propertiesExcludePathPredicate.getAppliedPaths().forEach(path -> {
+            PatternPathExclude patternPathExclude = new PatternPathExclude(excludePaths);
+            patternPathExclude.getAppliedPaths().forEach(path -> {
                 logger.debug("com.link-intersystems.gradle.multi-module exclude path '{}' added.", path);
             });
-            propertiesExcludePathPredicate.getIgnoredPaths().forEach(path -> {
+            patternPathExclude.getIgnoredPaths().forEach(path -> {
                 logger.warn("com.link-intersystems.gradle.multi-module.exclude-paths contains an invalid path that will be ignored: '{}'", path);
             });
 
-            excludePathsPredicate = excludePathsPredicate.or(propertiesExcludePathPredicate);
+            excludePathsPredicate = excludePathsPredicate.or(patternPathExclude);
         }
 
         return excludePathsPredicate;

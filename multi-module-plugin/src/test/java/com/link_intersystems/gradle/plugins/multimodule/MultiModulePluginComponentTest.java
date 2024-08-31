@@ -5,6 +5,7 @@ import com.link_intersystems.gradle.api.GradleMocking;
 import com.link_intersystems.gradle.api.ExtensionContainerMocking;
 import com.link_intersystems.gradle.api.ProviderFactoryMocking;
 import com.link_intersystems.gradle.project.builder.GradleProjectBuilder;
+import com.link_intersystems.gradle.project.builder.GradleSubprojectBuilder;
 import org.gradle.api.initialization.Settings;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,7 @@ import java.nio.file.Path;
 
 import static org.mockito.Mockito.*;
 
-class SettingsMultiModuleConfigPluginTest {
+class MultiModulePluginComponentTest {
 
     private MultiModulePlugin multiModulePlugin;
     private Settings settings;
@@ -51,7 +52,8 @@ class SettingsMultiModuleConfigPluginTest {
     void apply() throws IOException {
         projectBuilder.createCompositeBuild("buildSrc");
         projectBuilder.createCompositeBuild("modules/moduleA").createSubproject("subA");
-        projectBuilder.createSubproject("modules/moduleB");
+        GradleSubprojectBuilder moduleB = projectBuilder.createSubproject("modules/moduleB");
+        moduleB.file("src/test/resources/build.gradle.kts");
         projectBuilder.createSubproject("modules/moduleB/moduleC");
         projectBuilder.createCompositeBuild("modules/.hiddenModuleA");
 
@@ -107,5 +109,29 @@ class SettingsMultiModuleConfigPluginTest {
         verify(settings, never()).include(":moduleA:subA");
         verify(settings, never()).include(":modules:moduleB");
         verify(settings, never()).include(":modules:moduleB:moduleC");
+    }
+
+    @Test
+    void defaultExcludeTestResources() throws IOException {
+        projectBuilder.createSubproject("modules/moduleA");
+        projectBuilder.createSubproject("modules/moduleA/src/test/resources/test");
+
+        applyMultiModulePlugin();
+
+        verify(settings, never()).includeBuild("");
+        verify(settings, never()).include(":modules:moduleA:src:test:resources:test");
+        verify(settings).include(":modules:moduleA");
+    }
+
+    @Test
+    void defaultExcludeMainResources() throws IOException {
+        projectBuilder.createSubproject("modules/moduleA");
+        projectBuilder.createSubproject("modules/moduleA/src/main/resources/test");
+
+        applyMultiModulePlugin();
+
+        verify(settings, never()).includeBuild("");
+        verify(settings, never()).include(":modules:moduleA:src:main:resources:test");
+        verify(settings).include(":modules:moduleA");
     }
 }
