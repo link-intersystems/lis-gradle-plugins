@@ -1,5 +1,6 @@
 plugins {
     id("lis-gradle-plugin")
+    id("com.link-intersystems.gradle.publication-utils")
 }
 
 dependencies {

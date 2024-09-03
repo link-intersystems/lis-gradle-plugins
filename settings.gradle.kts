@@ -10,7 +10,7 @@ pluginManagement {
 }
 
 plugins {
-    id("com.link-intersystems.gradle.multi-module") version "0.5.0"
+    id("com.link-intersystems.gradle.publication-utils") version "0.5.4" apply false
 }
 
 dependencyResolutionManagement {
@@ -59,3 +59,7 @@ dependencyResolutionManagement {
         }
     }
 }
+
+include(":git-plugin")
+include(":multi-module-plugin")
+include(":publication-utils-plugin")
