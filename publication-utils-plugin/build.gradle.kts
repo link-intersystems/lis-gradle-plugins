@@ -1,5 +1,6 @@
 plugins {
     id("lis-gradle-plugin")
+    id("com.link-intersystems.gradle.publication-utils")
 }
 
 dependencies {
@@ -28,8 +29,8 @@ gradlePlugin {
     }
 }
 
-publishing {
-    afterEvaluate {
+afterEvaluate {
+    publishing {
         publications.withType<MavenPublication> {
             pom {
                 name.set("Publication Utils Plugin")
