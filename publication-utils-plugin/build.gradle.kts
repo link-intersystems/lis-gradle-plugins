@@ -29,8 +29,8 @@ gradlePlugin {
     }
 }
 
-publishing {
-    afterEvaluate {
+afterEvaluate {
+    publishing {
         publications.withType<MavenPublication> {
             pom {
                 name.set("Publication Utils Plugin")
