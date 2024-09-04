@@ -59,8 +59,7 @@ public class DefaultVerifyMavenPublication extends AbstractVerifyPublication<Mav
             }).collect(Collectors.toList());
         }
 
-        MavenVerifyRepositoryHandler verifyRepositories = getVerifyRepositories();
-        List<MavenArtifactRepository> artifactRepositories = verifyRepositories.getArtifactRepositories();
+        List<MavenArtifactRepository> artifactRepositories = getRepositories(project);
         return artifactRepositories.stream().map(repo -> MavenArtifactPublication.of((MavenPublicationInternal) getPublication(project), repo, getEffectiveVersionProvider())).collect(Collectors.toList());
     }
 
