@@ -21,6 +21,7 @@ class VerifyPublicationUtilTest {
     @BeforeEach
     void setUp(GradleProjectBuilder rootProjectBuilder, GradleRunner gradleRunner) {
         this.rootProjectBuilder = rootProjectBuilder;
+        rootProjectBuilder.gradleProperties().append(getClass().getResource("/testkit-gradle.properties"));
         this.gradleRunner = gradleRunner;
     }
 
