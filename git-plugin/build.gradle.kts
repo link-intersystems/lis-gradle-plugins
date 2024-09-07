@@ -24,13 +24,9 @@ gradlePlugin {
 }
 
 
-publishing {
-    afterEvaluate {
-        publications.withType<MavenPublication> {
-            pom {
-                name.set("Gradle Git Plugin")
-                description.set("Access Git information and execute Git actions from within a Gradle build.")
-            }
-        }
+publishing.publications.withType<MavenPublication> {
+    pom {
+        name.set("Gradle Git Plugin")
+        description.set("Access Git information and execute Git actions from within a Gradle build.")
     }
 }

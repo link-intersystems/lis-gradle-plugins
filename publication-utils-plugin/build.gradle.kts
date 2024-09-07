@@ -22,13 +22,9 @@ gradlePlugin {
 }
 
 
-publishing {
-    afterEvaluate {
-        publications.withType<MavenPublication> {
-            pom {
-                name.set("Publication Utils Plugin")
-                description.set("A collection of utility tasks to deal with publications related stuff like checking if publications are already published to a remote repository.")
-            }
-        }
+publishing.publications.withType<MavenPublication> {
+    pom {
+        name.set("Publication Utils Plugin")
+        description.set("A collection of utility tasks to deal with publications related stuff like checking if publications are already published to a remote repository.")
     }
 }
