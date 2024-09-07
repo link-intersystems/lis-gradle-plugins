@@ -1,0 +1,34 @@
+[versions]
+listGradleCommons_version = "0.0.6"
+assertj_version = "3.26.3"
+jgit_version = "6.9.0.202403050737-r"
+junit_jupiter_version = "5.10.2"
+mockito_version = "5.11.0"
+slf4j_version = "2.0.12"
+jacoco_version = "0.8.12"
+
+[libraries]
+lis-platform = { module = "com.link-intersystems.gradle.commons:lis-gradle-platform", version.ref = "listGradleCommons_version" }
+lis-gradle-projectBuilder = { module = "com.link-intersystems.gradle.commons:lis-gradle-project-builder", version.ref = "listGradleCommons_version" }
+lis-gradle-mocking = { module = "com.link-intersystems.gradle.commons:lis-gradle-mocking", version.ref = "listGradleCommons_version" }
+
+assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj_version" }
+eclipse-jgit = { module = "org.eclipse.jgit:org.eclipse.jgit", version.ref = "jgit_version" }
+
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit_jupiter_version" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit_jupiter_version" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito_version" }
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j_version" }
+
+jacoco-agent = { module = "org.jacoco:org.jacoco.agent", version.ref ="jacoco_version" }
+
+[bundles]
+testing = [
+    "junit-jupiter-api",
+    "junit-jupiter-engine",
+    "mockito-core",
+    "lis-gradle-projectBuilder",
+    "lis-gradle-mocking",
+    "assertj-core"
+]
+

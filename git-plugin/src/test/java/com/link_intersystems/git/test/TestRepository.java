@@ -13,8 +13,11 @@ import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.FS;
 
 import java.io.*;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -102,8 +105,12 @@ public class TestRepository {
     private Person author = new Person("John Doe", "john.doe@acme.com");
     private Person committer = new Person("John Doe", "john.doe@acme.com");
 
-    public TestRepository(File basedir)
-            throws Exception {
+    public TestRepository(Path basedir) throws Exception {
+        this(basedir.toFile());
+
+    }
+
+    public TestRepository(File basedir) throws Exception {
 
         this.basedir = basedir;
         if (RepositoryCache.FileKey.isGitRepository(basedir, FS.DETECTED)) {
@@ -147,6 +154,44 @@ public class TestRepository {
         return file;
     }
 
+    public File addFile(String path)
+            throws IOException, GitAPIException {
+
+        return addFile(Paths.get(path));
+    }
+
+    public File addFile(Path file)
+            throws IOException, GitAPIException {
+
+        if (!Files.exists(file)) {
+            Files.createFile(file);
+        }
+
+        git.add().addFilepattern(file.toString()).call();
+
+        return file.toFile();
+    }
+
+    public void addAllFiles() throws IOException {
+        addAllFiles(f -> true);
+    }
+
+    public void addAllFiles(Predicate<Path> filePredicate) throws IOException {
+        Files.walkFileTree(basedir.toPath(), new SimpleFileVisitor<>() {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                if (filePredicate.test(file)) {
+                    try {
+                        addFile(file);
+                    } catch (GitAPIException e) {
+                        throw new IOException(e);
+                    }
+                }
+                return super.visitFile(file, attrs);
+            }
+        });
+    }
+
     public String currentBranch()
             throws IOException {
 
@@ -165,8 +210,27 @@ public class TestRepository {
                     throw new RuntimeException(e);
                 }
             }
+
+            @Override
+            public void addAllFiles() {
+                try {
+                    TestRepository.this.addAllFiles();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            @Override
+            public void addFile(String path) {
+                try {
+                    TestRepository.this.addFile(path);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
         };
     }
+
 
     public RevCommit createCommit(Consumer<CommitBuilder> commitBuilderConsumer) {
         return createCommit(author, commitBuilderConsumer);

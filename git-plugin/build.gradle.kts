@@ -2,14 +2,14 @@ plugins {
     id("lis-gradle-plugin")
 }
 
-dependencies {
-    implementation(slf4j.api)
-    implementation(eclipse.jgit)
 
-    testImplementation(junit.jupiter.api)
-    testImplementation(junit.jupiter.engine)
-    testImplementation(mockito.core)
+dependencies {
+    implementation(libs.slf4j.api)
+    implementation(libs.eclipse.jgit)
+
+    testImplementation(libs.bundles.testing)
 }
+
 
 gradlePlugin {
     plugins {
@@ -22,6 +22,7 @@ gradlePlugin {
         }
     }
 }
+
 
 publishing {
     afterEvaluate {

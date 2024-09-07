@@ -33,26 +33,30 @@ public class MultiModulePlugin implements Plugin<Settings> {
         );
 
         s.getGradle().settingsEvaluated(settings -> {
-            File rootDir = settings.getRootDir();
-
-            IncludesCollector includesCollector = new IncludesCollector(rootDir.toPath());
-            Predicate<Path> excludePathsPredicate = new DefaultExcludePaths(settings);
-            Predicate<Path> excludePaths = getExcludePaths(excludePathsPredicate, multiModuleConfigValuesChain);
-            includesCollector.setExcludePaths(excludePaths);
-
-            try {
-                Files.walkFileTree(rootDir.toPath(), includesCollector);
-
-                IncludeBuildConfigurer includeBuildConfigurer = new IncludeBuildConfigurer(settings, logger, multiModuleConfigValuesChain);
-                includesCollector.getIncludeBuildPaths().forEach(includeBuildConfigurer::configure);
-
-                IncludeProjectConfigurer includeProjectConfigurer = new IncludeProjectConfigurer(settings, logger, multiModuleConfigValuesChain);
-                includesCollector.getIncludePaths().forEach(includeProjectConfigurer::configure);
-            } catch (IOException e) {
-                throw new RuntimeException("Unable to apply plugin 'com.link-intersystems.gradle.multi-module'", e);
-            }
+            applyPlugin(settings, multiModuleConfigValuesChain);
         });
 
+    }
+
+    private void applyPlugin(Settings settings, ConfigValuesChain multiModuleConfigValuesChain) {
+        File rootDir = settings.getRootDir();
+
+        IncludesCollector includesCollector = new IncludesCollector(rootDir.toPath());
+        Predicate<Path> excludePathsPredicate = new DefaultExcludePaths(settings);
+        Predicate<Path> excludePaths = getExcludePaths(excludePathsPredicate, multiModuleConfigValuesChain);
+        includesCollector.setExcludePaths(excludePaths);
+
+        try {
+            includesCollector.collect();
+
+            IncludeBuildConfigurer includeBuildConfigurer = new IncludeBuildConfigurer(settings, logger, multiModuleConfigValuesChain);
+            includesCollector.getIncludeBuildPaths().forEach(includeBuildConfigurer::configure);
+
+            IncludeProjectConfigurer includeProjectConfigurer = new IncludeProjectConfigurer(settings, logger, multiModuleConfigValuesChain);
+            includesCollector.getIncludePaths().forEach(includeProjectConfigurer::configure);
+        } catch (IOException e) {
+            throw new RuntimeException("Unable to apply plugin 'com.link-intersystems.gradle.multi-module'", e);
+        }
     }
 
     @NotNull

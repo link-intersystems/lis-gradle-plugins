@@ -3,6 +3,7 @@ package com.link_intersystems.gradle.plugins.multimodule;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.FileVisitor;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.function.Predicate;
 
 import static java.util.Objects.requireNonNull;
 
-class IncludesCollector implements FileVisitor<Path> {
+class IncludesCollector {
 
     private List<IncludeBuildPath> includeBuildPaths = new ArrayList<>();
     private List<IncludePath> includePaths = new ArrayList<>();
@@ -30,28 +31,6 @@ class IncludesCollector implements FileVisitor<Path> {
         this.excludePaths = requireNonNull(excludePaths);
     }
 
-    @Override
-    public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
-        if (dir.equals(rootPath)) {
-            return FileVisitResult.CONTINUE;
-        }
-
-        if (skipDir(dir)) {
-            return FileVisitResult.SKIP_SUBTREE;
-        }
-
-        if (isCompositeBuildDir(dir)) {
-            includeBuildPaths.add(toIncludeBuildPath(dir));
-            return FileVisitResult.SKIP_SUBTREE;
-        }
-
-        if (isSubmoduleDir(dir)) {
-            includePaths.add(toProjectPath(dir));
-            return FileVisitResult.CONTINUE;
-        }
-
-        return FileVisitResult.CONTINUE;
-    }
 
     private boolean isSubmoduleDir(Path dir) {
         return buildFilePredicate.test(dir);
@@ -80,20 +59,6 @@ class IncludesCollector implements FileVisitor<Path> {
         return new IncludePath(rootPath.relativize(dir));
     }
 
-    @Override
-    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-        return FileVisitResult.CONTINUE;
-    }
-
-    @Override
-    public FileVisitResult visitFileFailed(Path file, IOException exc) {
-        return FileVisitResult.CONTINUE;
-    }
-
-    @Override
-    public FileVisitResult postVisitDirectory(Path dir, IOException exc) {
-        return FileVisitResult.CONTINUE;
-    }
 
     private IncludeBuildPath toIncludeBuildPath(Path includeBuildAbsolutePath) {
         return new IncludeBuildPath(rootPath.relativize(includeBuildAbsolutePath));
@@ -106,5 +71,48 @@ class IncludesCollector implements FileVisitor<Path> {
 
     public List<IncludePath> getIncludePaths() {
         return includePaths;
+    }
+
+    public void collect() throws IOException {
+        Files.walkFileTree(rootPath, new FileVisitor<>() {
+
+            @Override
+            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
+                if (dir.equals(rootPath)) {
+                    return FileVisitResult.CONTINUE;
+                }
+
+                if (skipDir(dir)) {
+                    return FileVisitResult.SKIP_SUBTREE;
+                }
+
+                if (isCompositeBuildDir(dir)) {
+                    includeBuildPaths.add(toIncludeBuildPath(dir));
+                    return FileVisitResult.SKIP_SUBTREE;
+                }
+
+                if (isSubmoduleDir(dir)) {
+                    includePaths.add(toProjectPath(dir));
+                    return FileVisitResult.CONTINUE;
+                }
+
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult visitFileFailed(Path file, IOException exc) {
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult postVisitDirectory(Path dir, IOException exc) {
+                return FileVisitResult.CONTINUE;
+            }
+        });
     }
 }

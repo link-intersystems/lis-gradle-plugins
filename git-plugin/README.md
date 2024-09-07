@@ -33,7 +33,7 @@ CommitDate: ${gitInfo.commitDateTime}
 """.trimIndent())
 ```
 
-## "GitProcelain"-like API
+## "GitPorcelain"-like API
 
 When the plugin is applied to a project, it will create a [`Git`](https://archive.eclipse.org/jgit/docs/jgit-3.2.0.201312181205-r/apidocs/org/eclipse/jgit/api/Git.html) 
 object and makes it accessible through the project extension named `git`.
