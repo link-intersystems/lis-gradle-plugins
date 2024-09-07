@@ -1,19 +1,11 @@
 plugins {
     id("lis-gradle-plugin")
-    id("com.link-intersystems.gradle.publication-utils")
 }
 
 dependencies {
-    implementation(slf4j.api)
+    implementation(libs.slf4j.api)
 
-    testImplementation(junit.jupiter.api)
-    testImplementation(junit.jupiter.engine)
-    testImplementation(mockito.core)
-
-
-    testImplementation(platform(lis.platform))
-    testImplementation(lis.gradleProjectBuilder)
-    testImplementation(lis.gradleMocking)
+    testImplementation(libs.bundles.testing)
 }
 
 gradlePlugin {
@@ -29,8 +21,9 @@ gradlePlugin {
     }
 }
 
-afterEvaluate {
-    publishing {
+
+publishing {
+    afterEvaluate {
         publications.withType<MavenPublication> {
             pom {
                 name.set("Publication Utils Plugin")
@@ -38,9 +31,4 @@ afterEvaluate {
             }
         }
     }
-}
-
-repositories {
-    mavenLocal()
-    mavenCentral()
 }
