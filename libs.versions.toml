@@ -1,6 +1,6 @@
 [versions]
 # plugin versions
-lisGradleCommonPlugins_version = "0.0.10"
+lisGradleCommonPlugins_version = "0.0.11"
 publishPlugin_version = "1.2.1"
 # libraries
 listGradleCommons_version = "0.0.6"

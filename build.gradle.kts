@@ -1,7 +1,5 @@
-import org.gradle.tooling.GradleConnector
-
 plugins {
-    id("com.link-intersystems.gradle.maven-central-project") version "0.0.9"
+    id("com.link-intersystems.gradle.maven-central-project") version "0.0.11"
     id("net.researchgate.release") version "3.0.2"
 }
 
@@ -36,7 +34,7 @@ configure(listOf(tasks.release, tasks.runBuildTasks)) {
     }
 }
 
-val pushToRemoteName = if(project.findProperty("pushToRemote") != null) "origin" else ""
+val pushToRemoteName = if (project.findProperty("pushToRemote") != null) "origin" else ""
 
 release {
     tagTemplate = "v\${version}"
