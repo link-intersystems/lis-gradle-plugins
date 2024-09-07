@@ -9,6 +9,10 @@ dependencies {
     testImplementation(junit.jupiter.api)
     testImplementation(junit.jupiter.engine)
     testImplementation(mockito.core)
+    testImplementation(assertj.core)
+
+    testImplementation(platform(lis.platform))
+    testImplementation(lis.gradleProjectBuilder)
 }
 
 gradlePlugin {

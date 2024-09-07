@@ -40,6 +40,15 @@ dependencyResolutionManagement {
             library("gradleMocking", "com.link-intersystems.gradle.commons", "lis-gradle-mocking").withoutVersion()
         }
 
+        create("assertj"){
+            version("assertjVersion", "3.26.3")
+            library(
+                "core",
+                "org.assertj",
+                "assertj-core"
+            ).versionRef("assertjVersion")
+        }
+
         create("eclipse") {
             library(
                 "jgit",
