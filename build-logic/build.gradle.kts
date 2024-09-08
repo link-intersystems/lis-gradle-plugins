@@ -3,6 +3,8 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.lis.gradle.common.plugins)
+    implementation(libs.lis.plugins.gradle.common)
     implementation(libs.plugin.publish.plugin)
+    implementation(libs.lis.plugins.multi.module)
+    implementation(libs.lis.plugins.publication.utils)
 }

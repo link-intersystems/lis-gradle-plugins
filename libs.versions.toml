@@ -1,6 +1,7 @@
 [versions]
 # plugin versions
 lisGradleCommonPlugins_version = "0.0.11"
+lisGradlePlugins_version = "0.5.4"
 publishPlugin_version = "1.2.1"
 # libraries
 listGradleCommons_version = "0.0.6"
@@ -15,8 +16,11 @@ jacoco_version = "0.8.12"
 lis-platform = { module = "com.link-intersystems.gradle.commons:lis-gradle-platform", version.ref = "listGradleCommons_version" }
 lis-gradle-projectBuilder = { module = "com.link-intersystems.gradle.commons:lis-gradle-project-builder", version.ref = "listGradleCommons_version" }
 lis-gradle-mocking = { module = "com.link-intersystems.gradle.commons:lis-gradle-mocking", version.ref = "listGradleCommons_version" }
-lis-gradle-common-plugins = { module = "com.link-intersystems.gradle.plugins:lis-gradle-common-plugins", version.ref = "lisGradleCommonPlugins_version" }
+
+lis-plugins-gradle-common = { module = "com.link-intersystems.gradle.plugins:lis-gradle-common-plugins", version.ref = "lisGradleCommonPlugins_version" }
 plugin-publish-plugin = { module = "com.gradle.publish:plugin-publish-plugin", version.ref = "publishPlugin_version" }
+lis-plugins-multi-module = { module = "com.link-intersystems.gradle.plugins:multi-module-plugin", version.ref = "lisGradlePlugins_version" }
+lis-plugins-publication-utils = { module = "com.link-intersystems.gradle.plugins:publication-utils-plugin", version.ref = "lisGradlePlugins_version" }
 
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj_version" }
 eclipse-jgit = { module = "org.eclipse.jgit:org.eclipse.jgit", version.ref = "jgit_version" }
