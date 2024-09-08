@@ -49,7 +49,7 @@ jobs:
       uses: coverallsapp/github-action@v2
 
     - name: Clear Camo Caches
-      run: curl -X PURGE https://camo.githubusercontent.com/234fbc77e81cccdd6f2c5184f2ba284de150dc10db90c0adf815d64a5742aadb/68747470733a2f2f636f766572616c6c732e696f2f7265706f732f6769746875622f6c696e6b2d696e74657273797374656d732f6c69732d677261646c652d706c7567696e732f62616467652e7376673f6272616e63683d666561747572652f636f766572616c6c73
+      run: curl -X PURGE https://camo.githubusercontent.com/234fbc77e81cccdd6f2c5184f2ba284de150dc10db90c0adf815d64a5742aadb
 
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
