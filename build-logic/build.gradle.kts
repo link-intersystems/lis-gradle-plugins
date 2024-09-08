@@ -3,6 +3,9 @@ plugins {
 }
 
 dependencies {
-    implementation("com.link-intersystems.gradle.plugins:lis-gradle-common-plugins:0.0.9")
-    implementation("com.gradle.publish:plugin-publish-plugin:1.2.1")
+    implementation(libs.lis.plugins.gradle.common)
+    implementation(libs.plugin.publish.plugin)
+    implementation(libs.lis.plugins.multi.module)
+    implementation(libs.lis.plugins.publication.utils)
+    implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 }

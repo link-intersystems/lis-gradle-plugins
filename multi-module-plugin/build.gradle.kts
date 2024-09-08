@@ -24,13 +24,9 @@ gradlePlugin {
 }
 
 
-publishing {
-    afterEvaluate {
-        publications.withType<MavenPublication> {
-            pom {
-                name.set("Lis Gradle Multi Module Plugin")
-                description.set("Configures the Gradle build by automatically detecting subprojects and composite builds.")
-            }
-        }
+publishing.publications.withType<MavenPublication> {
+    pom {
+        name.set("Lis Gradle Multi Module Plugin")
+        description.set("Configures the Gradle build by automatically detecting subprojects and composite builds.")
     }
 }

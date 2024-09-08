@@ -1,3 +1,5 @@
+import org.gradle.accessors.dm.LibrariesForLibs
+
 plugins {
     id("lis-gradle-plugin")
 }
@@ -24,13 +26,9 @@ gradlePlugin {
 }
 
 
-publishing {
-    afterEvaluate {
-        publications.withType<MavenPublication> {
-            pom {
-                name.set("Gradle Git Plugin")
-                description.set("Access Git information and execute Git actions from within a Gradle build.")
-            }
-        }
+publishing.publications.withType<MavenPublication> {
+    pom {
+        name.set("Gradle Git Plugin")
+        description.set("Access Git information and execute Git actions from within a Gradle build.")
     }
 }
