@@ -42,10 +42,10 @@ jobs:
         ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GPG_SIGNING_KEY }}
         ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GPG_SIGNING_PASSPHRASE }}
 
-    - name: Generate coverage reports
+    - name: Generate Coverage Reports
       run: ./gradlew jacocoTestReport
 
-    - name: Coveralls
+    - name: Upload Coverage Reports To Coveralls
       uses: coverallsapp/github-action@v2
 
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
