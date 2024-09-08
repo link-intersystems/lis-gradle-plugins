@@ -1,5 +1,5 @@
 import org.apache.tools.ant.filters.ReplaceTokens
-
+import org.gradle.accessors.dm.LibrariesForLibs
 
 plugins {
     `java-gradle-plugin`
@@ -30,12 +30,11 @@ gradlePlugin {
 
 
 val jacocoAgentConfig by configurations.creating
-// Using the string-y api for lookup, because the libs version catalog is not compiled yet.
-// See https://discuss.gradle.org/t/using-version-catalog-from-buildsrc-buildlogic-xyz-common-conventions-scripts/48534/22
-val libs = the<VersionCatalogsExtension>().named("libs")
+
+val libs = the<LibrariesForLibs>()
 
 dependencies {
-    jacocoAgentConfig(libs.findLibrary("jacoco.agent").orElseThrow())
+    jacocoAgentConfig(libs.jacoco.agent)
 }
 
 
