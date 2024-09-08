@@ -5,6 +5,19 @@ plugins {
     `java-gradle-plugin`
     id("com.gradle.plugin-publish")
     id("lis-gradle-plugin-maven")
+    jacoco
+}
+
+
+tasks.jacocoTestReport {
+    reports {
+        xml.required = true
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir("jacoco/html")
+    }
+    executionData.setFrom (fileTree(project.layout.buildDirectory.dir("jacoco")) {
+        include("**/*.exec")
+    })
 }
 
 
