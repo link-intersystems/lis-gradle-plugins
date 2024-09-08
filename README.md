@@ -1,4 +1,4 @@
-![Java CI with Maven](https://github.com/link-intersystems/lis-gradle-plugins/workflows/Java%20CI%20with%20Gradle/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/link-intersystems/lis-gradle-plugins/badge.svg?branch=feature/coveralls)](https://coveralls.io/github/link-intersystems/lis-gradle-plugins?branch=feature/coveralls)
+![Java CI with Maven](https://github.com/link-intersystems/lis-gradle-plugins/workflows/Java%20CI%20with%20Gradle/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/link-intersystems/lis-gradle-plugins/badge.svg?branch=main/coveralls)](https://coveralls.io/github/link-intersystems/lis-gradle-plugins?branch=main)
 
 This repository contains general purposes Gradle plugins that can help you to set up and manage your Gradle projects more efficient.  
 
