@@ -8,22 +8,16 @@ plugins {
     jacoco
 }
 
-tasks.test {
-    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
-}
 
 tasks.jacocoTestReport {
-    dependsOn(tasks.test) // tests are required to run before generating the report
     reports {
         xml.required = true
         csv.required = false
         html.outputLocation = layout.buildDirectory.dir("jacoco/html")
     }
-//    executionData.setFrom (fileTree(project.layout.buildDirectory.dir("jacoco")) {
-//        include("**/*.exec")
-//    })
-//
-//    doNotTrackState("Don't know why it doesn't work with state.")
+    executionData.setFrom (fileTree(project.layout.buildDirectory.dir("jacoco")) {
+        include("**/*.exec")
+    })
 }
 
 

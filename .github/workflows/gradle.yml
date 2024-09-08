@@ -42,6 +42,9 @@ jobs:
         ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GPG_SIGNING_KEY }}
         ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GPG_SIGNING_PASSPHRASE }}
 
+    - name: Generate coverage reports
+      run: ./gradlew jacocoTestReport
+
     - name: Coveralls
       uses: coverallsapp/github-action@v2
 
