@@ -15,7 +15,7 @@ gradlePlugin {
     plugins {
         create("git") {
             id = "com.link-intersystems.gradle.git"
-            implementationClass = "com.link_intersystems.gradle.plugins.git.GitPlugin"
+            implementationClass = "com.link_intersystems.gradle.git.plugin.GitPlugin"
             displayName = "Gradle Git Plugin"
             description = "Access Git information and execute Git actions from within a Gradle build."
             tags.set(listOf("git"))
