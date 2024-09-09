@@ -41,23 +41,23 @@ my-app/
 ├─ settings.gradle.kts
 ```
 
-You can then exclude specific paths by configuring the `MultiModuleConfig`. Here are some examples:
+You can then exclude specific paths by configuring the `MultiModuleExtension`. Here are some examples:
 ```kotlin
   // settings.gradle.kts
-import com.link_intersystems.gradle.plugins.multimodule.MultiModuleConfig
+import com.link_intersystems.gradle.project.plugin.MultiModuleExtension
 
 // Exclude only modules/moduleA
-configure<MultiModuleConfig> {
+configure<MultiModuleExtension> {
   excludedPaths = listOf("modules/moduleA")
 }
 
 // Exclude all modules ending with A using a glob pattern (modules/moduleA, otherModules/moduleA)
-configure<MultiModuleConfig> {
+configure<MultiModuleExtension> {
   excludedPaths = listOf("**/*A")
 }
 
 // Exclude modules/moduleA and modules/moduleB
-configure<MultiModuleConfig> {
+configure<MultiModuleExtension> {
   excludedPaths = listOf("regex:modules/module?")
 }
 ```
@@ -75,9 +75,9 @@ a pluginManagement section, since these locations are usually used for conventio
 However, you can turn off the default excludes
 ```kotlin
   // settings.gradle.kts
-import com.link_intersystems.gradle.plugins.multimodule.SettingsMultiModuleConfig
+import com.link_intersystems.gradle.project.plugin.MultiModuleExtension
 
-configure<MultiModuleConfig> {
+configure<MultiModuleExtension> {
   isOmitDefaultExcludes = true
 }
 ```
