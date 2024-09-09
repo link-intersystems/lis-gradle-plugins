@@ -1,4 +1,4 @@
-package com.link_intersystems.gradle.plugins.git;
+package com.link_intersystems.gradle.git.jgit;
 
 import com.link_intersystems.git.test.Person;
 import com.link_intersystems.git.test.TestRepository;

@@ -1,5 +1,6 @@
-package com.link_intersystems.gradle.plugins.git;
+package com.link_intersystems.gradle.git.jgit;
 
+import com.link_intersystems.gradle.git.GitInfo;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.*;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -15,7 +16,7 @@ import java.util.Objects;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
 
-class JGitInfo implements GitInfo {
+public class JGitInfo implements GitInfo {
 
     private Git git;
 

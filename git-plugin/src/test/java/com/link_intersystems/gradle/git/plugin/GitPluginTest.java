@@ -1,4 +1,4 @@
-package com.link_intersystems.gradle.plugins.git;
+package com.link_intersystems.gradle.git.plugin;
 
 import com.link_intersystems.git.test.CommitContentBuilder;
 import com.link_intersystems.git.test.TestRepository;

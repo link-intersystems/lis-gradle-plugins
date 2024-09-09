@@ -1,4 +1,4 @@
-package com.link_intersystems.gradle.plugins.git;
+package com.link_intersystems.gradle.git;
 
 import java.time.ZonedDateTime;
 import java.util.List;

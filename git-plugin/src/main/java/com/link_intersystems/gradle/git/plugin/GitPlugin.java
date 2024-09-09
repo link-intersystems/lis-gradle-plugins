@@ -1,5 +1,7 @@
-package com.link_intersystems.gradle.plugins.git;
+package com.link_intersystems.gradle.git.plugin;
 
+import com.link_intersystems.gradle.git.GitInfoTask;
+import com.link_intersystems.gradle.git.jgit.JGitInfo;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;

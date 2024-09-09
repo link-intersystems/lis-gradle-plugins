@@ -1,4 +1,4 @@
-package com.link_intersystems.gradle.plugins.git;
+package com.link_intersystems.gradle.git;
 
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.TaskAction;
@@ -9,7 +9,7 @@ import java.io.StringWriter;
 
 import static java.util.Objects.requireNonNull;
 
-class GitInfoTask extends DefaultTask {
+public class GitInfoTask extends DefaultTask {
 
     private GitInfo gitInfo;
 
