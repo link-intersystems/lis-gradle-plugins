@@ -7,15 +7,15 @@ import com.link_intersystems.gradle.project.sub.IncludePath;
 
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
-import java.nio.file.FileVisitor;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 import static java.util.Objects.*;
 
@@ -81,49 +81,23 @@ class IncludesCollector {
     }
 
     public void collect() throws IOException {
-        List<Path> dirs = new ArrayList<>();
-        Files.walkFileTree(rootPath, new FileVisitor<>() {
+        PredictableDirectoryOrderCollector collectDirectoriesVisitor = new PredictableDirectoryOrderCollector();
+        Files.walkFileTree(rootPath, collectDirectoriesVisitor);
+        List<Path> dirs = collectDirectoriesVisitor.getDirs();
 
-            @Override
-            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
-                if (dir.equals(rootPath)) {
-                    return FileVisitResult.CONTINUE;
-                }
 
-                if (skipDir(dir)) {
-                    return FileVisitResult.SKIP_SUBTREE;
-                }
-
-                if (isCompositeBuildDir(dir)) {
-                    dirs.add(dir);
-                    return FileVisitResult.SKIP_SUBTREE;
-                }
-
-                if (isSubmoduleDir(dir)) {
-                    dirs.add(dir);
-                    return FileVisitResult.CONTINUE;
-                }
-
-                return FileVisitResult.CONTINUE;
-            }
-
-            @Override
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-                return FileVisitResult.CONTINUE;
-            }
-
-            @Override
-            public FileVisitResult visitFileFailed(Path file, IOException exc) {
-                return FileVisitResult.CONTINUE;
-            }
-
-            @Override
-            public FileVisitResult postVisitDirectory(Path dir, IOException exc) {
-                return FileVisitResult.CONTINUE;
+        dirs.forEach(path -> {
+            if (isCompositeBuildDir(path)) {
+                includeBuildPaths.add(toIncludeBuildPath(path));
+            } else if (isSubmoduleDir(path)) {
+                includePaths.add(toProjectPath(path));
             }
         });
+    }
 
-        Comparator<? super Path> pathOrder = (p1, p2) -> {
+    private class PredictableDirectoryOrderCollector extends SimpleFileVisitor<Path> {
+
+        private final SortedSet<Path> dirs = new TreeSet<>((p1, p2) -> {
             if (Files.isDirectory(p1)) {
                 if (Files.isDirectory(p2)) {
                     return p1.compareTo(p2);
@@ -134,16 +108,33 @@ class IncludesCollector {
                 return -1;
             }
             return p1.compareTo(p2);
-        };
+        });
 
-        try (Stream<Path> stream = dirs.stream().sorted(pathOrder)) {
-            stream.forEach(path -> {
-                if (isCompositeBuildDir(path)) {
-                    includeBuildPaths.add(toIncludeBuildPath(path));
-                } else if (isSubmoduleDir(path)) {
-                    includePaths.add(toProjectPath(path));
-                }
-            });
+        public List<Path> getDirs() {
+            return new ArrayList<>(dirs);
+        }
+
+        @Override
+        public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
+            if (dir.equals(rootPath)) {
+                return FileVisitResult.CONTINUE;
+            }
+
+            if (skipDir(dir)) {
+                return FileVisitResult.SKIP_SUBTREE;
+            }
+
+            if (isCompositeBuildDir(dir)) {
+                dirs.add(dir);
+                return FileVisitResult.SKIP_SUBTREE;
+            }
+
+            if (isSubmoduleDir(dir)) {
+                dirs.add(dir);
+                return FileVisitResult.CONTINUE;
+            }
+
+            return FileVisitResult.CONTINUE;
         }
     }
 }
