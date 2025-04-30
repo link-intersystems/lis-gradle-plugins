@@ -1,18 +1,20 @@
 package com.link_intersystems.gradle.project.sub;
 
+import com.link_intersystems.gradle.project.plugin.ConfigValues;
+import org.gradle.api.initialization.Settings;
 import org.slf4j.Logger;
 
-public class LogOnlyIncludeProjectConfigurer implements IncludeProjectConfigurer {
+import java.io.File;
 
-    private final Logger logger;
+public class LogOnlyIncludeProjectConfigurer extends AbstractIncludeProjectConfigurer {
 
-    public LogOnlyIncludeProjectConfigurer(Logger logger) {
-        this.logger = logger;
+    public LogOnlyIncludeProjectConfigurer(Settings settings, ConfigValues configValues, Logger logger) {
+        super(settings, configValues, logger);
     }
 
     @Override
-    public void configure(IncludePath includePath) {
-        logger.info("DryRun: Adding includeBuild(\"{}\")", includePath);
+    protected void doConfigure(Settings settings, String projectName, File includeFile) {
+        logger.info("DryRun: {} => {}", projectName, includeFile);
     }
 
 }

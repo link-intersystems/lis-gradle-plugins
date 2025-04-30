@@ -1,23 +1,21 @@
 package com.link_intersystems.gradle.project.sub;
 
+import com.link_intersystems.gradle.project.plugin.ConfigValues;
 import org.gradle.api.initialization.Settings;
 import org.slf4j.Logger;
 
-public class DefaultIncludeProjectConfigurer implements IncludeProjectConfigurer {
+import java.io.File;
 
-    private Settings settings;
-    private final Logger logger;
+public class DefaultIncludeProjectConfigurer extends AbstractIncludeProjectConfigurer {
 
-    public DefaultIncludeProjectConfigurer(Settings settings, Logger logger) {
-        this.settings = settings;
-        this.logger = logger;
+    public DefaultIncludeProjectConfigurer(Settings settings, ConfigValues configValues, Logger logger) {
+        super(settings, configValues, logger);
     }
 
     @Override
-    public void configure(IncludePath includePath) {
-        String includeProjectIdentifier = includePath.getValue();
-        logger.info("Adding include(\"{}\")", includeProjectIdentifier);
-        settings.include(includeProjectIdentifier);
+    protected void doConfigure(Settings settings, String projectName, File includeFile) {
+        settings.include(projectName);
+        settings.project(":" + projectName).setProjectDir(includeFile);
     }
 
 }

@@ -26,6 +26,7 @@ plugins {
 ### Exclude Paths
 
 Let's assume you have a project structure like this.
+
 ```
 my-app/
 ├─ modules/
@@ -42,27 +43,31 @@ my-app/
 ```
 
 You can then exclude specific paths by configuring the `MultiModuleExtension`. Here are some examples:
+
 ```kotlin
   // settings.gradle.kts
 import com.link_intersystems.gradle.project.plugin.MultiModuleExtension
 
 // Exclude only modules/moduleA
 configure<MultiModuleExtension> {
-  excludedPaths = listOf("modules/moduleA")
+    excludedPaths = listOf("modules/moduleA")
 }
 
 // Exclude all modules ending with A using a glob pattern (modules/moduleA, otherModules/moduleA)
 configure<MultiModuleExtension> {
-  excludedPaths = listOf("**/*A")
+    excludedPaths = listOf("**/*A")
 }
 
 // Exclude modules/moduleA and modules/moduleB
 configure<MultiModuleExtension> {
-  excludedPaths = listOf("regex:modules/module?")
+    excludedPaths = listOf("regex:modules/module?")
 }
 ```
-Under the hood the multi-module plugin uses Java's PathMatcher, so you can 
-configure whatever a [PathMatcher](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/nio/file/FileSystem.html#getPathMatcher(java.lang.String)) can be configured with.
+
+Under the hood the multi-module plugin uses Java's PathMatcher, so you can
+configure whatever
+a [PathMatcher](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/nio/file/FileSystem.html#getPathMatcher(java.lang.String))
+can be configured with.
 
 If you do not prefix the exclude path with `glob:` or `regex:`, the plugin assumes
 that the path is a glob pattern.
@@ -73,11 +78,34 @@ Per default the plugin excludes `buildSrc` and any includeBuild that is configur
 a pluginManagement section, since these locations are usually used for convention plugins.
 
 However, you can turn off the default excludes
+
 ```kotlin
   // settings.gradle.kts
 import com.link_intersystems.gradle.project.plugin.MultiModuleExtension
 
 configure<MultiModuleExtension> {
-  isOmitDefaultExcludes = true
+    isOmitDefaultExcludes = true
 }
 ```
+
+### ProjectNamingStrategy
+
+When the multi-module plugin configures the build, it must resolve a unique project
+name for each project path to add. Per default the project name is
+derived from the project path. So a project path like `modules/adapter/persistence`
+would be converted to a project name `modules:adapter:persistence`.
+
+This default behavior can be changed by setting the `projectNamingStrategy`:
+
+```kotlin
+  // settings.gradle.kts
+import com.link_intersystems.gradle.project.plugin.MultiModuleExtension
+import com.link_intersystems.gradle.project.plugin.ProjectNamingStrategies
+
+configure<MultiModuleExtension> {
+    projectNamingStrategy = ProjectNamingStrategies.SIMPLE
+}
+```
+
+The example above uses a pre-defined `ProjectNamingStrategy` form `ProjectNamingStrategies`,
+but you can also configure a custom.

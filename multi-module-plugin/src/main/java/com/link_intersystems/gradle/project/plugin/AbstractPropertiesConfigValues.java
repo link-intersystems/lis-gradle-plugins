@@ -2,6 +2,8 @@ package com.link_intersystems.gradle.project.plugin;
 
 import org.gradle.api.provider.Provider;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
@@ -36,6 +38,24 @@ class AbstractPropertiesConfigValues implements ConfigValues {
             return null;
         }
         return Boolean.valueOf(omitDefaultExcludes);
+    }
+
+    @Override
+    public ProjectNamingStrategy getProjectNamingStrategy() {
+        String projectNamingStrategy = getProperty("com.link-intersystems.gradle.multi-module.project-naming-strategy");
+
+        if (projectNamingStrategy == null) {
+            return null;
+        }
+
+        try {
+            Class<?> projectNamingStrategyClass = Class.forName(projectNamingStrategy);
+            Constructor<?> defaultConstructor = projectNamingStrategyClass.getDeclaredConstructor();
+            return (ProjectNamingStrategy) defaultConstructor.newInstance();
+        } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException |
+                 InvocationTargetException e) {
+            throw new RuntimeException("Misconfigured com.link-intersystems.gradle.multi-module.project-naming-strategy", e);
+        }
     }
 
     private String getProperty(String name) {

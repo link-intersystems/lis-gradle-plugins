@@ -7,6 +7,7 @@ public class MultiModuleExtension implements ConfigValues {
     private List<String> excludedPaths;
     private Boolean omitDefaultExcludes;
     private Boolean dryRun;
+    private ProjectNamingStrategy projectNamingStrategy;
 
     @Override
     public List<String> getExcludedPaths() {
@@ -87,5 +88,19 @@ public class MultiModuleExtension implements ConfigValues {
      */
     public void setOmitDefaultExcludes(boolean omitDefaultExcludes) {
         this.omitDefaultExcludes = omitDefaultExcludes;
+    }
+
+    @Override
+    public ProjectNamingStrategy getProjectNamingStrategy() {
+        return projectNamingStrategy;
+    }
+
+    /**
+     * Sets the strategy of how project names are resolved. The default is the {@link ProjectNamingStrategies#HIERARCHICAL_ROOTLESS}.
+     *
+     * @param projectNamingStrategy One of {@link ProjectNamingStrategies} or implement a custom one.
+     */
+    public void setProjectNamingStrategy(ProjectNamingStrategy projectNamingStrategy) {
+        this.projectNamingStrategy = projectNamingStrategy;
     }
 }

@@ -55,9 +55,9 @@ class MultiModuleSettingsConfigAction implements Action<Settings> {
         IncludeProjectConfigurer includeProjectConfigurer;
 
         if (configValues.getDryRun()) {
-            includeProjectConfigurer = new LogOnlyIncludeProjectConfigurer(logger);
+            includeProjectConfigurer = new LogOnlyIncludeProjectConfigurer(settings, configValues, logger);
         } else {
-            includeProjectConfigurer = new DefaultIncludeProjectConfigurer(settings, logger);
+            includeProjectConfigurer = new DefaultIncludeProjectConfigurer(settings, configValues, logger);
         }
 
         return includeProjectConfigurer;

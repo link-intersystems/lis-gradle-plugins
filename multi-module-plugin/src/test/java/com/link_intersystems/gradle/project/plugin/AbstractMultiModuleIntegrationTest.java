@@ -17,6 +17,7 @@ public class AbstractMultiModuleIntegrationTest {
         projectBuilder = GradleProjectBuilder.rootProject(tempDir);
         projectBuilder.settingsFile().append(pw -> {
             pw.println("import com.link_intersystems.gradle.project.plugin.MultiModuleExtension");
+            pw.println("import com.link_intersystems.gradle.project.plugin.ProjectNamingStrategies");
             pw.println();
             pw.println("rootProject.name = \"" + getClass().getSimpleName() + "\"");
             pw.println("plugins {");
