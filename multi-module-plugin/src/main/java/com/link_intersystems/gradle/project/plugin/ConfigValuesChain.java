@@ -47,4 +47,16 @@ class ConfigValuesChain implements ConfigValues {
 
         return null;
     }
+
+    @Override
+    public ProjectNamingStrategy getProjectNamingStrategy() {
+        for (ConfigValues configValue : configValues) {
+            ProjectNamingStrategy projectNamingStrategy = configValue.getProjectNamingStrategy();
+            if (projectNamingStrategy != null) {
+                return projectNamingStrategy;
+            }
+        }
+
+        return null;
+    }
 }

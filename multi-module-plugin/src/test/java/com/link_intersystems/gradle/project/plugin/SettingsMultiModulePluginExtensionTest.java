@@ -1,17 +1,22 @@
 package com.link_intersystems.gradle.project.plugin;
 
-import com.link_intersystems.gradle.api.SettingsMocking;
-import com.link_intersystems.gradle.api.GradleMocking;
 import com.link_intersystems.gradle.api.ExtensionContainerMocking;
+import com.link_intersystems.gradle.api.GradleMocking;
 import com.link_intersystems.gradle.api.ProviderFactoryMocking;
+import com.link_intersystems.gradle.api.SettingsMocking;
 import com.link_intersystems.gradle.project.builder.GradleProjectBuilder;
+import org.gradle.api.initialization.ProjectDescriptor;
 import org.gradle.api.initialization.Settings;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Mockito.*;
 
@@ -22,6 +27,7 @@ class SettingsMultiModulePluginExtensionTest {
     private ProviderFactoryMocking providersMocking;
     private SettingsMocking settingsMocking;
     private GradleProjectBuilder projectBuilder;
+    private List<ProjectDescriptor> projectDescriptors;
 
     @BeforeEach
     void setUp(@TempDir Path projectRoot) throws IOException {
@@ -29,6 +35,12 @@ class SettingsMultiModulePluginExtensionTest {
         GradleMocking gradleMocking = new GradleMocking();
         settingsMocking = gradleMocking.getSettingsMocking();
         settings = settingsMocking.getSettings();
+        projectDescriptors = new ArrayList<>();
+        when(settings.project(anyString())).thenAnswer((Answer<ProjectDescriptor>) invocationOnMock -> {
+            ProjectDescriptor projectDescriptor = mock(ProjectDescriptor.class);
+            projectDescriptors.add(projectDescriptor);
+            return projectDescriptor;
+        });
         when(settings.getRootDir()).thenReturn(projectRoot.toFile());
 
         providersMocking = settingsMocking.getProvidersMocking();
@@ -53,6 +65,8 @@ class SettingsMultiModulePluginExtensionTest {
         projectBuilder.createCompositeBuild("modules/moduleA").createSubproject("subA");
         projectBuilder.createSubproject("modules/moduleB");
         projectBuilder.createSubproject("modules/moduleB/moduleC");
+
+
         projectBuilder.createCompositeBuild("modules/.hiddenModuleA");
 
         applyMultiModulePlugin();
@@ -66,8 +80,8 @@ class SettingsMultiModulePluginExtensionTest {
 
         verify(settings, never()).include(":modules:moduleA:subA");
         verify(settings, never()).include(":moduleA:subA");
-        verify(settings).include(":modules:moduleB");
-        verify(settings).include(":modules:moduleB:moduleC");
+        verify(settings).include("modules:moduleB");
+        verify(settings).include("modules:moduleB:moduleC");
     }
 
     @Test
@@ -80,7 +94,7 @@ class SettingsMultiModulePluginExtensionTest {
 
         applyMultiModulePlugin();
 
-        verify(settings).include(":modules:moduleA");
+        verify(settings).include("modules:moduleA");
         verify(settings, never()).include(":modules:moduleB");
     }
 
@@ -103,9 +117,9 @@ class SettingsMultiModulePluginExtensionTest {
         verify(settings, never()).includeBuild("modules/moduleA/subA");
         verify(settings, never()).includeBuild("modules/moduleA");
 
-        verify(settings, never()).include(":modules:moduleA:subA");
-        verify(settings, never()).include(":moduleA:subA");
-        verify(settings, never()).include(":modules:moduleB");
-        verify(settings, never()).include(":modules:moduleB:moduleC");
+        verify(settings, never()).include("modules:moduleA:subA");
+        verify(settings, never()).include("moduleA:subA");
+        verify(settings, never()).include("modules:moduleB");
+        verify(settings, never()).include("modules:moduleB:moduleC");
     }
 }

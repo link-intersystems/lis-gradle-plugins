@@ -18,4 +18,9 @@ public class DefaultConfigValues implements ConfigValues {
     public Boolean getDryRun() {
         return Boolean.FALSE;
     }
+
+    @Override
+    public ProjectNamingStrategy getProjectNamingStrategy() {
+        return ProjectNamingStrategies.HIERARCHICAL_ROOTLESS;
+    }
 }
