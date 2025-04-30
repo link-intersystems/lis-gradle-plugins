@@ -26,7 +26,7 @@ public class HierarchicalProjectNamingTest extends AbstractMultiModuleIntegratio
         projectBuilder.createSubproject("moduleB/subB/api");
 
 
-        BuildResult buildResult = gradleRunner.withArguments("projects", "--info").build();
+        BuildResult buildResult = gradleRunner.withArguments("projects", "--info", "--stacktrace").build();
 
         AbstractStringAssert<?> outputAssert = assertThat(buildResult.getOutput());
 
