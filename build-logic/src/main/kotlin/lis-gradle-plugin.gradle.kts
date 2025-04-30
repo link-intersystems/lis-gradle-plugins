@@ -35,6 +35,11 @@ tasks.test {
     useJUnitPlatform()
 }
 
+tasks.withType<Test> {
+    useJUnitPlatform()
+    testLogging { exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL }
+}
+
 
 gradlePlugin {
     website = "https://github.com/link-intersystems/lis-gradle-plugins"
