@@ -70,7 +70,9 @@ public abstract class AbstractIncludeProjectConfigurer implements IncludeProject
 
     private Properties getProperties(Path includeFilePath) {
         Properties properties = new Properties();
-        Path absoluteIncludeFilePath = settings.getRootProject().getProjectDir().toPath().resolve(includeFilePath);
+        File rootDir = settings.getRootDir();
+        Path rootPath = rootDir.toPath();
+        Path absoluteIncludeFilePath = rootPath.resolve(includeFilePath);
         Path modulePropertiesFilepath = absoluteIncludeFilePath.resolve(MODULE_PROPERTIES);
         if (Files.exists(modulePropertiesFilepath)) {
             logger.info("Reading {} file at '{}'", MODULE_PROPERTIES, modulePropertiesFilepath);
