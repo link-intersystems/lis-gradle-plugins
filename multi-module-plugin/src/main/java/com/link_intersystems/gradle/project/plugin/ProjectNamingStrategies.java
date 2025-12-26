@@ -13,6 +13,11 @@ public enum ProjectNamingStrategies implements ProjectNamingStrategy {
         public String getProjectName(Path rootDirectory, Path rootRelativeProjectPath) {
             return ProjectNamingStrategies.convertPath(rootRelativeProjectPath, PROJECT_PATH_DELIM);
         }
+
+        @Override
+        public String toString() {
+            return "HIERARCHICAL_ROOTLESS";
+        }
     },
     /**
      * The same as {@link #HIERARCHICAL_ROOTLESS}, but includes the rootDirectory. E.g.
@@ -28,6 +33,11 @@ public enum ProjectNamingStrategies implements ProjectNamingStrategy {
             }
             return ProjectNamingStrategies.convertPath(rootedProjectPath, PROJECT_PATH_DELIM);
         }
+
+        @Override
+        public String toString() {
+            return "HIERARCHICAL";
+        }
     },
     /**
      * Resolves to project names where the path hierarchy is converted to a '-' separated string.
@@ -37,6 +47,11 @@ public enum ProjectNamingStrategies implements ProjectNamingStrategy {
         @Override
         public String getProjectName(Path rootDirectory, Path rootRelativeProjectPath) {
             return ProjectNamingStrategies.convertPath(rootRelativeProjectPath, "-");
+        }
+
+        @Override
+        public String toString() {
+            return "FLAT_ROOTLESS";
         }
     },
     /**
@@ -53,6 +68,11 @@ public enum ProjectNamingStrategies implements ProjectNamingStrategy {
             }
             return ProjectNamingStrategies.convertPath(rootedProjectPath, "-");
         }
+
+        @Override
+        public String toString() {
+            return "FLAT";
+        }
     },
     /**
      * The simple {@link ProjectNamingStrategy} resolves project paths to their simple name, which is the
@@ -63,6 +83,11 @@ public enum ProjectNamingStrategies implements ProjectNamingStrategy {
         @Override
         public String getProjectName(Path rootDirectory, Path rootRelativeProjectPath) {
             return ProjectNamingStrategies.convertPath(rootRelativeProjectPath.getFileName(), "-");
+        }
+
+        @Override
+        public String toString() {
+            return "SIMPLE";
         }
     };
 
